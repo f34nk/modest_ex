@@ -54,8 +54,8 @@ All binding targets are added as submodules in the `target/` folder.
 ## Target dependencies
 
 	cmake version 3.x
-	libtool (GNU libtool) 2.x
-	g++ version 5.x
+<!-- 	libtool (GNU libtool) 2.x
+	g++ version 5.x -->
 
 ## Compile and test
 
