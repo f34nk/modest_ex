@@ -1,0 +1,3 @@
+[submodule "target/Modest"]
+	path = target/Modest
+	url = https://github.com/lexborisov/Modest.git
