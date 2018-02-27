@@ -1,4 +1,4 @@
-defmodule ModestClientTest do
+defmodule ModestFindTest do
   use ExUnit.Case
   alias Nodex.Cnode
   doctest Cnode
@@ -88,7 +88,7 @@ defmodule ModestClientTest do
     assert {:find, "<span id=\"milk\">Milk</span>"} = reply
   end
 
-  test "can parse html from file" do
+  test "can parse html from file and find title" do
     content = File.read!("test/fixtures/lorem_ipsum.html")
     {:ok, pid} = Cnode.start_link(%{exec_path: "priv/modest_client"})
     {:ok, reply} = Cnode.call(pid, {:find, content, "h1\0"})

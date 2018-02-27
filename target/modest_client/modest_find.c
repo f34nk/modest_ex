@@ -30,7 +30,6 @@
 #include <mycss/selectors/serialization.h>
 
 #include "modest_find.h"
-// #include "print_tree.h"
 
 #define DIE(msg, ...) do { fprintf(stderr, msg, ##__VA_ARGS__); exit(EXIT_FAILURE); } while(0)
 #define CHECK_STATUS(msg, ...) do {if(status) DIE(msg, ##__VA_ARGS__);} while(0)

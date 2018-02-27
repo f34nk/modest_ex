@@ -16,20 +16,20 @@ defmodule CnodeFileSizesBench do
 
   bench "github_trending_js.html 341k" do
     {pid, ref, _, _} = bench_context
-    {:ok, reply} = Cnode.call(pid, {:find, ref, "h1\0"})
-    # {:find, "<h1>\n      <a class=\"pagehead-heading\" href=\"/explore\">\n        Explore GitHub\n      </a>\n    </h1>"}
+    {:ok, {:serialize, _}} = Cnode.call(pid, {:serialize, ref})
+    :ok
   end
 
   bench "w3c_html5.html 131k" do
     {pid, _, ref, _} = bench_context
-    {:ok, reply} = Cnode.call(pid, {:find, ref, "h1\0"})
-    # {:find, "<h1 id=\"big-title\">HTML5</h1>"}
+    {:ok, {:serialize, _}} = Cnode.call(pid, {:serialize, ref})
+    :ok
   end
 
   bench "wikipedia_hyperlink.html 97k" do
     {pid, _, _, ref} = bench_context
-    {:ok, reply} = Cnode.call(pid, {:find, ref, "h1\0"})
-    # {:find, "<h1 id=\"firstHeading\" class=\"firstHeading\" lang=\"en\">Hyperlink</h1>"}
+    {:ok, {:serialize, _}} = Cnode.call(pid, {:serialize, ref})
+    :ok
   end
 
 end

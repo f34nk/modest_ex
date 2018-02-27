@@ -24,3 +24,4 @@ foreach(TEST ${TESTS})
 endforeach()
 
 target_sources(modest_find_test PUBLIC ../modest_find.c)
+target_sources(modest_serialize_test PUBLIC ../modest_serialize.c)

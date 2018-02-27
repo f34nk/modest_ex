@@ -29,7 +29,9 @@ set(CMAKE_C_LINK_EXECUTABLE "${CMAKE_C_LINK_EXECUTABLE} -lerl_interface -lei -lp
 add_executable(
 	${PROJECT_NAME}
 	modest_client.c
+  handlers.c
 	modest_find.c
+  modest_serialize.c
 )
 
 target_link_libraries(
