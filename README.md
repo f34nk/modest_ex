@@ -26,6 +26,13 @@ https://github.com/f34nk/modest_ex/blob/master/test
 
 https://github.com/f34nk/modest_ex/blob/master/target/modest_client/test
 
+## Supported CSS Selectors
+
+*Not all CSS selectors are tested yet...*
+
+<!-- All common CSS Selectors are supported. -->
+For an extensive list, please [check out this table](https://github.com/f34nk/modest_ex/blob/master/SELECTORS.md).
+
 ## Installation
 
 	git clone git@github.com:f34nk/modest_ex.git
@@ -92,5 +99,10 @@ All binding targets are added as submodules in the `target/` folder.
 	- [ ] Find nodes using selector
 	- [ ] Parse a HTML-document into a tree
 	- [ ] Expose node-retrieval functions
+- [x] List of supported CSS Selectors
 - [ ] Documentation
 - [ ] Publish as hex package
+
+## License
+
+ModestEx is under LGPL license. Check the [LICENSE](https://github.com/f34nk/modest_ex/blob/master/LICENSE) file for more details.
