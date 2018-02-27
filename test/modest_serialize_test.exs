@@ -22,4 +22,3 @@ defmodule ModestSerializeTest do
   end
 
 end
-
