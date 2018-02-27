@@ -1,5 +1,7 @@
 ## *Experimental. Not yet published.*
 
+![humble by Eliricon from the Noun Project](https://github.com/f34nk/modest_ex/blob/master/modest_icon.svg)
+
 # ModestEx
 
 Elixir/Erlang bindings for lexborisovs **Modest**
@@ -103,3 +105,8 @@ All binding targets are added as submodules in the `target/` folder.
 ## License
 
 ModestEx is under LGPL license. Check the [LICENSE](https://github.com/f34nk/modest_ex/blob/master/LICENSE) file for more details.
+
+
+## Icon Credit
+
+humble by Eliricon from the Noun Project
