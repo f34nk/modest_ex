@@ -1,6 +1,6 @@
 ## *Experimental. Not yet published.*
 
-![humble by Eliricon from the Noun Project](https://github.com/f34nk/modest_ex/blob/master/modest_icon.svg)
+![humble by Eliricon from the Noun Project](https://github.com/f34nk/modest_ex/blob/master/modest_icon.png)
 
 # ModestEx
 
