@@ -11,6 +11,7 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-write-strings")
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -I${CMAKE_CURRENT_SOURCE_DIR}/../../Modest/include")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -L${CMAKE_CURRENT_SOURCE_DIR}/../../Modest/lib")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -I${CMAKE_CURRENT_SOURCE_DIR}/..")
 
 message("CMAKE_CURRENT_SOURCE_DIR = ${CMAKE_CURRENT_SOURCE_DIR}")
 
@@ -21,3 +22,5 @@ foreach(TEST ${TESTS})
   add_executable(${TEST_NAME} ${TEST})
   target_link_libraries(${TEST_NAME} libmodest_static.a)
 endforeach()
+
+target_sources(modest_find_test PUBLIC ../modest_find.c)

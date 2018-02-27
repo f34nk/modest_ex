@@ -86,7 +86,7 @@ All binding targets are added as submodules in the `target/` folder.
 - [x] Tests
 	- [x] Call as C-Node
 	- [ ] Call as dirty-nif
-	- [ ] Target tests
+	- [X] Target tests
 	- [ ] Package test
 - [ ] Features
 	- [ ] Find nodes using selector

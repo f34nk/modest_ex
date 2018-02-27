@@ -32,8 +32,7 @@ defmodule ModestEx.MixProject do
       links: %{
         "Github" => "https://github.com/f34nk/modest_ex",
         "Issues" => "https://github.com/f34nk/modest_ex/issues",
-        "gumbo-query" => "https://github.com/lazytiger/gumbo-query",
-        "gumbo-parser" => "https://github.com/google/gumbo-parser"
+        "Modest" => "https://github.com/lexborisov/Modest"
       },
       files: [
         "lib",
@@ -65,6 +64,7 @@ defmodule ModestEx.MixProject do
       {:benchfella, "~> 0.3.0", only: :dev},
       # cnode helpers
       {:nodex, "~> 0.1.1"},
+      # watch tests
       {:mix_test_watch, "~> 0.5", only: :dev, runtime: false}
     ]
   end

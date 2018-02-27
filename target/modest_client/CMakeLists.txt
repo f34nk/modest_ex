@@ -6,12 +6,12 @@ file(GLOB ERL_INTERFACE "${ERLANG_PATH}/../lib/erl_interface-*")
 # make absolute
 get_filename_component(ERL_INTERFACE ${ERL_INTERFACE} ABSOLUTE)
 
-# set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -O2 -std=c99") # c
-# set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -pedantic -Wcomment -Wall")
-# set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -D_REENTRANT")
-# set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-unused-parameter")
-# set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -D_GNU_SOURCE")
-# set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-write-strings")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -O2 -std=c99") # c
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -pedantic -Wcomment -Wall")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -D_REENTRANT")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-unused-parameter")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -D_GNU_SOURCE")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-write-strings")
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -I${ERLANG_PATH}/include")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -I${ERL_INTERFACE}/include")
@@ -29,7 +29,7 @@ set(CMAKE_C_LINK_EXECUTABLE "${CMAKE_C_LINK_EXECUTABLE} -lerl_interface -lei -lp
 add_executable(
 	${PROJECT_NAME}
 	modest_client.c
-	modest.c
+	modest_find.c
 )
 
 target_link_libraries(
