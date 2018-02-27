@@ -12,11 +12,18 @@ int main(int argc, const char * argv[])
 
   html = "<h1><a>some link</a></h1>";
   selector = "h1 a";
-
   result = modest_find(html, selector, "|");
   if(strcmp(result, "<a>some link</a>") != 0){
     return 1;
   }
+
+  // html = "<p><span id=\"hello\">Hello</span></p><p><span name=\"value\">World</span></p>";
+  // selector = "[name!=\"value\"]";
+  // result = modest_find(html, selector, "|");
+  // printf("%s\n", result);
+  // if(strcmp(result, "<a>some link</a>") != 0){
+  //   return 1;
+  // }
 
   return 0;
 }
