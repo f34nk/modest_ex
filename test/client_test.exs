@@ -5,8 +5,12 @@ defmodule ClientTest do
 
   setup_all(_) do
     Nodex.Distributed.up
+    :ok
+  end
+
+  setup(_) do
     # stop slaves that might have not been cleaned up
-    # Node.list() |> Enum.each(&:slave.stop/1)
+    Node.list() |> Enum.each(&:slave.stop/1)
     :ok
   end
 
@@ -24,7 +28,6 @@ defmodule ClientTest do
       cnode: cnode
     })
     {:ok, reply} = Cnode.call(pid, {:find, "<h1><a>some link</a></h1>", "h1 a"})
-    |> IO.inspect
   end
 
   test "fails when executable does not activate within spawn_inactive_timeout" do

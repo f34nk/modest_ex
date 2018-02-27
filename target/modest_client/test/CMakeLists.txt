@@ -1,24 +1,34 @@
 cmake_minimum_required(VERSION 3.0)
-project(gumbo_query_client_tests)
+project(modest_client_tests)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -I${CMAKE_CURRENT_SOURCE_DIR}/../../gumbo-query/src")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -I${CMAKE_CURRENT_SOURCE_DIR}")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -L${CMAKE_CURRENT_SOURCE_DIR}/../../gumbo-query/lib")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -O2 -std=c99") # c
+
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -I${CMAKE_CURRENT_SOURCE_DIR}/../../Modest/include")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -L${CMAKE_CURRENT_SOURCE_DIR}/../../Modest/lib")
 
 message("CMAKE_CURRENT_SOURCE_DIR = ${CMAKE_CURRENT_SOURCE_DIR}")
 
-set(tests test_id)
+# myhtml
 
-add_executable(
-  test_id
-  ID.cpp
+set(MYHTML_TESTS
+  serialization_high_level
+  modify_and_serialize
+  string_manipulate_high_level
 )
 
-target_link_libraries(
-  ${tests}
-  libgq.a
-  libgumbo.a
-)
+foreach(TEST ${MYHTML_TESTS})
+  add_executable(
+    ${TEST}
+    myhtml/${TEST}.c
+  )
+endforeach()
 
-set_property(TARGET ${tests} PROPERTY CXX_STANDARD 11)
-set_property(TARGET ${tests} PROPERTY CXX_STANDARD_REQUIRED ON)
+set(TESTS ${TESTS} ${MYHTML_TESTS})
+
+# link libraries for all tests
+foreach(TEST ${TESTS})
+  target_link_libraries(
+    ${TEST}
+    libmodest_static.a
+  )
+endforeach()

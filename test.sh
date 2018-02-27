@@ -28,4 +28,10 @@ then
 	do
 		echo $current/$i
 	done
+
+	logs=( `find target/modest_client -name LastTestsFailed.log` )
+	for i in "${logs[@]}"
+	do
+		echo $current/$i
+	done
 fi

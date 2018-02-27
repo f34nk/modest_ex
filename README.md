@@ -22,7 +22,8 @@ The binding is implemented as a **C-Node** following the excellent example in [@
 
 *Right now you can only clone the repo and execute tests...*
 
-https://github.com/f34nk/modest_ex/blob/master/test/modest_client_test.exs
+https://github.com/f34nk/modest_ex/blob/master/test
+https://github.com/f34nk/modest_ex/blob/master/target/modest_client/test
 
 ## Installation
 
@@ -53,8 +54,12 @@ All binding targets are added as submodules in the `target/` folder.
 
 ## Target dependencies
 
-	cmake version 3.x
-<!-- 	libtool (GNU libtool) 2.x
+	cmake 3.x
+	erlang-dev
+	erlang-xmerl
+	erlang-parsetools
+<!--
+	libtool (GNU libtool) 2.x
 	g++ version 5.x -->
 
 ## Compile and test

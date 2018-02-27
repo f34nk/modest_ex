@@ -1,7 +1,6 @@
 defmodule DistributedTest do
   use ExUnit.Case
   alias Nodex.Distributed
-  # for doctest see test/nodex/distributed_moduledoc_test.exs
 
   setup_all(_) do
     Distributed.up

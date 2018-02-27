@@ -37,6 +37,12 @@ target_link_libraries(
   libmodest_static.a
 )
 
-# add_subdirectory(test)
-# enable_testing()
-# add_test(NAME "test_id" COMMAND test_id)
+# add target tests
+
+add_subdirectory(test)
+enable_testing()
+file(GLOB_RECURSE TESTS "${CMAKE_CURRENT_SOURCE_DIR}/test/*.c")
+foreach(TEST ${TESTS})
+  get_filename_component(TEST ${TEST} NAME_WE)
+  add_test(NAME ${TEST} COMMAND ${TEST})
+endforeach()
