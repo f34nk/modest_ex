@@ -6,14 +6,17 @@ int main(int argc, const char * argv[])
   const char *selector = "div > :nth-child(2n+1):not(:has(a))";
 
   char* result = modest_find(html, selector, "|");
-  printf("modest_find: %s\n", result);
-
+  if(strcmp(result, "<p id=\"p1\"></p>|<p id=\"p5\"></p>") != 0){
+    return 1;
+  }
 
   html = "<h1><a>some link</a></h1>";
   selector = "h1 a";
 
   result = modest_find(html, selector, "|");
-  printf("modest_find: %s\n", result);
+  if(strcmp(result, "<a>some link</a>") != 0){
+    return 1;
+  }
 
   return 0;
 }
