@@ -26,21 +26,28 @@ defmodule ModestFindTest do
             pattern = Enum.at(matched, 2)
             input = Enum.at(matched, 3)
             output = Enum.at(matched, 4)
-            {:ok, reply} = Cnode.call(pid, {:find, input, pattern})
-            case reply do
-              {:find, result} ->
-                try do
-                  result = assert result == output
-                rescue
-                  error in [ExUnit.AssertionError] ->
-                    raise ExUnit.AssertionError,
-                      error.message <>
-                      "\n\tpattern: " <> pattern <>
-                      "\n\tinput: " <> input <>
-                      "\n\texpected: " <> output <>
-                      "\n\tresult: " <> error.left
+            case Cnode.call(pid, {:find, input <> "\0", pattern <> "\0"}) do
+              {:ok, reply} ->
+                case reply do
+                  {:find, result} ->
+                    try do
+                      result = assert result == output
+                    rescue
+                      error in [ExUnit.AssertionError] ->
+                        raise ExUnit.AssertionError,
+                          error.message <>
+                          "\n\tpattern: " <> pattern <>
+                          "\n\tinput: " <> input <>
+                          "\n\tresult: " <> error.left <>
+                          "\n\texpected: " <> output
+                    end
+                  _ -> ""
                 end
-              _ -> ""
+              other ->
+                raise RuntimeError,
+                  "\n\tpattern: " <> pattern <>
+                  "\n\tinput: " <> input <>
+                  "\n\texpected: " <> output
             end
           true -> ""
         end

@@ -23,7 +23,7 @@ The W3C CSS specification contains the [complete set of rules regarding valid CS
 | ancestor descendant | yes  | Selects all elements that are descendants of a given ancestor. |
 | :disabled | yes  | Selects all elements that are disabled. |
 | :empty | yes  | Select all elements that have no children (including text nodes). |
-| :enabled | **no**  | Selects all elements that are enabled. |
+| :enabled | yes  | Selects all elements that are enabled. |
 | :eq(n) | **no**   | Select the element at index `n` within the matched set. |
 | :even |     | Selects even elements, zero-indexed. See also odd. |
 | :file |     | Selects all elements of type file. |

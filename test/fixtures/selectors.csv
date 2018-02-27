@@ -3,22 +3,23 @@ Enabled;Pattern;Input;Output
 1;span*;<div><span>Hello</span><span>World</span></div>;<span>Hello</span>|<span>World</span>
 1;span;<div><span>Hello</span><span>World</span></div>;<span>Hello</span>|<span>World</span>
 1;span[name|="value"];<div><span name="value">Hello</span><span name="value-name">World</span></div>;<span name="value">Hello</span>|<span name="value-name">World</span>
-1;E[name*="value"]
-1;E[name~="value"]
-1;E[name$="value"]
-1;E[name="value"]
-0;E[name!="value"]
-1;E[name^="value"]
-0;:button
-0;:checkbox
-1;:checked
-1;parent > child
-0;.class
-0;:contains(text)
-1;ancestor descendant
-1;:disabled
-1;:empty
-0;:enabled
+1;span[name*="value"];<div><span name="value">Hello</span><span name="somevalue">World</span></div>;<span name="value">Hello</span>|<span name="somevalue">World</span>
+1;span[name~="value"];<div><span name="value">Hello</span><span name="some value">World</span></div>;<span name="value">Hello</span>|<span name="some value">World</span>
+1;span[name$="value"];<div><span name="value">Hello</span><span name="some value">World</span></div>;<span name="value">Hello</span>|<span name="some value">World</span>
+1;span[name="value"];<div><span name="value">Hello</span><span name="some value">World</span></div>;<span name="value">Hello</span>
+0;span[name!="value"];<div><span id="value">Hello</span><span name="some value">World</span></div>;<span id="value">Hello</span>|<span name="some value">Hello</span>
+1;span[name^="value"];<div><span name="value">Hello</span><span name="some value">World</span></div>;<span name="value">Hello</span>
+0;:button;<div><span>Hello</span><button>World</button></div>;<button>World</button>
+0;:checkbox;<div><span>Hello</span><input type="checkbox" value="World"></div>;<input type="checkbox" value="World"></input>
+1;input[type="checkbox"];<div><span>Hello</span><input type="checkbox" value="World"></div>;<input type="checkbox" value="World"></input>
+1;:checked;<div><span>Hello</span><input type="checkbox" value="World" checked></div>;<input type="checkbox" value="World" checked=""></input>
+1;div > span;<div><span>Hello</span><span>World</span></div>;<span>Hello</span>|<span>World</span>
+1;.some-class;<div><span class="some-class">Hello</span><span>World</span></div>;<span class="some-class">Hello</span>
+0;:contains("Hello");<div><span>Hello</span><span>World</span></div>;<span>Hello</span>
+1;span a;<div><span>Hello<a>World</a></span></div>;<a>World</a>
+1;:disabled;<div><span>Hello</span><input type="checkbox" value="World" disabled></div>;<input type="checkbox" value="World" disabled=""></input>
+1;body :empty;<div><span>Hello<a>World</a></span><span id="empty"></span></div>;<span id="empty"></span>
+1;body :enabled;<div><span>Hello</span><span>World</span></div><input type="checkbox" value="World" disabled>;<div><span>Hello</span><span>World</span></div>|<span>Hello</span>|<span>World</span>
 0;:eq(n)
 0;:even
 0;:file
