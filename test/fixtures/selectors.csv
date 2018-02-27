@@ -13,6 +13,7 @@ Enabled;Pattern;Input;Output
 0;:checkbox;<div><span>Hello</span><input type="checkbox" value="World"></div>;<input type="checkbox" value="World"></input>
 1;input[type="checkbox"];<div><span>Hello</span><input type="checkbox" value="World"></div>;<input type="checkbox" value="World"></input>
 1;:checked;<div><span>Hello</span><input type="checkbox" value="World" checked></div>;<input type="checkbox" value="World" checked=""></input>
+1;input:not(:checked);<div><input type="checkbox" value="Hello"><input type="checkbox" value="World" checked></div>;<input type="checkbox" value="Hello"></input>
 1;div > span;<div><span>Hello</span><span>World</span></div>;<span>Hello</span>|<span>World</span>
 1;.some-class;<div><span class="some-class">Hello</span><span>World</span></div>;<span class="some-class">Hello</span>
 0;:contains("Hello");<div><span>Hello</span><span>World</span></div>;<span>Hello</span>
@@ -21,44 +22,47 @@ Enabled;Pattern;Input;Output
 1;body :empty;<div><span>Hello<a>World</a></span><span id="empty"></span></div>;<span id="empty"></span>
 1;body :enabled;<div><span>Hello</span><span>World</span></div><input type="checkbox" value="World" disabled>;<div><span>Hello</span><span>World</span></div>|<span>Hello</span>|<span>World</span>
 0;:eq(n)
-0;:even
+0;:even;<table><tr><td>odd</td></tr><tr><td>even</td></tr><tr><td>odd</td></tr></table>;asasd
+1;tr:nth-child(even);<table><tr><td>odd</td></tr><tr><td>even</td></tr><tr><td>odd</td></tr></table>;<tr><td>even</td></tr>
 0;:file
-0;:first-child
-0;:first-of-type
-0;:first
+1;div :first-child;<div><span>Hello</span><span>World</span></div>;<span>Hello</span>
+1;span:first-of-type;<div><span>Hello</span><span>World</span></div>;<span>Hello</span>
+0;div :first;<div><span>Hello</span><span>World</span></div>;<span>Hello</span>
 0;:focus
 0;:gt(n)
-0;[name]
-0;:has()
+1;[name];<div><span name="value">Hello</span><span name="some value">World</span></div>;<span name="value">Hello</span>|<span name="some value">World</span>
+1;span:has(a);<div><span name="value">Hello<a>World</a></span>;<span name="value">Hello<a>World</a></span>
 0;:header
-0;:hidden
-0;#id
+0;:hidden;<div><span name="value">Hello</span><span name="some value" hidden>World</span></div>;<span name="some value" hidden="">World</span>
+1;[hidden];<div><span name="value">Hello</span><span name="some value" hidden>World</span></div>;<span name="some value" hidden="">World</span>
+1;#value;<div><span id="value">Hello</span><span name="some value">World</span></div>;<span id="value">Hello</span>
 0;:image
 0;:input
 0;:lang()
-0;:last-child
-0;:last-of-type
-0;:last
+1;div :last-child;<div><span>Hello</span><span>World</span></div>;<span>World</span>
+1;span:last-of-type;<div><span>Hello</span><span>World</span></div>;<span>World</span>
+0;span :last;<div><span>Hello</span><span>World</span></div>;<span>World</span>
 0;:lt(n)
-0;[name="value"][name2="value2"]
-0;selector1,selector2,selectorN
-0;prev + next
-0;prev ~ siblings
-0;:not()
-0;:nth-child()
-0;:nth-last-child()
-0;:nth-last-of-type()
-0;:nth-of-type()
+1;[name="value"][name2="value2"];<div><span name="value" name2="value2">Hello</span><span>World</span></div>;<span name="value" name2="value2">Hello</span>
+1;span,a;<div><span>Hello</span><a>World</a></div>;<span>Hello</span>|<a>World</a>
+1;.prev + .next;<div><span class="prev">Hello</span><span class="next">World</span><span class="next">Other</span></div>;<span class="next">World</span>
+1;.prev ~ .siblings;<div><span class="prev">Hello</span><span>Other</span><span class="siblings">World</span></div>;<span class="siblings">World</span>
+1;body :not(a);<div><span>Hello</span><a>World</a></div>;<div><span>Hello</span><a>World</a></div>|<span>Hello</span>
+1;div :nth-child(1);<div><span>Hello</span><span>World<a>Other</a></span></div>;<span>Hello</span>|<a>Other</a>
+1;div :nth-last-child(1);<div><span>Hello<a>Other</a></span><span>World</span></div>;<a>Other</a>|<span>World</span>
+1;a:nth-last-of-type(1);<div><span>Hello<a>Some Link</a><a>Other</a></span><span>World</span></div>;<a>Other</a>
+1;a:nth-of-type(1);<div><span>Hello<a>Some Link</a><a>Other</a></span><span>World</span></div>;<a>Some Link</a>
 0;:odd
-0;:only-child
-0;:only-of-type
-0;:parent
+1;tr:nth-child(odd);<table><tr><td>odd1</td></tr><tr><td>even</td></tr><tr><td>odd2</td></tr></table>;<tr><td>odd1</td></tr>|<tr><td>odd2</td></tr>
+1;a:only-child;<div><span>Hello</span><span>World<a>Other</a></span></div>;<a>Other</a>
+1;a:only-of-type;<div><span>Hello</span><span>World<a>Other</a></span></div>;<a>Other</a>
+0;:parent;
 0;:password
-0;:radio
+0;:radio;<div><span>Hello</span><span>World<input type="radio"></span></div>;asdasd
 0;:reset
 0;:root
-0;:selected
+0;:selected;<select><option>A</option><option selected>B</option><option>C</option></select>;<option selected="">B</option>
 0;:submit
 0;:target
-0;:text
-0;:visible
+0;:text;<div><span>Hello<a>Some Link</a><a>Other</a></span><span>World</span></div>;<a>Other</a>
+0;:visible;<span style="display:none">Hello</span><span>World</span>;asasd

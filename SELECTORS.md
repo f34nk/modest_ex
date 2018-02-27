@@ -24,47 +24,47 @@ The W3C CSS specification contains the [complete set of rules regarding valid CS
 | :disabled | yes  | Selects all elements that are disabled. |
 | :empty | yes  | Select all elements that have no children (including text nodes). |
 | :enabled | yes  | Selects all elements that are enabled. |
-| :eq(n) | **no**   | Select the element at index `n` within the matched set. |
-| :even |     | Selects even elements, zero-indexed. See also odd. |
+| :eq(n) | **no** | Select the element at index `n` within the matched set. |
+| even | yes | Selects even elements, zero-indexed. See also odd. For example: "tr:nth-child(even)" |
 | :file |     | Selects all elements of type file. |
-| :first-child |     | Selects all elements that are the first child of their parent. |
-| :first-of-type |     | Selects all elements that are the first among siblings of the same element name. |
-| :first |     | Selects the first matched DOM element. |
+| :first-child |  yes   | Selects all elements that are the first child of their parent. |
+| :first-of-type | yes    | Selects all elements that are the first among siblings of the same element name. |
+| :first |  **no**   | Selects the first matched DOM element. |
 | :focus |     | Selects element if it is currently focused. |
 | :gt(n) |     | Select all elements at an index greater than index `n` within the matched set. |
-| [name] |     | Selects elements that have the specified attribute, with any value. |
-| :has() |     | Selects elements which contain at least one element that matches the specified selector. |
+| [name] |  yes   | Selects elements that have the specified attribute, with any value. |
+| :has() |   yes  | Selects elements which contain at least one element that matches the specified selector. |
 | :header |     | Selects all elements that are headers, like h1, h2, h3 and so on. |
-| :hidden |     | Selects all elements that are hidden. |
-| #id |     | Selects a single element with the given id attribute. |
+| :hidden |  **no**   | Selects all elements that are hidden. Use selector "[hidden]" instead. |
+| #id | yes    | Selects a single element with the given id attribute. |
 | :image |     | Selects all elements of type image. |
 | :input |     | Selects all elements of type input. |
 | :lang() |     | Selects all elements of the specified language. |
-| :last-child |     | Selects all elements that are the last child of their parent. |
-| :last-of-type |     | Selects all elements that are the last among siblings of the
+| :last-child | yes    | Selects all elements that are the last child of their parent. |
+| :last-of-type |  yes   | Selects all elements that are the last among siblings of the
 same element name. |
-| :last |     | Selects the last matched element. |
+| :last |  **no**   | Selects the last matched element. |
 | :lt(n) |     | Select all elements at an index less than index `n` within the matched set. |
-| [name="value"][name2="value2"] |     | Matches elements that match all of the specified attribute filters. |
-| selector1,selector2,selectorN |     | Selects the combined results of all the specified selectors. |
-| prev + next |     | Selects all next elements matching "next" that are immediately preceded by a sibling "prev". |
-| prev ~ siblings |     | Selects all sibling elements that follow after the "prev" element, have the same parent, and match the filtering "siblings" selector. |
-| :not() |     | Selects all elements that do not match the given selector. |
-| :nth-child() |     | Selects all elements that are the nth-child of their parent. |
-| :nth-last-child() |     | Selects all elements that are the nth-child of their parent, counting from the last element to the first. |
-| :nth-last-of-type() |     | Selects all the elements that are the nth-child of their parent in relation to siblings with the same element name, counting from the last element to the first. |
-| :nth-of-type() |     | Selects all elements that are the nth child of their parent in relation to siblings with the same element name. |
-| :odd |     | Selects odd elements, zero-indexed. See also even. |
-| :only-child |     | Selects all elements that are the only child of their parent. |
-| :only-of-type |     | Selects all elements that have no siblings with the same element name. |
-| :parent |     | Select all elements that have at least one child node (either an element or text). |
+| [name="value"][name2="value2"] | yes    | Matches elements that match all of the specified attribute filters. |
+| selector1,selector2,selectorN | yes    | Selects the combined results of all the specified selectors. |
+| prev + next |  yes   | Next Adjacent Selector. Selects all next elements matching "next" that are immediately preceded by a sibling "prev". |
+| prev ~ siblings | yes    | Next Siblings Selector. Selects all sibling elements that follow after the "prev" element, have the same parent, and match the filtering "siblings" selector. |
+| :not() | yes    | Selects all elements that do not match the given selector. |
+| :nth-child() |  yes   | Selects all elements that are the nth-child of their parent. |
+| :nth-last-child() | yes    | Selects all elements that are the nth-child of their parent, counting from the last element to the first. |
+| :nth-last-of-type() | yes    | Selects all the elements that are the nth-child of their parent in relation to siblings with the same element name, counting from the last element to the first. |
+| :nth-of-type() | yes    | Selects all elements that are the nth child of their parent in relation to siblings with the same element name. |
+| odd | yes    | Selects odd elements, zero-indexed. See also even. For example: "tr:nth-child(odd) |
+| :only-child | yes    | Selects all elements that are the only child of their parent. |
+| :only-of-type |  yes   | Selects all elements that have no siblings with the same element name. |
+| :parent |  **no**   | Select all elements that have at least one child node (either an element or text). |
 | :password |     | Selects all elements of type password. |
-| :radio |     | Selects all elements of type radio. |
+| :radio |  **no**   | Selects all elements of type radio. |
 | :reset |     | Selects all elements of type reset. |
 | :root |     | Selects the element that is the root of the document. |
-| :selected |     | Selects all elements that are selected. |
+| :selected | **no**    | Selects all elements that are selected. |
 | :submit |     | Selects all elements of type submit. |
 | :target |     | Selects the target element indicated by the fragment identifier of
 the document’s URI. |
-| :text |     | Selects all input elements of type text. |
-| :visible |     | Selects all elements that are visible. |
+| :text | **no**     | Selects all input elements of type text. |
+| :visible | **no**     | Selects all elements that are visible. |
