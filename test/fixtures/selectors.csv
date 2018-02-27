@@ -1,0 +1,63 @@
+Enabled;Pattern;Input;Output
+1;body *;<p>a</p><p>b</p><p>c</p>;<p>a</p>|<p>b</p>|<p>c</p>
+1;span*;<div><span>Hello</span><span>World</span></div>;<span>Hello</span>|<span>World</span>
+1;span;<div><span>Hello</span><span>World</span></div>;<span>Hello</span>|<span>World</span>
+1;span[name|="value"];<div><span name="value">Hello</span><span name="value-name">World</span></div>;<span name="value">Hello</span>|<span name="value-name">World</span>
+1;E[name*="value"]
+1;E[name~="value"]
+1;E[name$="value"]
+1;E[name="value"]
+0;E[name!="value"]
+1;E[name^="value"]
+0;:button
+0;:checkbox
+1;:checked
+1;parent > child
+0;.class
+0;:contains(text)
+1;ancestor descendant
+1;:disabled
+1;:empty
+0;:enabled
+0;:eq(n)
+0;:even
+0;:file
+0;:first-child
+0;:first-of-type
+0;:first
+0;:focus
+0;:gt(n)
+0;[name]
+0;:has()
+0;:header
+0;:hidden
+0;#id
+0;:image
+0;:input
+0;:lang()
+0;:last-child
+0;:last-of-type
+0;:last
+0;:lt(n)
+0;[name="value"][name2="value2"]
+0;selector1,selector2,selectorN
+0;prev + next
+0;prev ~ siblings
+0;:not()
+0;:nth-child()
+0;:nth-last-child()
+0;:nth-last-of-type()
+0;:nth-of-type()
+0;:odd
+0;:only-child
+0;:only-of-type
+0;:parent
+0;:password
+0;:radio
+0;:reset
+0;:root
+0;:selected
+0;:submit
+0;:target
+0;:text
+0;:visible
