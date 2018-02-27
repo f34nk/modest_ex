@@ -48,8 +48,8 @@ defmodule ModestFindTest do
       <li><span id="milk">Milk</span></li>
     </ul>
     """
-    {:ok, reply} = Cnode.call(pid, {:find, content, "li"})
-    assert {:find, "<li>Coffee</li>|<li>Tea</li>|<li><span id=\"milk\">Milk</span></li>"} = reply
+    {:ok, reply} = Cnode.call(pid, {:find, content, "li", "||"})
+    assert {:find, "<li>Coffee</li>||<li>Tea</li>||<li><span id=\"milk\">Milk</span></li>"} = reply
   end
 
   test "find node with id" do

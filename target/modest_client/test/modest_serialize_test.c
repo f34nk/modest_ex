@@ -19,7 +19,7 @@ int main(int argc, const char * argv[])
   html = "<span Hello World";
   result = modest_serialize(html);
   // printf("%s\n", result);
-  if(strcmp(result, "<-undef><html><head></head><body><span hello="" world=""></span></body></html>") != 0){
+  if(strcmp(result, "<-undef><html><head></head><body><span hello=\"\" world=\"\"></span></body></html>") != 0){
     return 1;
   }
 
