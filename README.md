@@ -28,7 +28,7 @@ https://github.com/f34nk/modest_ex/blob/master/target/modest_client/test
 
 ## Supported CSS Selectors
 
-All common CSS Selectors are supported. For an extensive list, please [check out this table](https://github.com/f34nk/modest_ex/blob/master/SELECTORS.md).
+All common CSS Selectors are supported. For an extensive list please [check out this table](https://github.com/f34nk/modest_ex/blob/master/SELECTORS.md).
 
 ## Installation
 
