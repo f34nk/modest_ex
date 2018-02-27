@@ -1,4 +1,4 @@
-# CSS Selectors
+## CSS Selectors
 
 The W3C CSS specification contains the [complete set of rules regarding valid CSS selectors](https://www.w3.org/TR/CSS21/selector.html).
 
@@ -19,7 +19,7 @@ The W3C CSS specification contains the [complete set of rules regarding valid CS
 | :checked 				| yes | Matches all elements that are checked or selected. |
 | parent > child | yes | Selects all direct child elements specified by "child" of elements specified by "parent". |
 | .class | yes | Selects all elements with the given class. |
-| :contains(text) | **no**  | Select all elements that contain the specified text. |
+| :contains(text) | **not yet** | Select all elements that contain the specified text. The current W3C CSS specification [left this section intentionally blank](https://www.w3.org/TR/selectors-3/#content-selectors). However, some information can be found [in an old spec from 2001](https://www.w3.org/TR/2001/CR-css3-selectors-20011113/#content-selectors). |
 | ancestor descendant | yes  | Selects all elements that are descendants of a given ancestor. |
 | :disabled | yes  | Selects all elements that are disabled. |
 | :empty | yes  | Select all elements that have no children (including text nodes). |
