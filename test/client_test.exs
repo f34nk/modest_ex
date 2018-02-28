@@ -27,7 +27,8 @@ defmodule ClientTest do
       exec_path: "priv/modest_client",
       cnode: cnode
     })
-    {:ok, reply} = Cnode.call(pid, {:find, "<h1><a>some link</a></h1>", "h1 a"})
+    {:ok, {:serialize, serialized}} = Cnode.call(pid, {:serialize, "<div>Hello<span>World"})
+    assert <<"<-undef>"::utf8>> <> _ = serialized
   end
 
   test "fails when executable does not activate within spawn_inactive_timeout" do

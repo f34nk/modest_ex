@@ -16,7 +16,6 @@ Enabled;Pattern;Input;Output
 1;input:not(:checked);<div><input type="checkbox" value="Hello"><input type="checkbox" value="World" checked></div>;<input type="checkbox" value="Hello"></input>
 1;div > span;<div><span>Hello</span><span>World</span></div>;<span>Hello</span>|<span>World</span>
 1;.some-class;<div><span class="some-class">Hello</span><span>World</span></div>;<span class="some-class">Hello</span>
-0;:contains("Hello");<div><span>Hello</span><span>World</span></div>;<span>Hello</span>
 1;span a;<div><span>Hello<a>World</a></span></div>;<a>World</a>
 1;:disabled;<div><span>Hello</span><input type="checkbox" value="World" disabled></div>;<input type="checkbox" value="World" disabled=""></input>
 1;body :empty;<div><span>Hello<a>World</a></span><span id="empty"></span></div>;<span id="empty"></span>
@@ -66,3 +65,5 @@ Enabled;Pattern;Input;Output
 0;:target
 0;:text;<div><span>Hello<a>Some Link</a><a>Other</a></span><span>World</span></div>;<a>Other</a>
 0;:visible;<span style="display:none">Hello</span><span>World</span>;asasd
+1;div > :nth-child(2n+1):not(:has(a));<div><p id=p1><p id=p2><p id=p3><a>link</a><p id=p4><p id=p5><p id=p6></div>;<p id="p1"></p>|<p id="p5"></p>
+0;:contains("Hello");<div><span>Hello</span><span>World</span></div>;<span>Hello</span>

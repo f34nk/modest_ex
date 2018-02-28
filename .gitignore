@@ -23,4 +23,4 @@ erl_crash.dump
 gumbo_query_ex-*.tar
 
 README.html
-priv/
+priv/modest_client

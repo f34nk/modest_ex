@@ -2,17 +2,13 @@
 
 mix_env=$1
 current=`pwd`
+echo "Compiling ModestEx target from $current"
+
 modest_client="modest_client"
 
 check=`find target \( -name libmodest_static.a -o -name libmodest.so \)`
 if [ -z "$check" ]
 then
-	# if [ -z `which libtool` ]
-	# then
-	# 	echo "Please install libtool:
-	# 	sudo apt-get install libtool"
-	# 	exit 1
-	# fi
 	echo "Compiling Modest..."
 	# Modest
 	# https://github.com/lexborisov/Modest/blob/master/INSTALL.md
@@ -25,7 +21,6 @@ fi
 function compile_modest_client()
 {
 	echo "Compiling modest_client..."
-	mkdir -p priv
 	rm priv/modest_client
 	mkdir -p target/$modest_client/build
 	cd target/$modest_client/build

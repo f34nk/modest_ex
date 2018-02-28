@@ -41,9 +41,9 @@ defmodule ModestEx.MixProject do
         "lib",
         "target",
         "test",
-        "compile.sh",
-        "clean.sh",
-        "test.sh",
+        "priv/compile.sh",
+        "priv/clean.sh",
+        "priv/test.sh",
         "mix.exs",
         "README.md",
         "LICENSE"
@@ -100,13 +100,19 @@ defmodule Mix.Tasks.Compile.ModestExCompile do
       IO.warn "Windows is not supported yet."
       exit(1)
     else
-      Shell.exec(System.cwd() <> "/compile.sh", [to_string(Mix.env)])
+      # path = :code.priv_dir(Mix.Project.config[:app])
+      # IO.inspect Mix.Project.config[:app]
+      # IO.inspect Mix.Project.config[:app_path]
+      # IO.inspect path
+      # IO.inspect Mix.env
+      Shell.exec("priv/compile.sh", [to_string(Mix.env)])
     end
     :ok
   end
 
   def clean() do
-    Shell.exec(System.cwd() <> "/clean.sh", [])
+    path = :code.priv_dir(Mix.Project.config[:app])
+      Shell.exec("#{path}" <> "/clean.sh", [to_string(Mix.env)])
     :ok
   end
 end
@@ -117,7 +123,8 @@ defmodule Mix.Tasks.Test.Target do
       IO.warn "Windows is not supported yet."
       exit(1)
     else
-      Shell.exec(System.cwd() <> "/test.sh", [])
+      path = :code.priv_dir(Mix.Project.config[:app])
+      Shell.exec("#{path}" <> "/test.sh", [to_string(Mix.env)])
     end
     :ok
   end

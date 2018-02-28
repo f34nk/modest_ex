@@ -9,7 +9,7 @@ defmodule ModestEx do
 
   ## Example
 
-    iex> ModestEx.find("<p><a>Hello</a> World</p>", "p a", "|")
+    iex> ModestEx.find("<p><a>Hello</a> World</p>", "p a")
     {:ok, "<a>Hello</a>"}
 
   """
@@ -23,7 +23,7 @@ defmodule ModestEx do
 
   ## Examples
 
-    iex> ModestEx.find("<p><a>Hello</a> World</p>", "p a", "|")
+    iex> ModestEx.find("<p><a>Hello</a> World</p>", "p a")
     {:ok, "<a>Hello</a>"}
 
     iex> ModestEx.find("<p><span>Hello</span> <span>World</span></p>", "span")

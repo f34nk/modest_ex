@@ -2,6 +2,8 @@
 
 current=`pwd`
 
+echo "Test ModestEx target from $current"
+
 # check=`find target \( -name libmodest_static.a -o -name libmodest.so \)`
 # if [ ! -z "$check" ]
 # then
