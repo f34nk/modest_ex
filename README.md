@@ -1,4 +1,4 @@
-## *Experimental. Not yet published.*
+## *Under development. Not yet published.*
 
 ![humble by Eliricon from the Noun Project](https://github.com/f34nk/modest_ex/blob/master/modest_icon.png)
 
