@@ -38,7 +38,7 @@ All common CSS Selectors are supported. For an extensive list please [check out 
 
 ## Installation
 
-Available on [hex](https://hex.pm/packages/modest_ex) and [hexdocs](https://hexdocs.pm/modest_ex/ModestEx.html).
+Available on [hex](https://hex.pm/packages/modest_ex).
 
 ```elixir
 def deps do
