@@ -26,6 +26,7 @@ Please check this out this [list of features](https://github.com/f34nk/modest_ex
 
 	iex> ModestEx.find("<p><a>Hello</a> World</p>", "p a")
 	{:ok, "<a>Hello</a>"}
+	
 	iex> ModestEx.serialize("<div>Hello<span>World")
 	{:ok, "<html><head></head><body><div>Hello<span>World</span></div></body></html>"}
 
