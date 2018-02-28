@@ -2,7 +2,7 @@
 
 mix_env=$1
 current=`pwd`
-echo "Compiling ModestEx target from $current"
+echo "Compiling ModestEx target from $current $mix_env"
 
 modest_client="modest_client"
 

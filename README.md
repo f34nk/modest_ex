@@ -1,4 +1,4 @@
-## *Under development. Not yet published.*
+## *Under development.*
 
 ![humble by Eliricon from the Noun Project](https://github.com/f34nk/modest_ex/blob/master/modest_icon.png)
 
@@ -36,30 +36,13 @@ All common CSS Selectors are supported. For an extensive list please [check out 
 
 ## Installation
 
-	git clone git@github.com:f34nk/modest_ex.git
-	cd modest_ex
-
-<!-- If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `gumbo_query_ex` to your list of dependencies in `mix.exs`:
-
 ```elixir
 def deps do
   [
-    {:modest_ex, "~> 0.1.0"}
+    {:modest_ex, "~> 0.0.1-dev"}
   ]
 end
 ```
-
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/gumbo_query_ex](https://hexdocs.pm/gumbo_query_ex).
- -->
-
-## Update submodules
-
-All binding targets are added as submodules in the `target/` folder.
-
-	git submodule update --init --recursive --remote
 
 ## Target dependencies
 
@@ -85,6 +68,15 @@ All binding targets are added as submodules in the `target/` folder.
 ## Benchmark
 
 	mix bench
+
+## Cloning
+
+	git clone git@github.com:f34nk/modest_ex.git
+	cd modest_ex
+
+All binding targets are added as submodules in the `target/` folder.
+
+	git submodule update --init --recursive --remote
 
 ## Roadmap
 
