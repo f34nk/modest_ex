@@ -87,6 +87,8 @@ All binding targets are added as submodules in the `target/` folder.
 
 ## Roadmap
 
+See [CHANGELOG](https://github.com/f34nk/modest_ex/blob/master/CHANGELOG.md).
+
 - [ ] Bindings
 	- [x] Call as C-Node
 	- [ ] Call as dirty-nif
