@@ -10,12 +10,18 @@ Get the descendants of each element in the current set of matched elements, filt
 	iex> ModestEx.find("<p><span>Hello</span> <span>World</span></p>", "span")
 	{:ok, "<span>Hello</span>|<span>World</span>"}
 
-<!-- 
+	iex> ModestEx.find("<p><span>Hello</span> <span>World</span></p>", "span", "( ͡ᵔ ͜ʖ ͡ᵔ )")
+	{:ok, "<span>Hello</span>( ͡ᵔ ͜ʖ ͡ᵔ )<span>World</span>"}
+
+
 
 ## serialize
+Serialize html into a valid html string.
 
-	{:ok, html} = ModestEx.serialize(html)
+	iex> ModestEx.serialize("<div>Hello<span>World")
+	{:ok, "<html><head></head><body><div>Hello<span>World</span></div></body></html>"}
 
+<!-- 
 ## remove
 Remove the set of matched elements from the DOM.
 

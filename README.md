@@ -26,6 +26,8 @@ Please check this out this [list of features](https://github.com/f34nk/modest_ex
 
 	iex> ModestEx.find("<p><a>Hello</a> World</p>", "p a")
 	{:ok, "<a>Hello</a>"}
+	iex> ModestEx.serialize("<div>Hello<span>World")
+	{:ok, "<html><head></head><body><div>Hello<span>World</span></div></body></html>"}
 
 ## Supported CSS Selectors
 
@@ -96,7 +98,7 @@ All binding targets are added as submodules in the `target/` folder.
 	- [ ] Package test
 - [ ] Features
 	- [x] Find nodes using a CSS selector
-	- [ ] Serialize a HTML-document
+	- [x] Serialize a HTML-document
 	- [ ] Remove a node from html
 	- [ ] Append node to another node
 	- [ ] Prepend node to another node
