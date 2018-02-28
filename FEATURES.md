@@ -16,7 +16,7 @@ Get the descendants of each element in the current set of matched elements, filt
 
 
 ## serialize
-Serialize html into a valid html string.
+Serialize any string with valid or broken html and return a valid html string.
 
 	iex> ModestEx.serialize("<div>Hello<span>World")
 	{:ok, "<html><head></head><body><div>Hello<span>World</span></div></body></html>"}
