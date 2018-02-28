@@ -5,7 +5,7 @@ defmodule ModestEx do
   ## Credits:
 
   The package implements bindings to [Alexander Borisov's Modest](https://github.com/lexborisov/Modest). 
-  The binding is implemented as a C-Node based on the excellent example of [Lukas Rieser's cnodex](https://github.com/Overbryd/nodex) and [myhtmlex](https://github.com/Overbryd/myhtmlex).
+  The binding is implemented as a C-Node based on the excellent example of [Lukas Rieder's cnodex](https://github.com/Overbryd/nodex) and [myhtmlex](https://github.com/Overbryd/myhtmlex).
 
   ## Example
 
@@ -18,7 +18,7 @@ defmodule ModestEx do
   @type error() :: {:error, String.t}
 
   @doc """
-  Find html nodes with a CSS selector.
+  Parse html string and find nodes with a CSS selector.
   Returns the selected node as a html string.
 
   ## Examples
@@ -39,8 +39,8 @@ defmodule ModestEx do
   end
 
   @doc """
-  Serialize html into a valid html string.
-  Returns the selected node as a html string.
+  Serialize any string with valid or broken html.
+  Returns valid html string.
 
   ## Examples
 
