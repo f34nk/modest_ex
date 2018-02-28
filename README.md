@@ -22,6 +22,9 @@ The binding is implemented as a **C-Node** following the excellent example in [@
 
 ## Example
 
+	iex> ModestEx.find("<p><a>Hello</a> World</p>", "p a")
+	{:ok, "<a>Hello</a>"}
+
 *Right now you can only clone the repo and execute tests...*
 
 https://github.com/f34nk/modest_ex/blob/master/test
@@ -92,10 +95,11 @@ All binding targets are added as submodules in the `target/` folder.
 - [ ] Tests
 	- [x] Call as C-Node
 	- [ ] Call as dirty-nif
-	- [X] Target tests
+	- [x] Target tests
+	- [x] Feature tests
 	- [ ] Package test
 - [ ] Features
-	- [ ] Find nodes using selector
+	- [x] Find nodes using a CSS selector
 	- [ ] Parse a HTML-document into a tree
 	- [ ] Expose node-retrieval functions
 - [x] List of supported CSS Selectors

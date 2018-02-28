@@ -11,7 +11,9 @@ defmodule ModestEx.MixProject do
       start_permanent: Mix.env() == :prod,
       name: "ModestEx",
       description: """
-        Modest is a fast HTML renderer implemented as a pure C99 library with no outside dependencies.
+        ModestEx exposes features to find html nodes with CSS selectors and common methods to manipulate the DOM tree.
+        Erlang/Elixir binding to Alexander Borisov's Modest.
+        Implemented as a C-Node based on the excellent example of Lukas Rieser's cnodex.
       """,
       docs: docs(),
       deps: deps(),
@@ -32,7 +34,8 @@ defmodule ModestEx.MixProject do
       links: %{
         "Github" => "https://github.com/f34nk/modest_ex",
         "Issues" => "https://github.com/f34nk/modest_ex/issues",
-        "Modest" => "https://github.com/lexborisov/Modest"
+        "Modest" => "https://github.com/lexborisov/Modest",
+        "cnodex" => "https://github.com/Overbryd/nodex"
       },
       files: [
         "lib",
@@ -48,14 +51,18 @@ defmodule ModestEx.MixProject do
     ]
   end
 
-  # Run "mix help compile.app" to learn about applications.
   def application do
     [
-      extra_applications: [:logger]
+      extra_applications: [:logger],
+      mod: {ModestEx.Safe, []},
+      # used to detect conflicts with other applications named processes
+      registered: [ModestEx.Safe.Cnode, ModestEx.Safe.Supervisor],
+      env: [
+        mode: ModestEx.Safe
+      ]
     ]
   end
 
-  # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
       # documentation helpers
