@@ -4,6 +4,8 @@
 
 # ModestEx
 
+A library to do pipeable transformations on html strings with CSS selectors, e.g. find(), prepend(), append(), replace() etc.
+
 Elixir/Erlang bindings for lexborisovs **Modest**
 
 >Modest is a fast HTML renderer implemented as a pure C99 library with no outside dependencies.
