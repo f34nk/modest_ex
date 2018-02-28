@@ -1,6 +1,9 @@
 #!/bin/bash
 
 current=`pwd`
+
+echo "Running ModestEx package test from $current"
+
 test -d package_test || mkdir package_test
 rm -rf package_test/*
 
@@ -48,7 +51,7 @@ mix compile
 
 mix run -e 'IO.inspect {:ok, "<a>Hello</a>"} = ModestEx.find("<p><a>Hello</a> World</p>", "p a")'
 
-# cd $current
-# rm -rf package_test
+cd $current
+rm -rf package_test
 
 echo "ok"
