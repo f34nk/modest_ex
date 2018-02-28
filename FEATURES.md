@@ -21,6 +21,10 @@ Serialize any string with valid or broken html and return a valid html string.
 	iex> ModestEx.serialize("<div>Hello<span>World")
 	{:ok, "<html><head></head><body><div>Hello<span>World</span></div></body></html>"}
 
+
+
+#### **Stay tuned for more...**
+
 <!-- 
 ## remove
 Remove the set of matched elements from the DOM.
