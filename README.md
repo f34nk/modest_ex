@@ -86,10 +86,10 @@ All binding targets are added as submodules in the `target/` folder.
 
 ## Roadmap
 
-- [x] Bindings
+- [ ] Bindings
 	- [x] Call as C-Node
 	- [ ] Call as dirty-nif
-- [x] Tests
+- [ ] Tests
 	- [x] Call as C-Node
 	- [ ] Call as dirty-nif
 	- [X] Target tests
