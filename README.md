@@ -59,7 +59,6 @@ end
 	mix deps.get
 	mix compile
 	mix test
-	mix test.target
 
 ## Cleanup
 
@@ -77,7 +76,11 @@ end
 All binding targets are added as submodules in the `target/` folder.
 
 	git submodule update --init --recursive --remote
-
+	mix deps.get
+	mix compile
+	mix test
+	mix test.target
+	
 ## Roadmap
 
 See [CHANGELOG](https://github.com/f34nk/modest_ex/blob/master/CHANGELOG.md).
