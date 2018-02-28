@@ -22,14 +22,10 @@ The binding is implemented as a **C-Node** following the excellent example in [@
 
 ## Example
 
+Please check this out this [list of features](https://github.com/f34nk/modest_ex/blob/master/FEATURES.md).
+
 	iex> ModestEx.find("<p><a>Hello</a> World</p>", "p a")
 	{:ok, "<a>Hello</a>"}
-
-*Right now you can only clone the repo and execute tests...*
-
-https://github.com/f34nk/modest_ex/blob/master/test
-
-https://github.com/f34nk/modest_ex/blob/master/target/modest_client/test
 
 ## Supported CSS Selectors
 
