@@ -1,6 +1,7 @@
 
+# ModestEx Features
 
-## ModestEx.find
+## find
 Get the descendants of each element in the current set of matched elements, filtered by a selector.
 
 	iex> ModestEx.find("<p><a>Hello</a> World</p>", "p a")

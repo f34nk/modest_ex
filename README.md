@@ -96,8 +96,12 @@ All binding targets are added as submodules in the `target/` folder.
 	- [ ] Package test
 - [ ] Features
 	- [x] Find nodes using a CSS selector
-	- [ ] Parse a HTML-document into a tree
-	- [ ] Expose node-retrieval functions
+	- [ ] Serialize a HTML-document
+	- [ ] Remove a node from html
+	- [ ] Append node to another node
+	- [ ] Prepend node to another node
+	- [ ] Replace node with to another node
+	- [ ] Slice html to a subset of nodes
 - [x] List of supported CSS Selectors
 - [ ] Documentation
 - [ ] Publish as hex package
