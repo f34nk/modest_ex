@@ -10,32 +10,47 @@ defmodule ModestEx do
   ## Example
 
     iex> ModestEx.find("<p><a>Hello</a> World</p>", "p a")
-    {:ok, "<a>Hello</a>"}
+    ["<a>Hello</a>"]
 
   """
 
-  @type success() :: {:ok, String.t}
+  @type success() :: String.t | [String.t]
   @type error() :: {:error, String.t}
 
   @doc """
   Parse html string and find nodes with a CSS selector.
-  Returns the selected node as a html string.
+  Returns nodes as list of html strings delimited by delimiter
+
+  ## Examples
+
+    iex> ModestEx.find("<p><a>Hello</a> World</p>", "p a", "|")
+    "<a>Hello</a>"
+
+    iex> ModestEx.find("<p><span>Hello</span> <span>World</span></p>", "span", "|")
+    "<span>Hello</span>|<span>World</span>"
+
+  """
+  @spec find(String.t, String.t, String.t) :: success() | error()
+  def find(bin, selector, delimiter) when is_binary(bin) do
+    ModestEx.Safe.find(bin, selector, delimiter)
+  end
+
+  @doc """
+  Parse html string and find nodes with a CSS selector.
+  Returns nodes as list of html strings.
 
   ## Examples
 
     iex> ModestEx.find("<p><a>Hello</a> World</p>", "p a")
-    {:ok, "<a>Hello</a>"}
+    ["<a>Hello</a>"]
 
     iex> ModestEx.find("<p><span>Hello</span> <span>World</span></p>", "span")
-    {:ok, "<span>Hello</span>|<span>World</span>"}
-
-    iex> ModestEx.find("<p><span>Hello</span> <span>World</span></p>", "span", "( ͡ᵔ ͜ʖ ͡ᵔ )")
-    {:ok, "<span>Hello</span>( ͡ᵔ ͜ʖ ͡ᵔ )<span>World</span>"}
+    ["<span>Hello</span>", "<span>World</span>"]
 
   """
-  @spec find(String.t, String.t, String.t) :: success() | error()
-  def find(bin, selector, delimiter \\ "|") when is_binary(bin) do
-    ModestEx.Safe.find(bin, selector, delimiter)
+  @spec find(String.t, String.t) :: success() | error()
+  def find(bin, selector) when is_binary(bin) do
+    ModestEx.Safe.find(bin, selector)
   end
 
   @doc """
@@ -45,7 +60,7 @@ defmodule ModestEx do
   ## Examples
 
     iex> ModestEx.serialize("<div>Hello<span>World")
-    {:ok, "<html><head></head><body><div>Hello<span>World</span></div></body></html>"}
+    "<html><head></head><body><div>Hello<span>World</span></div></body></html>"
 
   """
   @spec serialize(String.t) :: success() | error()

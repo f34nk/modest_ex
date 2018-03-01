@@ -13,13 +13,14 @@ defmodule ModestExFindTest do
             pattern = Enum.at(matched, 2)
             input = Enum.at(matched, 3)
             output = Enum.at(matched, 4)
-            case ModestEx.find(input, pattern) do
+            delimiter = "|"
+            case ModestEx.find(input, pattern, delimiter) do
               {:error, _} ->
                 raise RuntimeError,
                   "\n\tpattern: " <> pattern <>
                   "\n\tinput: " <> input <>
                   "\n\texpected: " <> output
-              {:ok, reply} ->
+              reply ->
                 try do
                   assert reply == output
                 rescue

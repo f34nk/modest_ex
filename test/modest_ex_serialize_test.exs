@@ -17,7 +17,7 @@ defmodule ModestExSerializeTest do
                 raise RuntimeError,
                   "\n\tinput: " <> input <>
                   "\n\texpected: " <> output
-              {:ok, reply} ->
+              reply ->
                 try do
                   assert reply == output
                 rescue
