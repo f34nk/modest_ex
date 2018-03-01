@@ -18,8 +18,8 @@ defmodule ModestEx do
   @type error() :: {:error, String.t}
 
   @doc """
-  Parse html string and find nodes with a CSS selector.
-  Returns nodes as list of html strings delimited by delimiter
+  Find nodes with a CSS selector with optional delimiter.
+  Returns the outer html of each node as a string, delimited by delimiter.
 
   ## Examples
 
@@ -36,8 +36,8 @@ defmodule ModestEx do
   end
 
   @doc """
-  Parse html string and find nodes with a CSS selector.
-  Returns nodes as list of html strings.
+  Find nodes with a CSS selector.
+  Returns the outer html of each node as a list of strings.
 
   ## Examples
 
