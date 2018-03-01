@@ -7,7 +7,7 @@ February 2018
 - List of ModestEx features
 - Feature test for ModestEx.find, ModestEx.serialize
 - Feature ModestEx.serialize
-- Feature ModestEx.find
+- Feature ModestEx.find with optional delimiter
 - Documentation
 - List of supported CSS selectors
 - ModestEx icon
