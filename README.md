@@ -27,10 +27,10 @@ The binding is implemented as a **C-Node** following the excellent example in [@
 [Full list of features.](https://github.com/f34nk/modest_ex/blob/master/FEATURES.md)
 
 	iex> ModestEx.find("<p><a>Hello</a> World</p>", "p a")
-	{:ok, "<a>Hello</a>"}
+	["<a>Hello</a>"]
 	
 	iex> ModestEx.serialize("<div>Hello<span>World")
-	{:ok, "<html><head></head><body><div>Hello<span>World</span></div></body></html>"}
+	"<html><head></head><body><div>Hello<span>World</span></div></body></html>"
 
 ## Supported CSS Selectors
 
