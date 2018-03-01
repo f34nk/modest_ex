@@ -17,6 +17,13 @@ defmodule ModestEx.Safe do
     Supervisor.start_link(children, strategy: :one_for_one, name: ModestEx.Safe.Supervisor)
   end
 
+  def find(bin, selector, delimiter) do
+    case Nodex.Cnode.call(ModestEx.Safe.Cnode, {:find, bin <> "\0", selector <> "\0", delimiter <> "\0"}) do
+      {:ok, {:find, result}} -> result
+      _ -> {:error, bin}
+    end
+  end
+  
   #
   # TODO: Find better solution for String.split
   # String.split/2 is too slow with large strings
@@ -26,13 +33,6 @@ defmodule ModestEx.Safe do
     delimiter = "|"
     case Nodex.Cnode.call(ModestEx.Safe.Cnode, {:find, bin <> "\0", selector <> "\0", delimiter <> "\0"}) do
       {:ok, {:find, result}} -> String.split(result, delimiter)
-      _ -> {:error, bin}
-    end
-  end
-
-  def find(bin, selector, delimiter) do
-    case Nodex.Cnode.call(ModestEx.Safe.Cnode, {:find, bin <> "\0", selector <> "\0", delimiter <> "\0"}) do
-      {:ok, {:find, result}} -> result
       _ -> {:error, bin}
     end
   end
