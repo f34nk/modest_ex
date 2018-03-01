@@ -5,13 +5,18 @@
 Get the descendants of each element in the current set of matched elements, filtered by a selector.
 
 	iex> ModestEx.find("<p><a>Hello</a> World</p>", "p a")
-	{:ok, "<a>Hello</a>"}
+	["<a>Hello</a>"]
 
 	iex> ModestEx.find("<p><span>Hello</span> <span>World</span></p>", "span")
-	{:ok, "<span>Hello</span>|<span>World</span>"}
+	["<span>Hello</span>", "<span>World</span>"]
+
+or using a delimter
+
+	iex> ModestEx.find("<p><span>Hello</span> <span>World</span></p>", "span", "|")
+	"<span>Hello</span>|<span>World</span>"
 
 	iex> ModestEx.find("<p><span>Hello</span> <span>World</span></p>", "span", "( ͡ᵔ ͜ʖ ͡ᵔ )")
-	{:ok, "<span>Hello</span>( ͡ᵔ ͜ʖ ͡ᵔ )<span>World</span>"}
+	"<span>Hello</span>( ͡ᵔ ͜ʖ ͡ᵔ )<span>World</span>"
 
 
 
@@ -19,8 +24,7 @@ Get the descendants of each element in the current set of matched elements, filt
 Serialize any string with valid or broken html and return a valid html string.
 
 	iex> ModestEx.serialize("<div>Hello<span>World")
-	{:ok, "<html><head></head><body><div>Hello<span>World</span></div></body></html>"}
-
+	"<html><head></head><body><div>Hello<span>World</span></div></body></html>"
 
 
 #### **Stay tuned for more...**
