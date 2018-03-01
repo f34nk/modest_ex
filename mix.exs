@@ -11,7 +11,7 @@ defmodule ModestEx.MixProject do
       start_permanent: Mix.env() == :prod,
       name: "ModestEx",
       description: """
-        ModestEx exposes features to find html nodes with CSS selectors and common methods to manipulate the DOM tree.
+        ModestEx exposes features to do pipeable transformations on html strings with CSS selectors, e.g. find(), prepend(), append(), replace() etc.
         Erlang/Elixir binding to Alexander Borisov's Modest.
         Implemented as a C-Node based on the excellent example of Lukas Rieser's cnodex.
       """,
