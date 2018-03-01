@@ -20,6 +20,11 @@
 #include <stdlib.h>
 #include <myhtml/api.h>
 
+/**
+ * Serialize any string with valid or broken html.
+ * @param  html [a html string]
+ * @return      [a html string]
+ */
 const char* modest_serialize(const char* html){
   // basic init
   myhtml_t* myhtml = myhtml_create();

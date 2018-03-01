@@ -30,8 +30,10 @@ add_executable(
 	${PROJECT_NAME}
 	modest_client.c
   handlers.c
-	modest_find.c
+  utils.c
+  modest_find.c
   modest_serialize.c
+  modest_attribute.c
 )
 
 target_link_libraries(

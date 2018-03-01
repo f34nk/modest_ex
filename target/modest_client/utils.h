@@ -1,5 +1,5 @@
-#ifndef MODEST_SERIALIZE_H
-#define MODEST_SERIALIZE_H
+#ifndef UTILS_H
+#define UTILS_H
 
 /*
  Copyright (C) 2019 Frank Eickhoff
@@ -19,11 +19,20 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 */
 
+#include <myhtml/myhtml.h>
+
+// mystatus_t serialization_bad_selectors(const char* buffer, size_t size, void* ctx);
+
 /**
- * Serialize any string with valid or broken html.
- * @param  html [a html string]
- * @return      [a html string]
+ * Parse html string into a tree structure.
+ * @param  data      [a html string]
+ * @param  data_size [size of the html string]
+ * @return           [a html tree]
  */
-const char* modest_serialize(const char* html);
+myhtml_tree_t * parse_html(const char* data, size_t data_size);
+
+mycss_entry_t * create_css_parser(void);
+mycss_selectors_list_t * prepare_selector(mycss_entry_t *css_entry, const char* selector, size_t selector_size);
+void print_found_result(myhtml_tree_t* html_tree, myhtml_collection_t *collection, const char* delimiter, FILE *stream);
 
 #endif

@@ -23,5 +23,6 @@ foreach(TEST ${TESTS})
   target_link_libraries(${TEST_NAME} libmodest_static.a)
 endforeach()
 
-target_sources(modest_find_test PUBLIC ../modest_find.c)
+target_sources(modest_find_test PUBLIC ../modest_find.c ../utils.c)
 target_sources(modest_serialize_test PUBLIC ../modest_serialize.c)
+target_sources(modest_attribute_test PUBLIC ../modest_attribute.c ../utils.c)
