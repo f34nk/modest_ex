@@ -57,7 +57,7 @@ Available on [hex](https://hex.pm/packages/modest_ex).
 ```elixir
 def deps do
   [
-    {:modest_ex, "~> 0.0.1-dev"}
+    {:modest_ex, "~> 0.0.2-dev"}
   ]
 end
 ```
