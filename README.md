@@ -40,6 +40,12 @@ The binding is implemented as a **C-Node** following the excellent example in [@
 	iex> ModestEx.serialize("<div>Hello<span>World")
 	"<html><head></head><body><div>Hello<span>World</span></div></body></html>"
 
+Methods can be piped together.
+
+	iex> ModestEx.find("<p><a>Hello</a><a>World</a></p>", "p a") |> 
+	...> ModestEx.set_attribute("href", "https://elixir-lang.org")
+	"<html><head></head><body><a href=\"https://elixir-lang.org\">Hello</a><a href=\"https://elixir-lang.org\">World</a></body></html>"
+
 ## Supported CSS Selectors
 
 All common CSS Selectors are supported. For an extensive list please [check out this table](https://github.com/f34nk/modest_ex/blob/master/SELECTORS.md).
