@@ -43,8 +43,8 @@ The binding is implemented as a **C-Node** following the excellent example in [@
 Methods can be piped together.
 
 	iex> ModestEx.find("<p><a>Hello</a><a>World</a></p>", "p a") |> 
-	...> ModestEx.set_attribute("href", "https://elixir-lang.org")
-	"<html><head></head><body><a href=\"https://elixir-lang.org\">Hello</a><a href=\"https://elixir-lang.org\">World</a></body></html>"
+	...> ModestEx.set_attribute("href", ["https://elixir-lang.org", "https://google.de"])
+	"<html><head></head><body><a href=\"https://elixir-lang.org\">Hello</a><a href=\"https://google.de\">World</a></body></html>"
 
 ## Supported CSS Selectors
 
