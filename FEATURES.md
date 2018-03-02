@@ -36,7 +36,7 @@ Set one or more attributes for every matched element.
 	iex> ModestEx.set_attribute("<p><a href=\"\">Hello</a></p>", "p a", "href", "https://elixir-lang.org")
 	"<html><head></head><body><p><a href=\"https://elixir-lang.org\">Hello</a></p></body></html>"
 
-	iex> ModestEx.set_attribute("<p><a>Hello</a><a>World</a></p>", "p a", "href", ["https://elixir-lang.org", "https://google.de"])
-	"<html><head></head><body><p><a href=\"https://elixir-lang.org\">Hello</a><a href=\"https://google.de\">World</a></p></body></html>"
+	iex> ModestEx.set_attribute(["<p><a>Hello</a></p>", "<p><a>World</a></p>"], "p a", "href", ["https://elixir-lang.org", "https://google.de"])
+	["<html><head></head><body><p><a href=\"https://elixir-lang.org\">Hello</a></p></body></html>", "<html><head></head><body><p><a href=\"https://google.de\">World</a></p></body></html>"]
 
 #### **Stay tuned for more...**
