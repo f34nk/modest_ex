@@ -22,11 +22,9 @@ defmodule ModestExSerializeTest do
                   assert reply == output
                 rescue
                   error in [ExUnit.AssertionError] ->
-                    raise ExUnit.AssertionError,
-                      error.message <>
-                      "\n\tinput: " <> input <>
-                      "\n\tresult: " <> error.left <>
-                      "\n\texpected: " <> output
+                    raise ExUnit.AssertionError, error.message <> 
+                      "\n\t" <> reply <>
+                      "\n\t" <> line
                 end
             end
           true -> ""

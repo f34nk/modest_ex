@@ -4,7 +4,7 @@ defmodule ModestExFindTest do
 
   test "all selectors from file" do
   
-    File.open("test/fixtures/selectors.csv", [:read], fn(file) ->
+    File.open("test/fixtures/find.csv", [:read], fn(file) ->
       IO.binstream(file, :line)
       |> Stream.map(fn(line) ->
         matched = Regex.run(~r/^(0|1);(.*);(.*);(.*)$/, line)
@@ -25,12 +25,9 @@ defmodule ModestExFindTest do
                   assert reply == output
                 rescue
                   error in [ExUnit.AssertionError] ->
-                    raise ExUnit.AssertionError,
-                      error.message <>
-                      "\n\tpattern: " <> pattern <>
-                      "\n\tinput: " <> input <>
-                      "\n\tresult: " <> error.left <>
-                      "\n\texpected: " <> output
+                    raise ExUnit.AssertionError, error.message <> 
+                      "\n\t" <> reply <>
+                      "\n\t" <> line
                 end
             end
           true -> ""

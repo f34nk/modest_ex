@@ -17,6 +17,19 @@ defmodule ModestEx do
   @type success() :: String.t | [String.t]
   @type error() :: {:error, String.t}
 
+  def delimiter() do
+    Application.get_env(:modest_ex, :delimiter, "|")
+  end
+
+  #
+  # TODO: Find better solution for String.split
+  # String.split/2 is too slow with large strings
+  # https://github.com/elixir-lang/elixir/issues/6148
+  # 
+  def split(bin) do
+    String.split(bin, ModestEx.delimiter())
+  end
+
   @doc """
   Find nodes with a CSS selector with optional delimiter.
   Returns the outer html of each node as a string, delimited by delimiter.
@@ -31,8 +44,8 @@ defmodule ModestEx do
 
   """
   @spec find(String.t, String.t, String.t) :: success() | error()
-  def find(bin, selector, delimiter) when is_binary(bin) do
-    ModestEx.Safe.find(bin, selector, delimiter)
+  def find(bin, selector, delimiter) do
+    ModestEx.Safe.Find.find(bin, selector, delimiter)
   end
 
   @doc """
@@ -49,8 +62,8 @@ defmodule ModestEx do
 
   """
   @spec find(String.t, String.t) :: success() | error()
-  def find(bin, selector) when is_binary(bin) do
-    ModestEx.Safe.find(bin, selector)
+  def find(bin, selector) do
+    ModestEx.Safe.Find.find(bin, selector)
   end
 
   @doc """
@@ -64,8 +77,28 @@ defmodule ModestEx do
 
   """
   @spec serialize(String.t) :: success() | error()
-  def serialize(bin) when is_binary(bin) do
-    ModestEx.Safe.serialize(bin)
+  def serialize(bin) do
+    ModestEx.Safe.Serialize.serialize(bin)
+  end
+
+  @spec get_attribute(String.t, String.t) :: success() | error()
+  def get_attribute(bin, key) do
+    ModestEx.Safe.Attribute.get_attribute(bin, key)
+  end
+
+  @spec get_attribute(String.t, String.t, String.t) :: success() | error()
+  def get_attribute(bin, selector, key) do
+    ModestEx.Safe.Attribute.get_attribute(bin, selector, key)
+  end
+
+  @spec set_attribute(String.t, String.t, String.t) :: success() | error()
+  def set_attribute(bin, key, value) do
+    ModestEx.Safe.Attribute.set_attribute(bin, key, value)
+  end
+
+  @spec set_attribute(String.t, String.t, String.t, String.t) :: success() | error()
+  def set_attribute(bin, selector, key, value) do
+    ModestEx.Safe.Attribute.set_attribute(bin, selector, key, value)
   end
 
 end
