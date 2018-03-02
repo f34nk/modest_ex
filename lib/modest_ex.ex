@@ -26,7 +26,7 @@ defmodule ModestEx do
   # String.split/2 is too slow with large strings
   # https://github.com/elixir-lang/elixir/issues/6148
   # 
-  def split(bin) do
+  def split(bin) when is_bitstring(bin) do
     String.split(bin, ModestEx.delimiter())
   end
 
@@ -44,7 +44,7 @@ defmodule ModestEx do
 
   """
   @spec find(String.t, String.t) :: success() | error()
-  def find(bin, selector) do
+  def find(bin, selector) when is_bitstring(bin) do
     ModestEx.Safe.Find.find(bin, selector)
   end
 
@@ -59,7 +59,7 @@ defmodule ModestEx do
 
   """
   @spec serialize(String.t) :: success() | error()
-  def serialize(bin) do
+  def serialize(bin) when is_bitstring(bin) do
     ModestEx.Safe.Serialize.serialize(bin)
   end
 
@@ -74,9 +74,16 @@ defmodule ModestEx do
 
   """
   @spec get_attribute(String.t, String.t) :: success() | error()
-  def get_attribute(bin, key) do
+  def get_attribute(bin, key) when is_bitstring(bin) do
     ModestEx.Safe.Attribute.get_attribute(bin, key)
   end
+
+  @spec get_attribute([String.t], String.t) :: success() | error()
+  def get_attribute([bin|rest], key) do
+    ModestEx.Safe.Attribute.get_attribute(bin, key) ++ get_attribute(rest, key)
+  end
+
+  def get_attribute([], _), do: []
 
   @doc """
   Get attribute of selected node with attribute key.
@@ -89,9 +96,16 @@ defmodule ModestEx do
 
   """
   @spec get_attribute(String.t, String.t, String.t) :: success() | error()
-  def get_attribute(bin, selector, key) do
+  def get_attribute(bin, selector, key) when is_bitstring(bin) do
     ModestEx.Safe.Attribute.get_attribute(bin, selector, key)
   end
+
+  @spec get_attribute([String.t], String.t) :: success() | error()
+  def get_attribute([bin|rest], selector, key) do
+    ModestEx.Safe.Attribute.get_attribute(bin, selector, key) ++ get_attribute(rest, selector, key)
+  end
+
+  def get_attribute([], _, _), do: []
 
   @doc """
   Set value for all attributes with key.
@@ -104,9 +118,16 @@ defmodule ModestEx do
 
   """
   @spec set_attribute(String.t, String.t, String.t) :: success() | error()
-  def set_attribute(bin, key, value) do
+  def set_attribute(bin, key, value) when is_bitstring(bin) do
     ModestEx.Safe.Attribute.set_attribute(bin, key, value)
   end
+
+  @spec set_attribute([String.t], String.t, String.t) :: success() | error()
+  def set_attribute([bin|rest], key, value) do
+    [ModestEx.Safe.Attribute.set_attribute(bin, key, value)] ++ set_attribute(rest, key, value)
+  end
+
+  def set_attribute([], _, _), do: []
 
   @doc """
   Set value for selected node with attribute key.
@@ -119,8 +140,15 @@ defmodule ModestEx do
 
   """
   @spec set_attribute(String.t, String.t, String.t, String.t) :: success() | error()
-  def set_attribute(bin, selector, key, value) do
+  def set_attribute(bin, selector, key, value) when is_bitstring(bin) do
     ModestEx.Safe.Attribute.set_attribute(bin, selector, key, value)
   end
+
+  @spec set_attribute([String.t], String.t, String.t, String.t) :: success() | error()
+  def set_attribute([bin|rest], selector, key, value) do
+    [ModestEx.Safe.Attribute.set_attribute(bin, selector, key, value)] ++ set_attribute(rest, selector, key, value)
+  end
+
+  def set_attribute([], _, _, _), do: []
 
 end
