@@ -1,4 +1,5 @@
 defmodule ModestEx.Safe.Attribute do
+  @moduledoc false
   
   def get_attribute(bin, key) do
     case Nodex.Cnode.call(ModestEx.Safe.Cnode, {:get_attribute, bin <> "\0", key <> "\0", ModestEx.delimiter() <> "\0"}) do

@@ -23,8 +23,8 @@ defmodule ModestExSerializeTest do
                 rescue
                   error in [ExUnit.AssertionError] ->
                     raise ExUnit.AssertionError, error.message <> 
-                      "\n\t" <> reply <>
-                      "\n\t" <> line
+                      "\n\t reply: " <> reply <>
+                      "\n\t test:  " <> line
                 end
             end
           true -> ""

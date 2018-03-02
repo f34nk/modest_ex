@@ -31,6 +31,12 @@ The binding is implemented as a **C-Node** following the excellent example in [@
 	iex> ModestEx.find("<p><a>Hello</a> World</p>", "p a")
 	["<a>Hello</a>"]
 	
+	iex> ModestEx.get_attribute("<p><a href=\"https://elixir-lang.org\">Hello</a></p>", "p a", "href")
+	["https://elixir-lang.org"]
+
+	iex> ModestEx.set_attribute("<p><a href=\"\">Hello</a></p>", "p a", "href", "https://elixir-lang.org")
+	"<html><head></head><body><p><a href=\"https://elixir-lang.org\">Hello</a></p></body></html>"
+
 	iex> ModestEx.serialize("<div>Hello<span>World")
 	"<html><head></head><body><div>Hello<span>World</span></div></body></html>"
 
@@ -99,10 +105,12 @@ See [CHANGELOG](https://github.com/f34nk/modest_ex/blob/master/CHANGELOG.md).
 	- [ ] Call as dirty-nif
 	- [x] Target tests
 	- [x] Feature tests
-	- [ ] Package test
+	- [x] Package test
 - [ ] Features
 	- [x] Find nodes using a CSS selector
 	- [x] Serialize any string with valid or broken html
+	- [x] Get attribute with optional CSS selector
+	- [x] Set attribute with optional CSS selector
 	- [ ] Remove a node from html
 	- [ ] Append node to another node
 	- [ ] Prepend node to another node
@@ -110,7 +118,7 @@ See [CHANGELOG](https://github.com/f34nk/modest_ex/blob/master/CHANGELOG.md).
 	- [ ] Slice html to a subset of nodes
 - [x] List of supported CSS Selectors
 - [ ] Documentation
-- [ ] Publish as hex package
+- [x] Publish as hex package
 
 ## License
 

@@ -1,5 +1,17 @@
 # ModestEx Changelog
 
+## 0.0.2-dev
+
+March 2018
+
+- Added hexpm badge for version and counter
+- Added travis build badge
+- Feature test for ModestEx.get_attribute, ModestEx.set_attribute
+- Feature ModestEx.set_attribute
+- Feature ModestEx.get_attribute
+- Moved delimiter to :modest_ex config. Default delimiter is `"|"`
+- Changes success type to `@type success() :: String.t | [String.t]`
+
 ## 0.0.1-dev
 
 February 2018

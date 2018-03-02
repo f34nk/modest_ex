@@ -1,6 +1,6 @@
 defmodule ModestEx do
   @moduledoc """
-  This module exposes features to find html nodes with CSS selectors and common methods to manipulate the DOM tree.
+  This module exposes features to do pipeable transformations on html strings with CSS selectors, e.g. find(), prepend(), append(), replace() etc.
 
   ## Credits:
 
@@ -28,24 +28,6 @@ defmodule ModestEx do
   # 
   def split(bin) do
     String.split(bin, ModestEx.delimiter())
-  end
-
-  @doc """
-  Find nodes with a CSS selector with optional delimiter.
-  Returns the outer html of each node as a string, delimited by delimiter.
-
-  ## Examples
-
-    iex> ModestEx.find("<p><a>Hello</a> World</p>", "p a", "|")
-    "<a>Hello</a>"
-
-    iex> ModestEx.find("<p><span>Hello</span> <span>World</span></p>", "span", "|")
-    "<span>Hello</span>|<span>World</span>"
-
-  """
-  @spec find(String.t, String.t, String.t) :: success() | error()
-  def find(bin, selector, delimiter) do
-    ModestEx.Safe.Find.find(bin, selector, delimiter)
   end
 
   @doc """
@@ -81,21 +63,61 @@ defmodule ModestEx do
     ModestEx.Safe.Serialize.serialize(bin)
   end
 
+  @doc """
+  Get all attributes with key.
+  Returns list of strings.
+
+  ## Examples
+
+    iex> ModestEx.get_attribute("<a href=\\"https://elixir-lang.org\\">Hello</a>", "href")
+    ["https://elixir-lang.org"]
+
+  """
   @spec get_attribute(String.t, String.t) :: success() | error()
   def get_attribute(bin, key) do
     ModestEx.Safe.Attribute.get_attribute(bin, key)
   end
 
+  @doc """
+  Get attribute of selected node with attribute key.
+  Returns list of strings.
+
+  ## Examples
+
+    iex> ModestEx.get_attribute("<p><a href=\\"https://elixir-lang.org\\">Hello</a></p>", "p a", "href")
+    ["https://elixir-lang.org"]
+
+  """
   @spec get_attribute(String.t, String.t, String.t) :: success() | error()
   def get_attribute(bin, selector, key) do
     ModestEx.Safe.Attribute.get_attribute(bin, selector, key)
   end
 
+  @doc """
+  Set value for all attributes with key.
+  Returns html strings.
+
+  ## Examples
+
+    iex> ModestEx.set_attribute("<a href=\\"\\">Hello</a>", "href", "https://elixir-lang.org")
+    "<html><head></head><body><a href=\\"https://elixir-lang.org\\">Hello</a></body></html>"
+
+  """
   @spec set_attribute(String.t, String.t, String.t) :: success() | error()
   def set_attribute(bin, key, value) do
     ModestEx.Safe.Attribute.set_attribute(bin, key, value)
   end
 
+  @doc """
+  Set value for selected node with attribute key.
+  Returns html strings.
+
+  ## Examples
+
+    iex> ModestEx.set_attribute("<p><a href=\\"\\">Hello</a></p>", "p a", "href", "https://elixir-lang.org")
+    "<html><head></head><body><p><a href=\\"https://elixir-lang.org\\">Hello</a></p></body></html>"
+
+  """
   @spec set_attribute(String.t, String.t, String.t, String.t) :: success() | error()
   def set_attribute(bin, selector, key, value) do
     ModestEx.Safe.Attribute.set_attribute(bin, selector, key, value)
