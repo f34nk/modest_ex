@@ -20,7 +20,3 @@ matrix:
       otp_release: 19.3
 
 sudo: false
-
-after_script:
-  - mix deps.get --only docs
-  - MIX_ENV=docs mix inch.report
