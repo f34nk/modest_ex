@@ -101,6 +101,7 @@ const char* modest_find(const char* html, const char* selector, const char* deli
   myhtml_tree_destroy(html_tree);
   myhtml_destroy(myhtml);
 
+  // TODO: This is a leak. Implement proper memory handling.
   return buf;
 }
 

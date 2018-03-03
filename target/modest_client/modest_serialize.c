@@ -52,5 +52,6 @@ const char* modest_serialize(const char* html){
   myhtml_tree_destroy(tree);
   myhtml_destroy(myhtml);
 
+  // TODO: This is a leak. Implement proper memory handling.
   return str_raw.data;
 }
