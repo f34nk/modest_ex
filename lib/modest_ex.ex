@@ -16,6 +16,7 @@ defmodule ModestEx do
 
   @type success() :: String.t | [String.t]
   @type error() :: {:error, String.t}
+  @type input() :: String.t | [String.t]
 
   def delimiter() do
     Application.get_env(:modest_ex, :delimiter, "|")
@@ -43,9 +44,9 @@ defmodule ModestEx do
     ["<span>Hello</span>", "<span>World</span>"]
 
   """
-  @spec find(String.t, String.t) :: success() | error()
-  def find(bin, selector) when is_bitstring(bin) do
-    ModestEx.Safe.Find.find(bin, selector)
+  @spec find(input(), String.t) :: success() | error()
+  def find(bin, selector) do
+    ModestEx.Find.find(bin, selector)
   end
 
   @doc """
@@ -58,9 +59,9 @@ defmodule ModestEx do
     "<html><head></head><body><div>Hello<span>World</span></div></body></html>"
 
   """
-  @spec serialize(String.t) :: success() | error()
-  def serialize(bin) when is_bitstring(bin) do
-    ModestEx.Safe.Serialize.serialize(bin)
+  @spec serialize(input()) :: success() | error()
+  def serialize(bin) do
+    ModestEx.Serialize.serialize(bin)
   end
 
   @doc """
@@ -73,152 +74,34 @@ defmodule ModestEx do
     ["https://elixir-lang.org"]
 
   """
-  @spec get_attribute(String.t, String.t) :: success() | error()
-  def get_attribute(bin, key) when is_bitstring(bin) do
-    ModestEx.Safe.Attribute.get_attribute(bin, key)
+  @spec get_attribute(input(), String.t) :: success() | error()
+  def get_attribute(bin, key) do
+    ModestEx.GetAttribute.get_attribute(bin, key)
   end
 
-  @doc """
-  Get all attributes with key for each html string in list.
-  Returns list of strings.
-
-  ## Examples
-
-    iex> ModestEx.get_attribute(["<a href=\\"https://elixir-lang.org\\">Hello</a>", "<a href=\\"https://google.de\\">World</a>"], "href")
-    ["https://elixir-lang.org", "https://google.de"]
-
-  """
-  @spec get_attribute([String.t], String.t) :: success() | error()
-  def get_attribute([bin|rest], key) do
-    ModestEx.Safe.Attribute.get_attribute(bin, key) ++ get_attribute(rest, key)
+  @spec get_attribute(input(), String.t, String.t) :: success() | error()
+  def get_attribute(bin, selector, key) do
+    ModestEx.GetAttribute.get_attribute(bin, selector, key)
   end
-
-  def get_attribute([], _), do: []
-
-  @doc """
-  Get attribute of selected node with attribute key.
-  Returns list of strings.
-
-  ## Examples
-
-    iex> ModestEx.get_attribute("<p><a href=\\"https://elixir-lang.org\\">Hello</a></p>", "p a", "href")
-    ["https://elixir-lang.org"]
-
-  """
-  @spec get_attribute(String.t, String.t, String.t) :: success() | error()
-  def get_attribute(bin, selector, key) when is_bitstring(bin) do
-    ModestEx.Safe.Attribute.get_attribute(bin, selector, key)
-  end
-
-  @doc """
-  Get all attributes with key for each html string in list.
-  Returns list of strings.
-
-  ## Examples
-
-    iex> ModestEx.get_attribute(["<a href=\\"https://elixir-lang.org\\">Hello</a>", "<a href=\\"https://google.de\\">World</a>"], "href")
-    ["https://elixir-lang.org", "https://google.de"]
-
-  """
-  @spec get_attribute([String.t], String.t, String.t) :: success() | error()
-  def get_attribute([bin|rest], selector, key) do
-    ModestEx.Safe.Attribute.get_attribute(bin, selector, key) ++ get_attribute(rest, selector, key)
-  end
-
-  def get_attribute([], _, _), do: []
 
   @doc """
   Set value for all attributes with key.
-  Returns html strings.
+  Returns single html string or returns list of strings.
 
   ## Examples
 
-    iex> ModestEx.set_attribute("<a href=\\"\\">Hello</a>", "href", "https://elixir-lang.org")
+    iex> ModestEx.set_attribute("<a>Hello</a>", "href", "https://elixir-lang.org")
     "<html><head></head><body><a href=\\"https://elixir-lang.org\\">Hello</a></body></html>"
 
   """
-  @spec set_attribute(String.t, String.t, String.t) :: success() | error()
-  def set_attribute(bin, key, value) when is_bitstring(bin) do
-    ModestEx.Safe.Attribute.set_attribute(bin, key, value)
+  @spec set_attribute(input(), String.t, input()) :: success() | error()
+  def set_attribute(bin, key, value) do
+    ModestEx.SetAttribute.set_attribute(bin, key, value)
   end
 
-  @doc """
-  Set value for all attributes with key for each html string in list.
-  Returns list of html strings.
-
-  ## Examples
-
-    iex> ModestEx.set_attribute(["<a>Hello</a>", "<a>World</a>"], "href", "https://elixir-lang.org")
-    ["<html><head></head><body><a href=\\"https://elixir-lang.org\\">Hello</a></body></html>", "<html><head></head><body><a href=\\"https://elixir-lang.org\\">World</a></body></html>"]
-
-  """
-  @spec set_attribute([String.t], String.t, String.t) :: success() | error()
-  def set_attribute([bin|rest], key, value) when is_bitstring(value) do
-    [ModestEx.Safe.Attribute.set_attribute(bin, key, value)] ++ set_attribute(rest, key, value)
+  @spec set_attribute(input(), String.t, String.t, input()) :: success() | error()
+  def set_attribute(bin, selector, key, value) do
+    ModestEx.SetAttribute.set_attribute(bin, selector, key, value)
   end
-
-  @doc """
-  Set coresponding value for all attributes with key for each html string in list.
-  Returns list of html strings.
-
-  ## Examples
-
-    iex> ModestEx.set_attribute(["<a>Hello</a>", "<a>World</a>"], "href", ["https://elixir-lang.org", "https://google.de"])
-    ["<html><head></head><body><a href=\\"https://elixir-lang.org\\">Hello</a></body></html>", "<html><head></head><body><a href=\\"https://google.de\\">World</a></body></html>"]
-
-  """
-  @spec set_attribute([String.t], String.t, [String.t]) :: success() | error()
-  def set_attribute([bin|rest], key, [value|values]) do
-    [ModestEx.Safe.Attribute.set_attribute(bin, key, value)] ++ set_attribute(rest, key, values)
-  end
-
-  def set_attribute([], _, _), do: []
-
-  @doc """
-  Set value for selected node with attribute key.
-  Returns html strings.
-
-  ## Examples
-
-    iex> ModestEx.set_attribute("<p><a href=\\"\\">Hello</a></p>", "p a", "href", "https://elixir-lang.org")
-    "<html><head></head><body><p><a href=\\"https://elixir-lang.org\\">Hello</a></p></body></html>"
-
-  """
-  @spec set_attribute(String.t, String.t, String.t, String.t) :: success() | error()
-  def set_attribute(bin, selector, key, value) when is_bitstring(bin) do
-    ModestEx.Safe.Attribute.set_attribute(bin, selector, key, value)
-  end
-
-  @doc """
-  Set value for all selected attributes with key for each html string in list.
-  Returns list of html strings.
-
-  ## Examples
-
-    iex> ModestEx.set_attribute(["<p><a>Hello</a></p>", "<p><a>World</a></p>"], "p a", "href", "https://elixir-lang.org")
-    ["<html><head></head><body><p><a href=\\"https://elixir-lang.org\\">Hello</a></p></body></html>", "<html><head></head><body><p><a href=\\"https://elixir-lang.org\\">World</a></p></body></html>"]
-
-  """
-  @spec set_attribute([String.t], String.t, String.t, String.t) :: success() | error()
-  def set_attribute([bin|rest], selector, key, value) when is_bitstring(value) do
-    [ModestEx.Safe.Attribute.set_attribute(bin, selector, key, value)] ++ set_attribute(rest, selector, key, value)
-  end
-
-  @doc """
-  Set coresponding value for all selected attributes with key for each html string in list.
-  Returns list of html strings.
-
-  ## Examples
-
-    iex> ModestEx.set_attribute(["<p><a>Hello</a></p>", "<p><a>World</a></p>"], "p a", "href", ["https://elixir-lang.org", "https://google.de"])
-    ["<html><head></head><body><p><a href=\\"https://elixir-lang.org\\">Hello</a></p></body></html>", "<html><head></head><body><p><a href=\\"https://google.de\\">World</a></p></body></html>"]
-
-  """
-  @spec set_attribute([String.t], String.t, [String.t]) :: success() | error()
-  def set_attribute([bin|rest], key, selector, [value|values]) do
-    [ModestEx.Safe.Attribute.set_attribute(bin, key, selector, value)] ++ set_attribute(rest, key, selector, values)
-  end
-
-  def set_attribute([], _, _, _), do: []
 
 end
