@@ -1,4 +1,5 @@
 defmodule ModestEx.GetAttribute do
+  @moduledoc false
   
   def get_attribute([bin|bins], key) when is_bitstring(key) do
     get_attribute(bin, key) ++ get_attribute(bins, key)

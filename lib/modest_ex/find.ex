@@ -1,5 +1,6 @@
 defmodule ModestEx.Find do
-
+  @moduledoc false
+  
   def find([bin|rest], selector) do
     find(bin, selector) ++ find(rest, selector)
   end

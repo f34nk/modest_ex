@@ -1,4 +1,5 @@
 defmodule ModestEx.SetAttribute do
+  @moduledoc false
   
   def set_attribute([bin|bins], key, [value|values]) when is_bitstring(key) do
     [set_attribute(bin, key, value)] ++ set_attribute(bins, key, values)

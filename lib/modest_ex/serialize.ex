@@ -1,4 +1,5 @@
 defmodule ModestEx.Serialize do
+  @moduledoc false
   
   def serialize([bin|rest]) do
     serialize(bin) ++ serialize(rest)
