@@ -2,7 +2,7 @@
 [![ModestEx version](https://img.shields.io/hexpm/v/modest_ex.svg)](https://hex.pm/packages/modest_ex)
 [![Hex.pm](https://img.shields.io/hexpm/dt/modest_ex.svg)](https://hex.pm/packages/modest_ex)
 
-![humble by Eliricon from the Noun Project](https://github.com/f34nk/modest_ex/blob/master/modest_icon.png)
+![humble by Eliricon from the Noun Project](https://github.com/f34nk/modest_ex/blob/master/modest_ex_icon.png)
 
 # ModestEx
 
