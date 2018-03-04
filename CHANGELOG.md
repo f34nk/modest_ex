@@ -1,5 +1,11 @@
 # ModestEx Changelog
 
+## 0.0.4-dev
+
+March 2018
+
+- Feature ModestEx.remove
+
 ## 0.0.3-dev
 
 March 2018
