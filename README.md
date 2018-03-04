@@ -47,7 +47,7 @@ Methods can be piped together.
 	["<html><head></head><body><a href=\"https://elixir-lang.org\">Hello</a></body></html>", "<html><head></head><body><a href=\"https://google.de\">World</a></body></html>"]
 
 **Stay tuned for more...**
-*get_text, set_text, prepend, append, insert_after, insert_before, remove...*
+*prepend, append, insert_after, insert_before, remove...*
 
 ## Supported CSS Selectors
 
@@ -60,7 +60,7 @@ Available on [hex](https://hex.pm/packages/modest_ex).
 ```elixir
 def deps do
   [
-    {:modest_ex, "~> 0.0.2-dev"}
+    {:modest_ex, "~> 0.0.3-dev"}
   ]
 end
 ```
@@ -120,6 +120,8 @@ See [CHANGELOG](https://github.com/f34nk/modest_ex/blob/master/CHANGELOG.md).
 	- [x] Serialize any string with valid or broken html
 	- [x] Get attribute with optional CSS selector
 	- [x] Set attribute with optional CSS selector
+	- [x] Get text with optional CSS selector
+	- [x] Set text with optional CSS selector
 	- [ ] Remove a node from html
 	- [ ] Append node to another node
 	- [ ] Prepend node to another node
