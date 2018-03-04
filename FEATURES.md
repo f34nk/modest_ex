@@ -55,7 +55,7 @@ Set the content of each element in the set of matched elements to the specified 
 	"<html><head></head><body><p><span><a>World</a></span><span><a>World</a></span></p></body></html>"
 	
 ## remove
-Remove the set of matched elements from the DOM.
+Remove the set of matched elements from the html string.
 
 	iex> ModestEx.remove("<div><p>Hello</p>World</div>", "div p")
 	"<html><head></head><body><div>World</div></body></html>"
