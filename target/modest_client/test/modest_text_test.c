@@ -2,14 +2,14 @@
 #include "modest_text.h"
 int main(int argc, const char * argv[])
 {
-  const char *html = "<div>Hello World</div>";
-  char* result = modest_get_text(html);
-  if(strcmp(result, "Hello World") != 0){
+  const char *html = "<div>Hello <p>World</p></div>";
+  char* result = modest_get_text(html, "|");
+  if(strcmp(result, "Hello |World") != 0){
     return 1;
   }
 
   html = "<div><p>Hello World</p></div>";
-  result = modest_get_text(html, "div p");
+  result = modest_select_and_get_text(html, "div p", "|");
   if(strcmp(result, "Hello World") != 0){
     return 1;
   }
@@ -21,7 +21,7 @@ int main(int argc, const char * argv[])
   }
 
   html = "<div><p></p></div>";
-  result = modest_set_text(html, "div p", "Hello World");
+  result = modest_select_and_set_text(html, "div p", "Hello World");
   if(strcmp(result, "<-undef><html><head></head><body><div><p>Hello World</p></div></body></html>") != 0){
     return 1;
   }

@@ -125,6 +125,7 @@ const char* modest_get_attribute(const char* html, const char* key, const char* 
   // TODO: This is a leak. Implement proper memory handling.
   return buf;
 }
+
 /**
  * Get the value of an attribute for the selected element in html string
  * @param  html     [a html string]
@@ -135,7 +136,7 @@ const char* modest_get_attribute(const char* html, const char* key, const char* 
 const char* modest_select_and_get_attribute(const char* html, const char* selector, const char* key, const char* delimiter)
 {
   /* init MyHTML and parse HTML */
-  myhtml_tree_t *html_tree = parse_html(html, strlen(html));
+  myhtml_tree_t *tree = parse_html(html, strlen(html));
 
   /* create css parser and finder for selectors */
   mycss_entry_t *css_entry = create_css_parser();
@@ -146,7 +147,7 @@ const char* modest_select_and_get_attribute(const char* html, const char* select
 
   /* find nodes by selector */
   myhtml_collection_t *collection = NULL;
-  modest_finder_by_selectors_list(finder, html_tree->node_html, selectors_list, &collection);
+  modest_finder_by_selectors_list(finder, tree->node_html, selectors_list, &collection);
 
   char *buf = get_attributes_by_key(collection, key, delimiter);
 
@@ -165,8 +166,8 @@ const char* modest_select_and_get_attribute(const char* html, const char* select
   mycss_destroy(mycss, true);
 
   /* destroy MyHTML */
-  myhtml_t* myhtml = html_tree->myhtml;
-  myhtml_tree_destroy(html_tree);
+  myhtml_t* myhtml = tree->myhtml;
+  myhtml_tree_destroy(tree);
   myhtml_destroy(myhtml);
 
   // TODO: This is a leak. Implement proper memory handling.
@@ -263,6 +264,7 @@ const char* modest_set_attribute(const char* html, const char* key, const char* 
   // TODO: This is a leak. Implement proper memory handling.
   return buf;
 }
+
 /**
  * Set the value of an attribute for the selected element in html string
  * @param  html     [a html string]
@@ -274,7 +276,7 @@ const char* modest_set_attribute(const char* html, const char* key, const char* 
 const char* modest_select_and_set_attribute(const char* html, const char* selector, const char* key, const char* value)
 {
   /* init MyHTML and parse HTML */
-  myhtml_tree_t *html_tree = parse_html(html, strlen(html));
+  myhtml_tree_t *tree = parse_html(html, strlen(html));
 
   /* create css parser and finder for selectors */
   mycss_entry_t *css_entry = create_css_parser();
@@ -285,7 +287,7 @@ const char* modest_select_and_set_attribute(const char* html, const char* select
 
   /* find nodes by selector */
   myhtml_collection_t *collection = NULL;
-  modest_finder_by_selectors_list(finder, html_tree->node_html, selectors_list, &collection);
+  modest_finder_by_selectors_list(finder, tree->node_html, selectors_list, &collection);
 
   if(collection == NULL || collection->length == 0) {
     printf("missing collection\n");
@@ -299,7 +301,7 @@ const char* modest_select_and_set_attribute(const char* html, const char* select
   stream = open_memstream(&buf, &len);
 
   // serialize complete html page
-  myhtml_serialization_tree_callback(myhtml_tree_get_document(html_tree), write_output, stream);
+  myhtml_serialization_tree_callback(myhtml_tree_get_document(tree), write_output, stream);
   
   // const char* delimiter = "|";
   // print_found_result(tree, collection, delimiter, stream);
@@ -324,8 +326,8 @@ const char* modest_select_and_set_attribute(const char* html, const char* select
   mycss_destroy(mycss, true);
 
   /* destroy MyHTML */
-  myhtml_t* myhtml = html_tree->myhtml;
-  myhtml_tree_destroy(html_tree);
+  myhtml_t* myhtml = tree->myhtml;
+  myhtml_tree_destroy(tree);
   myhtml_destroy(myhtml);
 
   // TODO: This is a leak. Implement proper memory handling.

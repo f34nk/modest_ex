@@ -22,17 +22,19 @@
 /**
  * Get the text for the first element in html string
  * @param  html  [a html string]
+ * @param  delimiter  [string]
  * @return value [the text]
  */
-const char* modest_get_text(const char* html);
+const char* modest_get_text(const char* html, const char* delimiter);
 
 /**
  * Get the text for the selected element in html string
  * @param  html     [a html string]
  * @param  selector [a CSS selector]
+ * @param  delimiter  [string]
  * @return value    [the text]
  */
-const char* modest_select_and_get_text(const char* html, const char* selector);
+const char* modest_select_and_get_text(const char* html, const char* selector, const char* delimiter);
 
 /**
  * Set text for the first element in html string

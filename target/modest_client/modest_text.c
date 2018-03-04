@@ -29,242 +29,313 @@
 
 #include "utils.h"
 
-/**
- * Get the value of an attribute for the first element in html string
- * @param  html  [a html string]
- * @param  key  [key of the attribute]
- * @return value [value of the attribute]
- */
-const char* modest_get_text(const char* html)
+char *get_text(myhtml_collection_t *collection, const char* delimiter);
+void set_text(myhtml_tree_t* tree, myhtml_collection_t *collection, const char* text);
+
+char *get_text(myhtml_collection_t *collection, const char* delimiter)
 {
-  // // basic init
-  // myhtml_t* myhtml = myhtml_create();
-  // myhtml_init(myhtml, MyHTML_OPTIONS_DEFAULT, 1, 0);
+  FILE *stream;
+  char *buf;
+  size_t len;
+  stream = open_memstream(&buf, &len);
 
-  // // init tree
-  // myhtml_tree_t* tree = myhtml_tree_create();
-  // myhtml_tree_init(tree, myhtml);
+  if(collection && collection->list && collection->length) {
+    for(size_t i = 0; i < collection->length; i++) {
+      myhtml_tree_node_t *node = collection->list[i];
+      if(node) {
+        myhtml_tree_node_t *text_node = myhtml_node_child(node);
+        if(text_node) {
+          const char* text = myhtml_node_text(text_node, NULL);
+          if(text){
+            fprintf(stream, "%.*s", (int)strlen(text), text);
+            if(i < collection->length - 1){
+              fprintf(stream, delimiter);
+            }
+          }
+        }
+      }
+    }
+  }
 
-  // // parse html
-  // myhtml_parse(tree, MyENCODING_UTF_8, html, strlen(html));
-
-  // // parse html
-  // myhtml_collection_t *collection = NULL;
-  // collection = myhtml_get_nodes_by_attribute_key(tree, NULL, NULL, key, strlen(key), NULL);
-
-  // char *buf = get_attributes_by_key(collection, key, delimiter);
+  // close the stream, the buffer is allocated and the size is set !
+  fclose(stream);
+  // printf ("the result is '%s' (%d characters)\n", buf, len);
+  // free(buf);
   
-  // // release resources
-  // myhtml_collection_destroy(collection);
-  // myhtml_tree_destroy(tree);
-  // myhtml_destroy(myhtml);
+  // TODO: This is a leak. Implement proper memory handling.
+  return buf;
+}
+
+void set_text(myhtml_tree_t* tree, myhtml_collection_t *collection, const char* text)
+{
+  if(collection && collection->list && collection->length) {
+
+    for(size_t i = 0; i < collection->length; i++) {
+      myhtml_tree_node_t *node = collection->list[i];
+
+      if(node) {
+        myhtml_tree_node_t *text_node = myhtml_node_child(node);
+        // if(text_node) {
+        //   mycore_string_t *string = myhtml_node_text_set(text_node, text, strlen(text), MyENCODING_UTF_8);
+        // }
+        // else {
+        //   myhtml_tree_node_t* new_text_node = myhtml_node_create(tree, MyHTML_TAG__TEXT, MyHTML_NAMESPACE_HTML);
+        //   mycore_string_t *string = myhtml_node_text_set(new_text_node, text, strlen(text), MyENCODING_UTF_8);
+        // }
+
+        if(text_node) {
+          myhtml_node_delete(text_node);
+        }
+        myhtml_tree_node_t* new_text_node = myhtml_node_create(tree, MyHTML_TAG__TEXT, MyHTML_NAMESPACE_HTML);
+        mycore_string_t *string = myhtml_node_text_set(new_text_node, text, strlen(text), MyENCODING_UTF_8);
+        
+        myhtml_node_append_child(node, new_text_node);
+
+
+        // myhtml_tree_attr_t* attr = myhtml_attribute_by_key(node, key, strlen(key));
+        // if(attr){
+        //   // remove old attribute
+        //   myhtml_attribute_remove(node, attr);
+        //   // insert new attribute
+        //   myhtml_attribute_add(node, key, strlen(key), value, strlen(value), MyENCODING_UTF_8);
+        // }
+        // else {
+        //   // insert new attribute
+        //   myhtml_attribute_add(node, key, strlen(key), value, strlen(value), MyENCODING_UTF_8);
+        // }
+      }
+    }
+  }
+  return tree;
+}
+
+/**
+ * Get the text for the first element in html string
+ * @param  html  [a html string]
+ * @param  delimiter  [string]
+ * @return value [the text]
+ */
+const char* modest_get_text(const char* html, const char* delimiter)
+{
+  // basic init
+  myhtml_t* myhtml = myhtml_create();
+  myhtml_init(myhtml, MyHTML_OPTIONS_DEFAULT, 1, 0);
+
+  // init tree
+  myhtml_tree_t* tree = myhtml_tree_create();
+  myhtml_tree_init(tree, myhtml);
+
+  // parse html
+  myhtml_parse(tree, MyENCODING_UTF_8, html, strlen(html));
+
+  const char* selector = "body *";
+
+  /* create css parser and finder for selectors */
+  mycss_entry_t *css_entry = create_css_parser();
+  modest_finder_t *finder = modest_finder_create_simple();
+
+  /* parse selectors */
+  mycss_selectors_list_t *selectors_list = prepare_selector(css_entry, selector, strlen(selector));
+
+  /* find nodes by selector */
+  myhtml_collection_t *collection = NULL;
+  modest_finder_by_selectors_list(finder, tree->node_html, selectors_list, &collection);
+
+  char *buf = get_text(collection, delimiter);
+  
+  // release resources
+  myhtml_collection_destroy(collection);
+  myhtml_tree_destroy(tree);
+  myhtml_destroy(myhtml);
 
   // TODO: This is a leak. Implement proper memory handling.
-  return "buf";
+  return buf;
 }
+
 /**
- * Get the value of an attribute for the selected element in html string
+ * Get the text for the selected element in html string
  * @param  html     [a html string]
  * @param  selector [a CSS selector]
- * @param  key     [key of the attribute]
- * @return value    [value of the attribute]
+ * @param  delimiter  [string]
+ * @return value    [the text]
  */
-const char* modest_select_and_get_text(const char* html, const char* selector)
+const char* modest_select_and_get_text(const char* html, const char* selector, const char* delimiter)
 {
-  // /* init MyHTML and parse HTML */
-  // myhtml_tree_t *html_tree = parse_html(html, strlen(html));
+  /* init MyHTML and parse HTML */
+  myhtml_tree_t *tree = parse_html(html, strlen(html));
 
-  // /* create css parser and finder for selectors */
-  // mycss_entry_t *css_entry = create_css_parser();
-  // modest_finder_t *finder = modest_finder_create_simple();
+  /* create css parser and finder for selectors */
+  mycss_entry_t *css_entry = create_css_parser();
+  modest_finder_t *finder = modest_finder_create_simple();
 
-  // /* parse selectors */
-  // mycss_selectors_list_t *selectors_list = prepare_selector(css_entry, selector, strlen(selector));
+  /* parse selectors */
+  mycss_selectors_list_t *selectors_list = prepare_selector(css_entry, selector, strlen(selector));
 
-  // /* find nodes by selector */
-  // myhtml_collection_t *collection = NULL;
-  // modest_finder_by_selectors_list(finder, html_tree->node_html, selectors_list, &collection);
+  /* find nodes by selector */
+  myhtml_collection_t *collection = NULL;
+  modest_finder_by_selectors_list(finder, tree->node_html, selectors_list, &collection);
 
-  // char *buf = get_attributes_by_key(collection, key, delimiter);
+  char *buf = get_text(collection, delimiter);
 
-  // /* destroy all */
-  // myhtml_collection_destroy(collection);
+  /* destroy all */
+  myhtml_collection_destroy(collection);
 
-  // /* destroy selector list */
-  // mycss_selectors_list_destroy(mycss_entry_selectors(css_entry), selectors_list, true);
+  /* destroy selector list */
+  mycss_selectors_list_destroy(mycss_entry_selectors(css_entry), selectors_list, true);
 
-  // /* destroy Modest Finder */
-  // modest_finder_destroy(finder, true);
+  /* destroy Modest Finder */
+  modest_finder_destroy(finder, true);
 
-  // /* destroy MyCSS */
-  // mycss_t *mycss = css_entry->mycss;
-  // mycss_entry_destroy(css_entry, true);
-  // mycss_destroy(mycss, true);
+  /* destroy MyCSS */
+  mycss_t *mycss = css_entry->mycss;
+  mycss_entry_destroy(css_entry, true);
+  mycss_destroy(mycss, true);
 
-  // /* destroy MyHTML */
-  // myhtml_t* myhtml = html_tree->myhtml;
-  // myhtml_tree_destroy(html_tree);
-  // myhtml_destroy(myhtml);
+  /* destroy MyHTML */
+  myhtml_t* myhtml = tree->myhtml;
+  myhtml_tree_destroy(tree);
+  myhtml_destroy(myhtml);
 
   // TODO: This is a leak. Implement proper memory handling.
-  return "buf";
+  return buf;
 }
 
-// /**
-//  *  Write output
-//  *  @param  buffer
-//  *  @param  size
-//  *  @param  ptr
-//  */
-// mystatus_t write_output(const char* data, size_t len, void* ctx)
-// {
-//   fprintf(ctx, "%.*s", (int)len, data);
-//   return MyCORE_STATUS_OK;
-// }
+/**
+ *  Write output
+ *  @param  buffer
+ *  @param  size
+ *  @param  ptr
+ */
+mystatus_t write_output(const char* data, size_t len, void* ctx)
+{
+  fprintf(ctx, "%.*s", (int)len, data);
+  return MyCORE_STATUS_OK;
+}
 
 /**
- * Set the value of an attribute for the first element in html string
+ * Set text for the first element in html string
  * @param  html  [a html string]
- * @param  key  [key of the attribute]
- * @param  value [value of the attribute]
+ * @param  text  [the text]
  * @return       [updated html string]
  */
 const char* modest_set_text(const char* html, const char* text)
 {
-  // // basic init
-  // myhtml_t* myhtml = myhtml_create();
-  // myhtml_init(myhtml, MyHTML_OPTIONS_DEFAULT, 1, 0);
+  // basic init
+  myhtml_t* myhtml = myhtml_create();
+  myhtml_init(myhtml, MyHTML_OPTIONS_DEFAULT, 1, 0);
 
-  // // init tree
-  // myhtml_tree_t* tree = myhtml_tree_create();
-  // myhtml_tree_init(tree, myhtml);
+  // init tree
+  myhtml_tree_t* tree = myhtml_tree_create();
+  myhtml_tree_init(tree, myhtml);
 
-  // // parse html
-  // myhtml_parse(tree, MyENCODING_UTF_8, html, strlen(html));
-  // // <-undef><html><head></head>...</body></html>
-
-  // // parse html
-  // myhtml_collection_t *collection = NULL;
-  // collection = myhtml_get_nodes_by_attribute_key(tree, NULL, NULL, key, strlen(key), NULL);
-
-  // if(collection->length == 0) {
-
-  //   myhtml_collection_destroy(collection);
-  //   // node with attribute key not found
-  //   // get root
-  //   // myhtml_tree_node_t *node = myhtml_node_first(tree);
-  //   // if(node){
-  //   //   // insert new attribute
-  //   //   myhtml_attribute_add(node, key, strlen(key), value, strlen(value), MyENCODING_UTF_8);
-  //   // }
+  // parse html
+  myhtml_parse(tree, MyENCODING_UTF_8, html, strlen(html));
+  // <-undef><html><head></head>...</body></html>
     
-  //   const char* selector = "body *";
+  const char* selector = "body *";
 
-  //   /* create css parser and finder for selectors */
-  //   mycss_entry_t *css_entry = create_css_parser();
-  //   modest_finder_t *finder = modest_finder_create_simple();
+  /* create css parser and finder for selectors */
+  mycss_entry_t *css_entry = create_css_parser();
+  modest_finder_t *finder = modest_finder_create_simple();
 
-  //   /* parse selectors */
-  //   mycss_selectors_list_t *selectors_list = prepare_selector(css_entry, selector, strlen(selector));
+  /* parse selectors */
+  mycss_selectors_list_t *selectors_list = prepare_selector(css_entry, selector, strlen(selector));
 
-  //   /* find nodes by selector */
-  //   // myhtml_collection_t *collection = NULL;
-  //   collection = NULL;
-  //   modest_finder_by_selectors_list(finder, tree->node_html, selectors_list, &collection);
-  // }
+  /* find nodes by selector */
+  myhtml_collection_t *collection = NULL;
+  modest_finder_by_selectors_list(finder, tree->node_html, selectors_list, &collection);
 
+  set_text(tree, collection, text);
 
-  // set_attributes_by_key(collection, key, value);
+  FILE *stream;
+  char *buf;
+  size_t len;
+  stream = open_memstream(&buf, &len);
 
-  // FILE *stream;
-  // char *buf;
-  // size_t len;
-  // stream = open_memstream(&buf, &len);
-
-  // // serialize complete html page
-  // myhtml_serialization_tree_callback(myhtml_tree_get_document(tree), write_output, stream);
+  // serialize complete html page
+  myhtml_serialization_tree_callback(myhtml_tree_get_document(tree), write_output, stream);
   
-  // // const char* delimiter = "|";
-  // // print_found_result(tree, collection, delimiter, stream);
+  // const char* delimiter = "|";
+  // print_found_result(tree, collection, delimiter, stream);
 
-  // // close the stream, the buffer is allocated and the size is set !
-  // fclose(stream);
-  // // printf ("the result is '%s' (%d characters)\n", buf, len);
-  // // free(buf);
+  // close the stream, the buffer is allocated and the size is set !
+  fclose(stream);
+  // printf ("the result is '%s' (%d characters)\n", buf, len);
+  // free(buf);
 
-  // // release resources
-  // myhtml_collection_destroy(collection);
-  // myhtml_tree_destroy(tree);
-  // myhtml_destroy(myhtml);
+  // release resources
+  myhtml_collection_destroy(collection);
+  myhtml_tree_destroy(tree);
+  myhtml_destroy(myhtml);
 
   // TODO: This is a leak. Implement proper memory handling.
-  return "buf";
+  return buf;
 }
+
 /**
- * Set the value of an attribute for the selected element in html string
+ * Set text for the selected element in html string
  * @param  html     [a html string]
  * @param  selector [a CSS selector]
- * @param  key     [key of the attribute]
- * @param  value    [value of the attribute]
+ * @param  text     [the text]
  * @return          [updated html string]
  */
 const char* modest_select_and_set_text(const char* html, const char* selector, const char* text)
 {
-  // /* init MyHTML and parse HTML */
-  // myhtml_tree_t *html_tree = parse_html(html, strlen(html));
+  /* init MyHTML and parse HTML */
+  myhtml_tree_t *tree = parse_html(html, strlen(html));
 
-  // /* create css parser and finder for selectors */
-  // mycss_entry_t *css_entry = create_css_parser();
-  // modest_finder_t *finder = modest_finder_create_simple();
+  /* create css parser and finder for selectors */
+  mycss_entry_t *css_entry = create_css_parser();
+  modest_finder_t *finder = modest_finder_create_simple();
 
-  // /* parse selectors */
-  // mycss_selectors_list_t *selectors_list = prepare_selector(css_entry, selector, strlen(selector));
+  /* parse selectors */
+  mycss_selectors_list_t *selectors_list = prepare_selector(css_entry, selector, strlen(selector));
 
-  // /* find nodes by selector */
-  // myhtml_collection_t *collection = NULL;
-  // modest_finder_by_selectors_list(finder, html_tree->node_html, selectors_list, &collection);
+  /* find nodes by selector */
+  myhtml_collection_t *collection = NULL;
+  modest_finder_by_selectors_list(finder, tree->node_html, selectors_list, &collection);
 
-  // if(collection == NULL || collection->length == 0) {
-  //   printf("missing collection\n");
-  // }
+  if(collection == NULL || collection->length == 0) {
+    // printf("missing collection\n");
+  }
 
-  // set_attributes_by_key(collection, key, value);
+  set_text(tree, collection, text);
 
-  // FILE *stream;
-  // char *buf;
-  // size_t len;
-  // stream = open_memstream(&buf, &len);
+  FILE *stream;
+  char *buf;
+  size_t len;
+  stream = open_memstream(&buf, &len);
 
-  // // serialize complete html page
-  // myhtml_serialization_tree_callback(myhtml_tree_get_document(html_tree), write_output, stream);
+  // serialize complete html page
+  myhtml_serialization_tree_callback(myhtml_tree_get_document(tree), write_output, stream);
   
-  // // const char* delimiter = "|";
-  // // print_found_result(tree, collection, delimiter, stream);
+  // const char* delimiter = "|";
+  // print_found_result(tree, collection, delimiter, stream);
 
-  // // close the stream, the buffer is allocated and the size is set !
-  // fclose(stream);
-  // // printf ("the result is '%s' (%d characters)\n", buf, len);
-  // // free(buf);
+  // close the stream, the buffer is allocated and the size is set !
+  fclose(stream);
+  // printf ("the result is '%s' (%d characters)\n", buf, len);
+  // free(buf);
   
-  // /* destroy all */
-  // myhtml_collection_destroy(collection);
+  /* destroy all */
+  myhtml_collection_destroy(collection);
 
-  // /* destroy selector list */
-  // mycss_selectors_list_destroy(mycss_entry_selectors(css_entry), selectors_list, true);
+  /* destroy selector list */
+  mycss_selectors_list_destroy(mycss_entry_selectors(css_entry), selectors_list, true);
 
-  // /* destroy Modest Finder */
-  // modest_finder_destroy(finder, true);
+  /* destroy Modest Finder */
+  modest_finder_destroy(finder, true);
 
-  // /* destroy MyCSS */
-  // mycss_t *mycss = css_entry->mycss;
-  // mycss_entry_destroy(css_entry, true);
-  // mycss_destroy(mycss, true);
+  /* destroy MyCSS */
+  mycss_t *mycss = css_entry->mycss;
+  mycss_entry_destroy(css_entry, true);
+  mycss_destroy(mycss, true);
 
-  // /* destroy MyHTML */
-  // myhtml_t* myhtml = html_tree->myhtml;
-  // myhtml_tree_destroy(html_tree);
-  // myhtml_destroy(myhtml);
+  /* destroy MyHTML */
+  myhtml_t* myhtml = tree->myhtml;
+  myhtml_tree_destroy(tree);
+  myhtml_destroy(myhtml);
 
   // TODO: This is a leak. Implement proper memory handling.
-  return "buf";
+  return buf;
 }
