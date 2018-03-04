@@ -126,3 +126,15 @@ void print_found_result(myhtml_tree_t* html_tree, myhtml_collection_t *collectio
     fprintf(stream, "");
   }
 }
+
+/**
+ *  Write output
+ *  @param  buffer
+ *  @param  size
+ *  @param  ptr
+ */
+mystatus_t write_output(const char* data, size_t len, void* ctx)
+{
+  fprintf(ctx, "%.*s", (int)len, data);
+  return MyCORE_STATUS_OK;
+}

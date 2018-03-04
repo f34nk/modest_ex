@@ -1,5 +1,5 @@
-#ifndef MODEST_ATTRIBUTE_H
-#define MODEST_ATTRIBUTE_H
+#ifndef MODEST_TEXT_H
+#define MODEST_TEXT_H
 
 /*
  Copyright (C) 2019 Frank Eickhoff
@@ -20,41 +20,37 @@
 */
 
 /**
- * Get the value of an attribute for the first element in html string
+ * Get the text for the first element in html string
  * @param  html  [a html string]
- * @param  key  [key of the attribute]
  * @param  delimiter  [string]
- * @return value [value of the attribute]
+ * @return value [the text]
  */
-const char* modest_get_attribute(const char* html, const char* key, const char* delimiter);
+const char* modest_get_text(const char* html, const char* delimiter);
 
 /**
- * Get the value of an attribute for the selected element in html string
+ * Get the text for the selected element in html string
  * @param  html     [a html string]
  * @param  selector [a CSS selector]
- * @param  key     [key of the attribute]
  * @param  delimiter  [string]
- * @return value    [value of the attribute]
+ * @return value    [the text]
  */
-const char* modest_select_and_get_attribute(const char* html, const char* selector, const char* key, const char* delimiter);
+const char* modest_select_and_get_text(const char* html, const char* selector, const char* delimiter);
 
 /**
- * Set the value of an attribute for the first element in html string
+ * Set text for the first element in html string
  * @param  html  [a html string]
- * @param  key  [key of the attribute]
- * @param  value [value of the attribute]
+ * @param  text  [the text]
  * @return       [updated html string]
  */
-const char* modest_set_attribute(const char* html, const char* key, const char* value);
+const char* modest_set_text(const char* html, const char* text);
 
 /**
- * Set the value of an attribute for the selected element in html string
+ * Set text for the selected element in html string
  * @param  html     [a html string]
  * @param  selector [a CSS selector]
- * @param  key     [key of the attribute]
- * @param  value    [value of the attribute]
+ * @param  text     [the text]
  * @return          [updated html string]
  */
-const char* modest_select_and_set_attribute(const char* html, const char* selector, const char* key, const char* value);
+const char* modest_select_and_set_text(const char* html, const char* selector, const char* text);
 
 #endif

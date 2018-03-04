@@ -29,10 +29,10 @@
 
 #include "utils.h"
 
-char *get_attributes_by_key(myhtml_collection_t *collection, const char* key, const char* delimiter);
-void set_attributes_by_key(myhtml_collection_t *collection, const char* key, const char* value);
+char *get_text(myhtml_collection_t *collection, const char* delimiter);
+void set_text(myhtml_tree_t* tree, myhtml_collection_t *collection, const char* text);
 
-char *get_attributes_by_key(myhtml_collection_t *collection, const char* key, const char* delimiter)
+char *get_text(myhtml_collection_t *collection, const char* delimiter)
 {
   FILE *stream;
   char *buf;
@@ -40,19 +40,17 @@ char *get_attributes_by_key(myhtml_collection_t *collection, const char* key, co
   stream = open_memstream(&buf, &len);
 
   if(collection && collection->list && collection->length) {
-
     for(size_t i = 0; i < collection->length; i++) {
       myhtml_tree_node_t *node = collection->list[i];
-
       if(node) {
-        myhtml_tree_attr_t* attr = myhtml_attribute_by_key(node, key, strlen(key));
-        if(attr){
-          mycore_string_t *value = myhtml_attribute_value_string(attr);
-          if(value){
-            fprintf(stream, "%.*s", (int)value->length, value->data);
-          }
-          if(i < collection->length - 1){
-            fprintf(stream, delimiter);
+        myhtml_tree_node_t *text_node = myhtml_node_child(node);
+        if(text_node) {
+          const char* text = myhtml_node_text(text_node, NULL);
+          if(text){
+            fprintf(stream, "%.*s", (int)strlen(text), text);
+            if(i < collection->length - 1){
+              fprintf(stream, delimiter);
+            }
           }
         }
       }
@@ -68,7 +66,7 @@ char *get_attributes_by_key(myhtml_collection_t *collection, const char* key, co
   return buf;
 }
 
-void set_attributes_by_key(myhtml_collection_t *collection, const char* key, const char* value)
+void set_text(myhtml_tree_t* tree, myhtml_collection_t *collection, const char* text)
 {
   if(collection && collection->list && collection->length) {
 
@@ -76,29 +74,48 @@ void set_attributes_by_key(myhtml_collection_t *collection, const char* key, con
       myhtml_tree_node_t *node = collection->list[i];
 
       if(node) {
-        myhtml_tree_attr_t* attr = myhtml_attribute_by_key(node, key, strlen(key));
-        if(attr){
-          // remove old attribute
-          myhtml_attribute_remove(node, attr);
-          // insert new attribute
-          myhtml_attribute_add(node, key, strlen(key), value, strlen(value), MyENCODING_UTF_8);
+        myhtml_tree_node_t *text_node = myhtml_node_child(node);
+        // if(text_node) {
+        //   mycore_string_t *string = myhtml_node_text_set(text_node, text, strlen(text), MyENCODING_UTF_8);
+        // }
+        // else {
+        //   myhtml_tree_node_t* new_text_node = myhtml_node_create(tree, MyHTML_TAG__TEXT, MyHTML_NAMESPACE_HTML);
+        //   mycore_string_t *string = myhtml_node_text_set(new_text_node, text, strlen(text), MyENCODING_UTF_8);
+        // }
+
+        if(text_node) {
+          myhtml_node_delete(text_node);
         }
-        else {
-          // insert new attribute
-          myhtml_attribute_add(node, key, strlen(key), value, strlen(value), MyENCODING_UTF_8);
-        }
+        myhtml_tree_node_t* new_text_node = myhtml_node_create(tree, MyHTML_TAG__TEXT, MyHTML_NAMESPACE_HTML);
+        mycore_string_t *string = myhtml_node_text_set(new_text_node, text, strlen(text), MyENCODING_UTF_8);
+        
+        myhtml_node_append_child(node, new_text_node);
+
+
+        // myhtml_tree_attr_t* attr = myhtml_attribute_by_key(node, key, strlen(key));
+        // if(attr){
+        //   // remove old attribute
+        //   myhtml_attribute_remove(node, attr);
+        //   // insert new attribute
+        //   myhtml_attribute_add(node, key, strlen(key), value, strlen(value), MyENCODING_UTF_8);
+        // }
+        // else {
+        //   // insert new attribute
+        //   myhtml_attribute_add(node, key, strlen(key), value, strlen(value), MyENCODING_UTF_8);
+        // }
       }
     }
   }
+  return tree;
 }
 
 /**
- * Get the value of an attribute for the first element in html string
+ * Get the text for the first element in html string
  * @param  html  [a html string]
- * @param  key  [key of the attribute]
- * @return value [value of the attribute]
+ * @param  delimiter  [string]
+ * @return value [the text]
  */
-const char* modest_get_attribute(const char* html, const char* key, const char* delimiter)
+const char* modest_get_text(const char* html, const char* delimiter)
 {
   // basic init
   myhtml_t* myhtml = myhtml_create();
@@ -111,11 +128,20 @@ const char* modest_get_attribute(const char* html, const char* key, const char* 
   // parse html
   myhtml_parse(tree, MyENCODING_UTF_8, html, strlen(html));
 
-  // parse html
-  myhtml_collection_t *collection = NULL;
-  collection = myhtml_get_nodes_by_attribute_key(tree, NULL, NULL, key, strlen(key), NULL);
+  const char* selector = "body *";
 
-  char *buf = get_attributes_by_key(collection, key, delimiter);
+  /* create css parser and finder for selectors */
+  mycss_entry_t *css_entry = create_css_parser();
+  modest_finder_t *finder = modest_finder_create_simple();
+
+  /* parse selectors */
+  mycss_selectors_list_t *selectors_list = prepare_selector(css_entry, selector, strlen(selector));
+
+  /* find nodes by selector */
+  myhtml_collection_t *collection = NULL;
+  modest_finder_by_selectors_list(finder, tree->node_html, selectors_list, &collection);
+
+  char *buf = get_text(collection, delimiter);
   
   // release resources
   myhtml_collection_destroy(collection);
@@ -127,13 +153,13 @@ const char* modest_get_attribute(const char* html, const char* key, const char* 
 }
 
 /**
- * Get the value of an attribute for the selected element in html string
+ * Get the text for the selected element in html string
  * @param  html     [a html string]
  * @param  selector [a CSS selector]
- * @param  key     [key of the attribute]
- * @return value    [value of the attribute]
+ * @param  delimiter  [string]
+ * @return value    [the text]
  */
-const char* modest_select_and_get_attribute(const char* html, const char* selector, const char* key, const char* delimiter)
+const char* modest_select_and_get_text(const char* html, const char* selector, const char* delimiter)
 {
   /* init MyHTML and parse HTML */
   myhtml_tree_t *tree = parse_html(html, strlen(html));
@@ -149,7 +175,7 @@ const char* modest_select_and_get_attribute(const char* html, const char* select
   myhtml_collection_t *collection = NULL;
   modest_finder_by_selectors_list(finder, tree->node_html, selectors_list, &collection);
 
-  char *buf = get_attributes_by_key(collection, key, delimiter);
+  char *buf = get_text(collection, delimiter);
 
   /* destroy all */
   myhtml_collection_destroy(collection);
@@ -175,13 +201,12 @@ const char* modest_select_and_get_attribute(const char* html, const char* select
 }
 
 /**
- * Set the value of an attribute for the first element in html string
+ * Set text for the first element in html string
  * @param  html  [a html string]
- * @param  key  [key of the attribute]
- * @param  value [value of the attribute]
+ * @param  text  [the text]
  * @return       [updated html string]
  */
-const char* modest_set_attribute(const char* html, const char* key, const char* value)
+const char* modest_set_text(const char* html, const char* text)
 {
   // basic init
   myhtml_t* myhtml = myhtml_create();
@@ -194,39 +219,21 @@ const char* modest_set_attribute(const char* html, const char* key, const char* 
   // parse html
   myhtml_parse(tree, MyENCODING_UTF_8, html, strlen(html));
   // <-undef><html><head></head>...</body></html>
-
-  // parse html
-  myhtml_collection_t *collection = NULL;
-  collection = myhtml_get_nodes_by_attribute_key(tree, NULL, NULL, key, strlen(key), NULL);
-
-  if(collection->length == 0) {
-
-    myhtml_collection_destroy(collection);
-    // node with attribute key not found
-    // get root
-    // myhtml_tree_node_t *node = myhtml_node_first(tree);
-    // if(node){
-    //   // insert new attribute
-    //   myhtml_attribute_add(node, key, strlen(key), value, strlen(value), MyENCODING_UTF_8);
-    // }
     
-    const char* selector = "body *";
+  const char* selector = "body *";
 
-    /* create css parser and finder for selectors */
-    mycss_entry_t *css_entry = create_css_parser();
-    modest_finder_t *finder = modest_finder_create_simple();
+  /* create css parser and finder for selectors */
+  mycss_entry_t *css_entry = create_css_parser();
+  modest_finder_t *finder = modest_finder_create_simple();
 
-    /* parse selectors */
-    mycss_selectors_list_t *selectors_list = prepare_selector(css_entry, selector, strlen(selector));
+  /* parse selectors */
+  mycss_selectors_list_t *selectors_list = prepare_selector(css_entry, selector, strlen(selector));
 
-    /* find nodes by selector */
-    // myhtml_collection_t *collection = NULL;
-    collection = NULL;
-    modest_finder_by_selectors_list(finder, tree->node_html, selectors_list, &collection);
-  }
+  /* find nodes by selector */
+  myhtml_collection_t *collection = NULL;
+  modest_finder_by_selectors_list(finder, tree->node_html, selectors_list, &collection);
 
-
-  set_attributes_by_key(collection, key, value);
+  set_text(tree, collection, text);
 
   FILE *stream;
   char *buf;
@@ -254,14 +261,13 @@ const char* modest_set_attribute(const char* html, const char* key, const char* 
 }
 
 /**
- * Set the value of an attribute for the selected element in html string
+ * Set text for the selected element in html string
  * @param  html     [a html string]
  * @param  selector [a CSS selector]
- * @param  key     [key of the attribute]
- * @param  value    [value of the attribute]
+ * @param  text     [the text]
  * @return          [updated html string]
  */
-const char* modest_select_and_set_attribute(const char* html, const char* selector, const char* key, const char* value)
+const char* modest_select_and_set_text(const char* html, const char* selector, const char* text)
 {
   /* init MyHTML and parse HTML */
   myhtml_tree_t *tree = parse_html(html, strlen(html));
@@ -278,10 +284,10 @@ const char* modest_select_and_set_attribute(const char* html, const char* select
   modest_finder_by_selectors_list(finder, tree->node_html, selectors_list, &collection);
 
   if(collection == NULL || collection->length == 0) {
-    printf("missing collection\n");
+    // printf("missing collection\n");
   }
 
-  set_attributes_by_key(collection, key, value);
+  set_text(tree, collection, text);
 
   FILE *stream;
   char *buf;

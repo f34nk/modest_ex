@@ -10,13 +10,13 @@ defmodule ModestExFindTest do
         matched = Regex.run(~r/^(0|1);(.*);(.*);(.*)$/, line)
         cond do
           matched != nil && Enum.count(matched) == 5 && Enum.at(matched, 1) == "1" ->
-            pattern = Enum.at(matched, 2)
+            selector = Enum.at(matched, 2)
             input = Enum.at(matched, 3)
             output = String.split(Enum.at(matched, 4), "|")
-            case ModestEx.find(input, pattern) do
+            case ModestEx.find(input, selector) do
               {:error, _} ->
                 raise RuntimeError,
-                  "\n\tpattern: " <> pattern <>
+                  "\n\tpattern: " <> selector <>
                   "\n\tinput: " <> input <>
                   "\n\texpected: " <> Enum.join(output, "|")
               reply ->

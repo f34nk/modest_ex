@@ -44,9 +44,18 @@ Set one or more attributes for every matched element.
 ## get_text
 Get the combined text contents of each element in the set of matched elements, including their descendants.
 
+	iex> ModestEx.get_text("<p><span><a>Hello</a></span><span><a>World</a></span></p>")
+	["Hello", "World"]
+
+	iex> ModestEx.get_text("<p><span><a>Hello</a></span><span><a>World</a></span></p>", "span a")
+	["Hello", "World"]
+
 ## set_text
 Set the content of each element in the set of matched elements to the specified text.
 
+	iex> ModestEx.set_text("<p><span><a>Hello</a></span><span><a>Hello</a></span></p>", "a", "World")
+	"<html><head></head><body><p><span><a>World</a></span><span><a>World</a></span></p></body></html>"
+	
 ## prepend
 Insert content, specified by the parameter, to the beginning of each element in the set of matched elements.
 

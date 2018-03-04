@@ -44,4 +44,56 @@ defmodule PipeTest do
     assert result == ["<html><head></head><body><span><a href=\"https://elixir-lang.org\">Hello</a></span></body></html>", "<html><head></head><body><span><a href=\"https://google.de\">World</a></span></body></html>"]
   end
 
+  test "find/2 |> get_text/1" do
+    result = "<p><span><a>Hello</a></span><span><a>World</a></span></p>"
+    |> ModestEx.find("span")
+    |> ModestEx.get_text()
+    assert result == ["Hello", "World"]
+  end
+
+  test "find/2 |> get_text/2" do
+    result = "<p><div><p><a>Hello</a></p></div><div><p><a>World</a></p></div></p>"
+    |> ModestEx.find("div")
+    |> ModestEx.get_text("p a")
+    assert result == ["Hello", "World"]
+  end
+
+  test "find/2 |> set_text/2" do
+    result = "<p><span>Hello</span><span>World</span></p>"
+    |> ModestEx.find("span")
+    |> ModestEx.set_text("Hello")
+    assert result == ["<html><head></head><body><span>Hello</span></body></html>", "<html><head></head><body><span>Hello</span></body></html>"]
+  end
+
+  test "find/2 |> set_text/3" do
+    result = "<p><span><a>Hello</a></span><span><a>World</a></span></p>"
+    |> ModestEx.find("span")
+    |> ModestEx.set_text("a", ["Hello", "World"])
+    assert result == ["<html><head></head><body><span><a>Hello</a></span></body></html>", "<html><head></head><body><span><a>World</a></span></body></html>"]
+  end
+
+  test "get_text/1" do
+    result = "<p><span><a>Hello</a></span><span><a>World</a></span></p>"
+    |> ModestEx.get_text()
+    assert result == ["Hello", "World"]
+  end
+
+  test "get_text/2" do
+    result = "<p><span><a>Hello</a></span><span><a>World</a></span></p>"
+    |> ModestEx.get_text("span a")
+    assert result == ["Hello", "World"]
+  end
+
+  test "set_text/3" do
+    result = "<p><span><a>Hello</a></span><span><a>Hello</a></span></p>"
+    |> ModestEx.set_text("a", "World")
+    assert result == "<html><head></head><body><p><span><a>World</a></span><span><a>World</a></span></p></body></html>"
+  end
+
+  # test "set_text/3 with list" do
+  #   result = "<p><span><a>Hello</a></span><span><a>World</a></span></p>"
+  #   |> ModestEx.set_text("a", ["Hello", "World"])
+  #   assert result == []
+  # end
+
 end

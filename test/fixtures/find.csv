@@ -1,4 +1,4 @@
-Enabled;Pattern;Input;Output
+Enabled;Selector;Input;Output
 1;body *;<p>a</p><p>b</p><p>c</p>;<p>a</p>|<p>b</p>|<p>c</p>
 1;span*;<div><span>Hello</span><span>World</span></div>;<span>Hello</span>|<span>World</span>
 1;span;<div><span>Hello</span><span>World</span></div>;<span>Hello</span>|<span>World</span>
