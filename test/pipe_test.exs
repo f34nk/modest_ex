@@ -16,28 +16,38 @@ defmodule PipeTest do
     assert result == ["https://elixir-lang.org", "https://google.de"]
   end
 
-  test "find/2 |> set_attribute/2" do
+  test "more complex set_attribute/4" do
+    result = "<div><div><a>Hello</a></div><div><a>World</a></div></div>"
+    |> ModestEx.set_attribute("body > div", "class", "col-md-12")
+    |> ModestEx.set_attribute("div.col-md-12 div", "class", "col-md-6")
+    |> ModestEx.set_attribute("div.col-md-6:first-of-type a", "href", "https://elixir-lang.org")
+    |> ModestEx.set_attribute("div.col-md-6:last-of-type a", "href", "https://google.de")
+
+    assert result == "<html><head></head><body><div class=\"col-md-12\"><div class=\"col-md-6\"><a href=\"https://elixir-lang.org\">Hello</a></div><div class=\"col-md-6\"><a href=\"https://google.de\">World</a></div></div></body></html>"
+  end
+
+  test "find/2 |> set_attribute/3" do
     result = "<p><a>Hello</a><a>World</a></p>"
     |> ModestEx.find("a")
     |> ModestEx.set_attribute("href", "https://elixir-lang.org")
     assert result == ["<html><head></head><body><a href=\"https://elixir-lang.org\">Hello</a></body></html>", "<html><head></head><body><a href=\"https://elixir-lang.org\">World</a></body></html>"]
   end
 
-  test "find/2 |> set_attribute/2 with list of values" do
+  test "find/2 |> set_attribute/3 with list of values" do
     result = "<p><a>Hello</a><a>World</a></p>"
     |> ModestEx.find("a")
     |> ModestEx.set_attribute("href", ["https://elixir-lang.org", "https://google.de"])
     assert result == ["<html><head></head><body><a href=\"https://elixir-lang.org\">Hello</a></body></html>", "<html><head></head><body><a href=\"https://google.de\">World</a></body></html>"]
   end
 
-  test "find/2 |> set_attribute/3" do
+  test "find/2 |> set_attribute/4" do
     result = "<p><span><a>Hello</a></span><span><a>World</a></span></p>"
     |> ModestEx.find("span")
     |> ModestEx.set_attribute("a", "href", "https://elixir-lang.org")
     assert result == ["<html><head></head><body><span><a href=\"https://elixir-lang.org\">Hello</a></span></body></html>", "<html><head></head><body><span><a href=\"https://elixir-lang.org\">World</a></span></body></html>"]
   end
 
-  test "find/2 |> set_attribute/3 with list of values" do
+  test "find/2 |> set_attribute/4 with list of values" do
     result = "<p><span><a>Hello</a></span><span><a>World</a></span></p>"
     |> ModestEx.find("span")
     |> ModestEx.set_attribute("a", "href", ["https://elixir-lang.org", "https://google.de"])

@@ -42,9 +42,15 @@ The binding is implemented as a **C-Node** following the excellent example in Ov
 
 Methods can be piped together.
 
-	iex> ModestEx.find("<p><a>Hello</a><a>World</a></p>", "p a") |> 
-	...> ModestEx.set_attribute("href", ["https://elixir-lang.org", "https://google.de"])
-	["<html><head></head><body><a href=\"https://elixir-lang.org\">Hello</a></body></html>", "<html><head></head><body><a href=\"https://google.de\">World</a></body></html>"]
+	test "more complex set_attribute/4" do
+	  result = "<div><div><a>Hello</a></div><div><a>World</a></div></div>"
+	  |> ModestEx.set_attribute("body > div", "class", "col-md-12")
+	  |> ModestEx.set_attribute("div.col-md-12 div", "class", "col-md-6")
+	  |> ModestEx.set_attribute("div.col-md-6:first-of-type a", "href", "https://elixir-lang.org")
+	  |> ModestEx.set_attribute("div.col-md-6:last-of-type a", "href", "https://google.de")
+	  
+	  assert result == "<html><head></head><body><div class=\"col-md-12\"><div class=\"col-md-6\"><a href=\"https://elixir-lang.org\">Hello</a></div><div class=\"col-md-6\"><a href=\"https://google.de\">World</a></div></div></body></html>"
+	end
 
 **Stay tuned for more...**
 *prepend, append, insert_after, insert_before, remove...*
