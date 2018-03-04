@@ -4,6 +4,13 @@
 
 March 2018
 
+- Feature ModestEx.get_text
+- Feature ModestEx.set_text
+
+## 0.0.2-dev
+
+March 2018
+
 - Features can now be piped together `ModestEx.Find(..) |> ModestEx.get_attribute(...)`
 - Added hexpm badge for version and counter
 - Added travis build badge
