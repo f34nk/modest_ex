@@ -96,4 +96,11 @@ defmodule PipeTest do
   #   assert result == []
   # end
 
+  test "find/2 |> remove/2" do
+    result = "<p><span><a>Hello</a></span><span>World</span></p>"
+    |> ModestEx.find("span")
+    |> ModestEx.remove("a")
+    assert result == ["<html><head></head><body><span></span></body></html>", "<html><head></head><body><span>World</span></body></html>"]
+  end
+
 end
