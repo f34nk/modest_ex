@@ -9,6 +9,7 @@
 #include "handle_serialize.h"
 #include "handle_attribute.h"
 #include "handle_text.h"
+#include "handle_remove.h"
 
 void
 handle_emsg(state_t* state, ErlMessage* emsg)
@@ -41,7 +42,8 @@ handle_send(state_t* state, ErlMessage* emsg)
   response = handle_serialize(emsg, response);
   response = handle_attribute(emsg, response);
   response = handle_text(emsg, response);
-  
+  response = handle_remove(emsg, response);
+
   if(response == NULL)
   {
     response = err_term("unknown_call");

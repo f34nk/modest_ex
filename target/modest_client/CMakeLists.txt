@@ -34,6 +34,7 @@ add_executable(
   handle_serialize.c
   handle_attribute.c
   handle_text.c
+  handle_remove.c
   utils.c
   modest_find.c
   modest_serialize.c
