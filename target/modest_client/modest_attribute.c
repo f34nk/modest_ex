@@ -20,7 +20,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-// #include <myhtml/api.h>
 #include <myhtml/myhtml.h>
 #include <modest/finder/finder.h>
 #include <myhtml/serialization.h>

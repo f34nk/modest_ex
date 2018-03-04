@@ -104,4 +104,43 @@ defmodule ModestEx do
     ModestEx.SetAttribute.set_attribute(bin, selector, key, value)
   end
 
+  @doc """
+  Get all text.
+  Returns list of strings.
+
+  ## Examples
+
+    iex> ModestEx.get_text("<div>Hello World</div>")
+    ["Hello World"]
+
+  """
+  @spec get_text(input()) :: success() | error()
+  def get_text(bin) do
+    ModestEx.GetText.get_text(bin)
+  end
+
+  @spec get_text(input(), String.t) :: success() | error()
+  def get_text(bin, selector) do
+    ModestEx.GetText.get_text(bin, selector)
+  end
+
+  @doc """
+  Set text for all nodes.
+  Returns single html string or returns list of strings.
+
+  ## Examples
+
+    iex> ModestEx.set_text("<div><p></p></div>", "div p", "Hello World")
+    "<html><head></head><body><div><p>Hello World</p></div></body></html>"
+
+  """
+  @spec set_text(input(), input()) :: success() | error()
+  def set_text(bin, text) do
+    ModestEx.SetText.set_text(bin, text)
+  end
+
+  @spec set_text(input(), String.t, input()) :: success() | error()
+  def set_text(bin, selector, text) do
+    ModestEx.SetText.set_text(bin, selector, text)
+  end
 end
