@@ -40,3 +40,24 @@ Set one or more attributes for every matched element.
 	["<html><head></head><body><p><a href=\"https://elixir-lang.org\">Hello</a></p></body></html>", "<html><head></head><body><p><a href=\"https://google.de\">World</a></p></body></html>"]
 
 #### **Stay tuned for more...**
+
+## get_text
+Get the combined text contents of each element in the set of matched elements, including their descendants.
+
+## set_text
+Set the content of each element in the set of matched elements to the specified text.
+
+## prepend
+Insert content, specified by the parameter, to the beginning of each element in the set of matched elements.
+
+## append
+Insert content, specified by the parameter, to the end of each element in the set of matched elements.
+
+## insert_after
+Insert every element in the set of matched elements after the target.
+
+## insert_before
+Insert every element in the set of matched elements before the target.
+
+## remove
+Remove the set of matched elements from the DOM.

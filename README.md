@@ -46,6 +46,9 @@ Methods can be piped together.
 	...> ModestEx.set_attribute("href", ["https://elixir-lang.org", "https://google.de"])
 	["<html><head></head><body><a href=\"https://elixir-lang.org\">Hello</a></body></html>", "<html><head></head><body><a href=\"https://google.de\">World</a></body></html>"]
 
+**Stay tuned for more...**
+*get_text, set_text, prepend, append, insert_after, insert_before, remove...*
+
 ## Supported CSS Selectors
 
 All common CSS Selectors are supported. For an extensive list please [check out this table](https://github.com/f34nk/modest_ex/blob/master/SELECTORS.md).
