@@ -1,6 +1,6 @@
 # ModestEx Changelog
 
-## 0.0.2-dev
+## 0.0.3-dev
 
 March 2018
 
