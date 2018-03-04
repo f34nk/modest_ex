@@ -64,7 +64,7 @@ All common CSS Selectors are supported. For an extensive list please [check out 
 
 Available on [hex](https://hex.pm/packages/modest_ex).
 
-```elixi
+```elixir
 def deps do
   [
     {:modest_ex, "~> 0.0.5-dev"}
