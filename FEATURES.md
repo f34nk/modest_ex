@@ -54,6 +54,12 @@ Set the content of each element in the set of matched elements to the specified 
 	iex> ModestEx.set_text("<p><span><a>Hello</a></span><span><a>Hello</a></span></p>", "a", "World")
 	"<html><head></head><body><p><span><a>World</a></span><span><a>World</a></span></p></body></html>"
 	
+## remove
+Remove the set of matched elements from the DOM.
+
+	iex> ModestEx.remove("<div><p>Hello</p>World</div>", "div p")
+	"<html><head></head><body><div>World</div></body></html>"
+
 ## prepend
 Insert content, specified by the parameter, to the beginning of each element in the set of matched elements.
 
@@ -71,10 +77,5 @@ Insert every element in the set of matched elements after the target.
 
 ## insert_before
 Insert every element in the set of matched elements before the target.
-
-*in progress...*
-
-## remove
-Remove the set of matched elements from the DOM.
 
 *in progress...*
