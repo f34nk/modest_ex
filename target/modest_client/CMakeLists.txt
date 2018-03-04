@@ -35,12 +35,14 @@ add_executable(
   handle_attribute.c
   handle_text.c
   handle_remove.c
+  handle_append.c
   utils.c
   modest_find.c
   modest_serialize.c
   modest_attribute.c
   modest_text.c
   modest_remove.c
+  modest_append.c
 )
 
 target_link_libraries(

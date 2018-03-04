@@ -41,7 +41,7 @@ const char* modest_select_and_get_attribute(const char* html, const char* select
 /**
  * Set the value of an attribute for the first element in html string
  * @param  html  [a html string]
- * @param  key  [key of the attribute]
+ * @param  key   [key of the attribute]
  * @param  value [value of the attribute]
  * @return       [updated html string]
  */
@@ -51,7 +51,7 @@ const char* modest_set_attribute(const char* html, const char* key, const char* 
  * Set the value of an attribute for the selected element in html string
  * @param  html     [a html string]
  * @param  selector [a CSS selector]
- * @param  key     [key of the attribute]
+ * @param  key      [key of the attribute]
  * @param  value    [value of the attribute]
  * @return          [updated html string]
  */
