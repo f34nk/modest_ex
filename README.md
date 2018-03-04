@@ -48,8 +48,9 @@ Methods can be piped together.
 	  |> ModestEx.set_attribute("div.col-md-12 div", "class", "col-md-6")
 	  |> ModestEx.set_attribute("div.col-md-6:first-of-type a", "href", "https://elixir-lang.org")
 	  |> ModestEx.set_attribute("div.col-md-6:last-of-type a", "href", "https://google.de")
-	  
-	  assert result == "<html><head></head><body><div class=\"col-md-12\"><div class=\"col-md-6\"><a href=\"https://elixir-lang.org\">Hello</a></div><div class=\"col-md-6\"><a href=\"https://google.de\">World</a></div></div></body></html>"
+	  |> List.first()
+
+    assert result == "<div class=\"col-md-12\"><div class=\"col-md-6\"><a href=\"https://elixir-lang.org\">Hello</a></div><div class=\"col-md-6\"><a href=\"https://google.de\">World</a></div></div>"
 	end
 
 **Stay tuned for more...**

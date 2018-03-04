@@ -22,8 +22,10 @@ defmodule PipeTest do
     |> ModestEx.set_attribute("div.col-md-12 div", "class", "col-md-6")
     |> ModestEx.set_attribute("div.col-md-6:first-of-type a", "href", "https://elixir-lang.org")
     |> ModestEx.set_attribute("div.col-md-6:last-of-type a", "href", "https://google.de")
+    |> ModestEx.find("body > *")
+    |> List.first()
 
-    assert result == "<html><head></head><body><div class=\"col-md-12\"><div class=\"col-md-6\"><a href=\"https://elixir-lang.org\">Hello</a></div><div class=\"col-md-6\"><a href=\"https://google.de\">World</a></div></div></body></html>"
+    assert result == "<div class=\"col-md-12\"><div class=\"col-md-6\"><a href=\"https://elixir-lang.org\">Hello</a></div><div class=\"col-md-6\"><a href=\"https://google.de\">World</a></div></div>"
   end
 
   test "find/2 |> set_attribute/3" do
