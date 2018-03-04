@@ -2,6 +2,18 @@ defmodule PipeTest do
   use ExUnit.Case
   doctest ModestEx
 
+  test "more complex transformation" do
+    result = "<div><div><a>Hello</a></div><div><a>World</a></div></div>"
+    |> ModestEx.set_attribute("body > div", "class", "col-md-12")
+    |> ModestEx.set_attribute("div.col-md-12 div", "class", "col-md-6")
+    |> ModestEx.set_attribute("div.col-md-6:first-of-type a", "href", "https://elixir-lang.org")
+    |> ModestEx.set_attribute("div.col-md-6:last-of-type a", "href", "https://google.de")
+    |> ModestEx.find("body > *")
+    |> List.first()
+
+    assert result == "<div class=\"col-md-12\"><div class=\"col-md-6\"><a href=\"https://elixir-lang.org\">Hello</a></div><div class=\"col-md-6\"><a href=\"https://google.de\">World</a></div></div>"
+  end
+  
   test "find/2 |> get_attribute/2" do
     result = "<p><a href=\"https://elixir-lang.org\">Hello</a><a href=\"https://google.de\">World</a></p>"
     |> ModestEx.find("a")
@@ -14,18 +26,6 @@ defmodule PipeTest do
     |> ModestEx.find("span")
     |> ModestEx.get_attribute("a", "href")
     assert result == ["https://elixir-lang.org", "https://google.de"]
-  end
-
-  test "more complex set_attribute/4" do
-    result = "<div><div><a>Hello</a></div><div><a>World</a></div></div>"
-    |> ModestEx.set_attribute("body > div", "class", "col-md-12")
-    |> ModestEx.set_attribute("div.col-md-12 div", "class", "col-md-6")
-    |> ModestEx.set_attribute("div.col-md-6:first-of-type a", "href", "https://elixir-lang.org")
-    |> ModestEx.set_attribute("div.col-md-6:last-of-type a", "href", "https://google.de")
-    |> ModestEx.find("body > *")
-    |> List.first()
-
-    assert result == "<div class=\"col-md-12\"><div class=\"col-md-6\"><a href=\"https://elixir-lang.org\">Hello</a></div><div class=\"col-md-6\"><a href=\"https://google.de\">World</a></div></div>"
   end
 
   test "find/2 |> set_attribute/3" do

@@ -40,9 +40,9 @@ The binding is implemented as a **C-Node** following the excellent example in Ov
 	iex> ModestEx.serialize("<div>Hello<span>World")
 	"<html><head></head><body><div>Hello<span>World</span></div></body></html>"
 
-Methods can be piped together.
+Build transformation pipelines...
 
-	test "more complex set_attribute/4" do
+	test "more complex transformation" do
 	  result = "<div><div><a>Hello</a></div><div><a>World</a></div></div>"
 	  |> ModestEx.set_attribute("body > div", "class", "col-md-12")
 	  |> ModestEx.set_attribute("div.col-md-12 div", "class", "col-md-6")
@@ -50,7 +50,7 @@ Methods can be piped together.
 	  |> ModestEx.set_attribute("div.col-md-6:last-of-type a", "href", "https://google.de")
 	  |> List.first()
 
-    assert result == "<div class=\"col-md-12\"><div class=\"col-md-6\"><a href=\"https://elixir-lang.org\">Hello</a></div><div class=\"col-md-6\"><a href=\"https://google.de\">World</a></div></div>"
+	  assert result == "<div class=\"col-md-12\"><div class=\"col-md-6\"><a href=\"https://elixir-lang.org\">Hello</a></div><div class=\"col-md-6\"><a href=\"https://google.de\">World</a></div></div>"
 	end
 
 **Stay tuned for more...**
