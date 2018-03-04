@@ -30,6 +30,10 @@ add_executable(
 	${PROJECT_NAME}
 	modest_client.c
   handlers.c
+  handle_find.c
+  handle_serialize.c
+  handle_attribute.c
+  handle_text.c
   utils.c
   modest_find.c
   modest_serialize.c
