@@ -158,4 +158,20 @@ defmodule ModestEx do
   def remove(bin, selector) do
     ModestEx.Remove.remove(bin, selector)
   end
+
+  @doc """
+  Append new html as child of selected node.
+  Returns updated html string
+
+  ## Examples
+
+    iex> ModestEx.append("<div><p>Hello</p></div>", "div", "<p>World</p>")
+    "<html><head></head><body><div><p>Hello</p><p>World</p></div></body></html>"
+
+  """
+  @spec append(input(), String.t, String.t) :: success() | error()
+  def append(bin, selector, new_bin) do
+    ModestEx.Append.append(bin, selector, new_bin)
+  end
+
 end

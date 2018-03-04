@@ -54,7 +54,7 @@ Build transformation pipelines...
 	end
 
 **Stay tuned for more...**
-*prepend, append, insert_after, insert_before, remove...*
+*prepend, insert_after, insert_before, remove...*
 
 ## Supported CSS Selectors
 
@@ -130,7 +130,7 @@ See [CHANGELOG](https://github.com/f34nk/modest_ex/blob/master/CHANGELOG.md).
 	- [x] Get text with optional CSS selector
 	- [x] Set text with optional CSS selector
 	- [x] Remove a node from html
-	- [ ] Append node to another node
+	- [x] Append node to another node
 	- [ ] Prepend node to another node
 	- [ ] Replace node with another node
 	- [ ] Slice html to a subset of nodes

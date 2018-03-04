@@ -60,13 +60,14 @@ Remove the set of matched elements from the html string.
 	iex> ModestEx.remove("<div><p>Hello</p>World</div>", "div p")
 	"<html><head></head><body><div>World</div></body></html>"
 
-## prepend
-Insert content, specified by the parameter, to the beginning of each element in the set of matched elements.
-
-*in progress...*
-
 ## append
 Insert content, specified by the parameter, to the end of each element in the set of matched elements.
+
+	iex> ModestEx.append("<div><p>Hello</p></div>", "div", "<p>World</p>")
+	"<html><head></head><body><div><p>Hello</p><p>World</p></div></body></html>"
+
+## prepend
+Insert content, specified by the parameter, to the beginning of each element in the set of matched elements.
 
 *in progress...*
 

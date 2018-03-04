@@ -1,15 +1,11 @@
 #include "handlers.h"
 
-// #include "modest_find.h"
-// #include "modest_serialize.h"
-// #include "modest_attribute.h"
-// #include "modest_text.h"
-
 #include "handle_find.h"
 #include "handle_serialize.h"
 #include "handle_attribute.h"
 #include "handle_text.h"
 #include "handle_remove.h"
+#include "handle_append.h"
 
 void
 handle_emsg(state_t* state, ErlMessage* emsg)
@@ -43,6 +39,7 @@ handle_send(state_t* state, ErlMessage* emsg)
   response = handle_attribute(emsg, response);
   response = handle_text(emsg, response);
   response = handle_remove(emsg, response);
+  response = handle_append(emsg, response);
 
   if(response == NULL)
   {
