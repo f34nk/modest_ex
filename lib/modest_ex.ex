@@ -143,4 +143,19 @@ defmodule ModestEx do
   def set_text(bin, selector, text) do
     ModestEx.SetText.set_text(bin, selector, text)
   end
+
+  @doc """
+  Remove nodes with a CSS selector.
+  Returns updated html string
+
+  ## Examples
+
+    iex> ModestEx.remove("<div><p>Hello</p>World</div>", "div p")
+    "<html><head></head><body><div>World</div></body></html>"
+
+  """
+  @spec remove(input(), String.t) :: success() | error()
+  def remove(bin, selector) do
+    ModestEx.Remove.remove(bin, selector)
+  end
 end
