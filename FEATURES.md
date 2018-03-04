@@ -39,8 +39,6 @@ Set one or more attributes for every matched element.
 	iex> ModestEx.set_attribute(["<p><a>Hello</a></p>", "<p><a>World</a></p>"], "p a", "href", ["https://elixir-lang.org", "https://google.de"])
 	["<html><head></head><body><p><a href=\"https://elixir-lang.org\">Hello</a></p></body></html>", "<html><head></head><body><p><a href=\"https://google.de\">World</a></p></body></html>"]
 
-#### **Stay tuned for more...**
-
 ## get_text
 Get the combined text contents of each element in the set of matched elements, including their descendants.
 
@@ -59,14 +57,24 @@ Set the content of each element in the set of matched elements to the specified 
 ## prepend
 Insert content, specified by the parameter, to the beginning of each element in the set of matched elements.
 
+*in progress...*
+
 ## append
 Insert content, specified by the parameter, to the end of each element in the set of matched elements.
+
+*in progress...*
 
 ## insert_after
 Insert every element in the set of matched elements after the target.
 
+*in progress...*
+
 ## insert_before
 Insert every element in the set of matched elements before the target.
 
+*in progress...*
+
 ## remove
 Remove the set of matched elements from the DOM.
+
+*in progress...*
