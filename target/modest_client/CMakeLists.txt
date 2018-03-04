@@ -34,6 +34,7 @@ add_executable(
   modest_find.c
   modest_serialize.c
   modest_attribute.c
+  modest_text.c
 )
 
 target_link_libraries(

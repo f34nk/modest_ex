@@ -175,18 +175,6 @@ const char* modest_select_and_get_attribute(const char* html, const char* select
 }
 
 /**
- *  Write output
- *  @param  buffer
- *  @param  size
- *  @param  ptr
- */
-mystatus_t write_output(const char* data, size_t len, void* ctx)
-{
-  fprintf(ctx, "%.*s", (int)len, data);
-  return MyCORE_STATUS_OK;
-}
-
-/**
  * Set the value of an attribute for the first element in html string
  * @param  html  [a html string]
  * @param  key  [key of the attribute]

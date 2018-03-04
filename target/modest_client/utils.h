@@ -34,5 +34,6 @@ myhtml_tree_t * parse_html(const char* data, size_t data_size);
 mycss_entry_t * create_css_parser(void);
 mycss_selectors_list_t * prepare_selector(mycss_entry_t *css_entry, const char* selector, size_t selector_size);
 void print_found_result(myhtml_tree_t* html_tree, myhtml_collection_t *collection, const char* delimiter, FILE *stream);
+mystatus_t write_output(const char* data, size_t len, void* ctx);
 
 #endif

@@ -201,18 +201,6 @@ const char* modest_select_and_get_text(const char* html, const char* selector, c
 }
 
 /**
- *  Write output
- *  @param  buffer
- *  @param  size
- *  @param  ptr
- */
-mystatus_t write_output(const char* data, size_t len, void* ctx)
-{
-  fprintf(ctx, "%.*s", (int)len, data);
-  return MyCORE_STATUS_OK;
-}
-
-/**
  * Set text for the first element in html string
  * @param  html  [a html string]
  * @param  text  [the text]

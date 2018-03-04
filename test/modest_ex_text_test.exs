@@ -4,7 +4,7 @@ defmodule ModestExTextTest do
 
   test "all test cases from file" do
   
-    File.open("test/fixtures/attribute.csv", [:read], fn(file) ->
+    File.open("test/fixtures/text.csv", [:read], fn(file) ->
       IO.binstream(file, :line)
       |> Stream.map(fn(line) ->
         # Enabled;Mode;Input;Selector;Text;Output

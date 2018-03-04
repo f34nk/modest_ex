@@ -1,3 +1,7 @@
 Enabled;Mode;Input;Selector;Text;Output
 
-1;get;<div>Hello</div>;;;Hello
+1;get;<div>Hello World</div>;;;Hello World
+1;get;<div><p>Hello World</p></div>;div p;;Hello World
+
+1;set;<div></div>;;Hello World;<html><head></head><body><div>Hello World</div></body></html>
+1;set;<div><p></p></div>;div p;Hello World;<html><head></head><body><div><p>Hello World</p></div></body></html>

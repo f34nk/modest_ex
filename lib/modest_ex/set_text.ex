@@ -12,7 +12,7 @@ defmodule ModestEx.SetText do
   def set_text([], _), do: []
 
   def set_text(bin, text) when is_bitstring(bin) when is_bitstring(text) do
-    ModestEx.Safe.Attribute.set_text(bin, text)
+    ModestEx.Safe.Text.set_text(bin, text)
   end
 
   def set_text([bin|bins], selector, [text|texts]) when is_bitstring(selector) do
