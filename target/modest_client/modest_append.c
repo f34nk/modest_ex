@@ -30,6 +30,67 @@
 #include "utils.h"
 #include "modest_append.h"
 
+void append_node(myhtml_t *myhtml, myhtml_collection_t *collection, const char* new_html)
+{
+  if(collection && collection->list && collection->length) {
+
+    for(size_t i = 0; i < collection->length; i++) {
+      myhtml_tree_node_t *node = collection->list[i];
+
+      if(node) { 
+        myhtml_tree_t* new_tree = myhtml_tree_create();
+        myhtml_tree_init(new_tree, myhtml);
+        myhtml_parse(new_tree, MyENCODING_UTF_8, new_html, strlen(new_html));
+  
+        /* create css parser and finder for selectors */
+        mycss_entry_t *css_entry = create_css_parser();
+        modest_finder_t *finder = modest_finder_create_simple();
+
+        const char* selector = "body *";
+        /* parse selectors */
+        mycss_selectors_list_t *selectors_list = prepare_selector(css_entry, selector, strlen(selector));
+
+        /* find nodes by selector */
+        myhtml_collection_t *new_collection = NULL;
+        modest_finder_by_selectors_list(finder, new_tree->node_html, selectors_list, &new_collection);
+
+        size_t j = 0;
+        if(new_collection && new_collection->list && new_collection->length) {
+          if(new_collection->length > 0)
+          {
+            j = 1;
+            myhtml_tree_node_t* new_node = new_collection->list[0]; 
+            if(new_node){
+              myhtml_node_append_child(node, new_node);
+            }
+          }
+        }
+
+        // TODO: How to do proper cleanup here?
+        
+        // /* destroy all */
+        // myhtml_collection_destroy(new_collection);
+
+        // /* destroy selector list */
+        // mycss_selectors_list_destroy(mycss_entry_selectors(css_entry), selectors_list, true);
+
+        // /* destroy Modest Finder */
+        // modest_finder_destroy(finder, true);
+
+        // // destroy MyCSS 
+        // mycss_t *mycss = css_entry->mycss;
+        // mycss_entry_destroy(css_entry, true);
+        // mycss_destroy(mycss, true);
+
+        // /* destroy MyHTML */
+        // // myhtml_t* myhtml = new_tree->myhtml;
+        // myhtml_tree_destroy(new_tree);
+        // // myhtml_destroy(myhtml);
+      }
+    }
+  }
+}
+
 /**
  * Add new html as child of selected node
  * @param  html      [a html string]
@@ -57,8 +118,7 @@ const char* modest_select_and_append(const char* html, const char* selector, con
     // printf("missing collection\n");
   }
 
-  // set_text(tree, collection, text);
-  // APPEND
+  append_node(tree->myhtml, collection, new_html);
   
   FILE *stream;
   char *buf;

@@ -25,7 +25,7 @@ ETERM *handle_append(ErlMessage* emsg, ETERM *response){
       erl_free_term(new_html);
     }
   
-    erl_free_term(html_pattern);
+    erl_free_term(append_pattern);
   }
   return response;
 }

@@ -3,7 +3,7 @@
 int main(int argc, const char * argv[])
 {
   const char *html = "<div><p>Hello</p></div>";
-  const char *selector = "div p";
+  const char *selector = "div";
   const char *new_html = "<p>World</p>";
   char* result = modest_select_and_append(html, selector, new_html);
   printf("%s\n", result);

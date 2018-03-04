@@ -75,14 +75,6 @@ void set_text(myhtml_tree_t* tree, myhtml_collection_t *collection, const char* 
 
       if(node) {
         myhtml_tree_node_t *text_node = myhtml_node_child(node);
-        // if(text_node) {
-        //   mycore_string_t *string = myhtml_node_text_set(text_node, text, strlen(text), MyENCODING_UTF_8);
-        // }
-        // else {
-        //   myhtml_tree_node_t* new_text_node = myhtml_node_create(tree, MyHTML_TAG__TEXT, MyHTML_NAMESPACE_HTML);
-        //   mycore_string_t *string = myhtml_node_text_set(new_text_node, text, strlen(text), MyENCODING_UTF_8);
-        // }
-
         if(text_node) {
           myhtml_node_delete(text_node);
         }
@@ -90,19 +82,6 @@ void set_text(myhtml_tree_t* tree, myhtml_collection_t *collection, const char* 
         mycore_string_t *string = myhtml_node_text_set(new_text_node, text, strlen(text), MyENCODING_UTF_8);
         
         myhtml_node_append_child(node, new_text_node);
-
-
-        // myhtml_tree_attr_t* attr = myhtml_attribute_by_key(node, key, strlen(key));
-        // if(attr){
-        //   // remove old attribute
-        //   myhtml_attribute_remove(node, attr);
-        //   // insert new attribute
-        //   myhtml_attribute_add(node, key, strlen(key), value, strlen(value), MyENCODING_UTF_8);
-        // }
-        // else {
-        //   // insert new attribute
-        //   myhtml_attribute_add(node, key, strlen(key), value, strlen(value), MyENCODING_UTF_8);
-        // }
       }
     }
   }
