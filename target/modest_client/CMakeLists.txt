@@ -39,6 +39,7 @@ add_executable(
   modest_serialize.c
   modest_attribute.c
   modest_text.c
+  modest_remove.c
 )
 
 target_link_libraries(
