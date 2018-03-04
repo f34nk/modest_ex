@@ -122,7 +122,7 @@ See [CHANGELOG](https://github.com/f34nk/modest_ex/blob/master/CHANGELOG.md).
 	- [x] Set attribute with optional CSS selector
 	- [x] Get text with optional CSS selector
 	- [x] Set text with optional CSS selector
-	- [ ] Remove a node from html
+	- [x] Remove a node from html
 	- [ ] Append node to another node
 	- [ ] Prepend node to another node
 	- [ ] Replace node with another node
