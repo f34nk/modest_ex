@@ -37,8 +37,8 @@ The binding is implemented as a **C-Node** following the excellent example in Ov
 	iex> ModestEx.set_attribute("<p><a href=\"\">Hello</a></p>", "p a", "href", "https://elixir-lang.org")
 	"<html><head></head><body><p><a href=\"https://elixir-lang.org\">Hello</a></p></body></html>"
 
-	iex> ModestEx.serialize("<div>Hello<span>World")
-	"<html><head></head><body><div>Hello<span>World</span></div></body></html>"
+	iex> ModestEx.append("<div><p>Hello</p></div>", "div", "<p>World</p>")
+	"<html><head></head><body><div><p>Hello</p><p>World</p></div></body></html>"
 
 Build transformation pipelines...
 
@@ -78,23 +78,12 @@ end
 	erlang-dev
 	erlang-xmerl
 	erlang-parsetools
-<!--
-	libtool (GNU libtool) 2.x
-	g++ version 5.x -->
 
 ## Compile and test
 
 	mix deps.get
 	mix compile
 	mix test
-
-## Cleanup
-
-	mix clean
-
-## Benchmark
-
-	mix bench
 
 ## Cloning
 
@@ -108,7 +97,15 @@ All binding targets are added as submodules in the `target/` folder.
 	mix compile
 	mix test
 	mix test.target
-	
+
+Cleanup
+
+	mix clean
+
+Benchmark
+
+	mix bench
+
 ## Roadmap
 
 See [CHANGELOG](https://github.com/f34nk/modest_ex/blob/master/CHANGELOG.md).
