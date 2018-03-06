@@ -32,6 +32,15 @@ int main(int argc, const char * argv[])
 
   html = "<html><head></head><body><h1><a>some link</a></h1></body></html>";
   selector = "*";
+  result = modest_find(html, selector, "|", "body_first_child");
+  printf("%s\n", result);
+  if(strcmp(result, "<h1><a>some link</a></h1>|<a>some link</a>") != 0){
+    printf("Failed\n");
+    return 1;
+  }
+
+  html = "<html><head></head><body><h1><a>some link</a></h1></body></html>";
+  selector = "*";
   result = modest_find(html, selector, "|", "body");
   printf("%s\n", result);
   if(strcmp(result, "<body><h1><a>some link</a></h1></body>|<h1><a>some link</a></h1>|<a>some link</a>") != 0){

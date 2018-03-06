@@ -2,12 +2,8 @@ defmodule ModestEx.Safe.Serialize do
   @moduledoc false
   
   def serialize(bin) do
-    case Nodex.Cnode.call(ModestEx.Safe.Cnode, {:serialize, bin <> "\0"}) do
-      {:ok, {:serialize, reply}} -> 
-        case reply do
-          <<"<-undef>"::utf8>> <> result -> result
-          _ -> {:error, reply}
-        end
+    case Nodex.Cnode.call(ModestEx.Safe.Cnode, {:serialize, bin <> "\0", ModestEx.scope() <> "\0"}) do
+      {:ok, {:serialize, result}} -> result
       _ -> {:error, bin}
     end
   end

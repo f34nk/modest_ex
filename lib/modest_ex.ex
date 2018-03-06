@@ -23,7 +23,8 @@ defmodule ModestEx do
   end
 
   def scope() do
-    Application.get_env(:modest_ex, :scope, "html") # html head body
+    result = Application.get_env(:modest_ex, :scope, :html) # :html :head :body :body_first_child
+    |> Atom.to_string()
   end
 
   #

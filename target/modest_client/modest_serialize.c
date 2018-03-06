@@ -18,14 +18,23 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <myhtml/api.h>
+
+// #include <myhtml/api.h>
+#include <myhtml/myhtml.h>
+#include <modest/finder/finder.h>
+#include <myhtml/serialization.h>
+#include <mycss/mycss.h>
+#include <mycss/selectors/init.h>
+#include <mycss/selectors/serialization.h>
+
+#include "utils.h"
 
 /**
  * Serialize any string with valid or broken html.
  * @param  html [a html string]
  * @return      [a html string]
  */
-const char* modest_serialize(const char* html){
+const char* modest_serialize(const char* html, const char* scope){
   // basic init
   myhtml_t* myhtml = myhtml_create();
   myhtml_init(myhtml, MyHTML_OPTIONS_DEFAULT, 1, 0);
@@ -40,10 +49,14 @@ const char* modest_serialize(const char* html){
   mycore_string_raw_t str_raw;
   mycore_string_raw_clean_all(&str_raw);
 
-  if(myhtml_serialization_tree_buffer(myhtml_tree_get_document(tree), &str_raw)) {
+  if(myhtml_serialization_tree_buffer(get_scope_node(tree, scope), &str_raw)) {
     fprintf(stderr, "Could not serialization for the tree\n");
     return "";
   }
+  // if(myhtml_serialization_tree_buffer(myhtml_tree_get_document(tree), &str_raw)) {
+  //   fprintf(stderr, "Could not serialization for the tree\n");
+  //   return "";
+  // }
 
   // printf("%s", str_raw.data);
   // mycore_string_raw_destroy(&str_raw, false);

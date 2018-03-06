@@ -21,9 +21,10 @@
 
 /**
  * Serialize any string with valid or broken html.
- * @param  html [a html string]
- * @return      [a html string]
+ * @param  html  [a html string]
+ * @param  scope [could be "html", "head", "body", "form"]
+ * @return       [a html string]
  */
-const char* modest_serialize(const char* html);
+const char* modest_serialize(const char* html, const char* scope);
 
 #endif

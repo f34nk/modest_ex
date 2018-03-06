@@ -24,7 +24,7 @@ foreach(TEST ${TESTS})
 endforeach()
 
 target_sources(modest_find_test PUBLIC ../modest_find.c ../utils.c)
-target_sources(modest_serialize_test PUBLIC ../modest_serialize.c)
+target_sources(modest_serialize_test PUBLIC ../modest_serialize.c ../utils.c)
 target_sources(modest_attribute_test PUBLIC ../modest_attribute.c ../utils.c)
 target_sources(modest_text_test PUBLIC ../modest_text.c ../utils.c)
 target_sources(modest_remove_test PUBLIC ../modest_remove.c ../utils.c)
