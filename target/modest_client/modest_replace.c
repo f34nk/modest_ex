@@ -75,7 +75,7 @@ const char* modest_select_and_replace(const char* html, const char* selector, co
 
   /* find nodes by selector */
   myhtml_collection_t *collection = NULL;
-  modest_finder_by_selectors_list(finder, get_scope_node(tree, scope), selectors_list, &collection);
+  modest_finder_by_selectors_list(finder, tree->node_html/*get_scope_node(tree, scope)*/, selectors_list, &collection);
 
   if(collection == NULL || collection->length == 0) {
     // printf("missing collection\n");

@@ -51,7 +51,7 @@ const char* modest_find(const char* html, const char* selector, const char* deli
 
   /* find nodes by selector */
   myhtml_collection_t *collection = NULL;
-  modest_finder_by_selectors_list(finder, get_scope_node(tree, scope), selectors_list, &collection);
+  modest_finder_by_selectors_list(finder, tree->node_html/*get_scope_node(tree, scope)*/, selectors_list, &collection);
 
   // /* print found result */
   // printf("\n\nFound nodes:");

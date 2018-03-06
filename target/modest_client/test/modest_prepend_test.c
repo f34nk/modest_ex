@@ -14,7 +14,7 @@ int main(int argc, const char * argv[])
   }
 
   html = "";
-  selector = "body";
+  selector = "*";
   new_html = "<p>Hello World</p>";
   result = modest_select_and_prepend(html, selector, new_html, scope);
   printf("%s\n", result);
@@ -24,7 +24,7 @@ int main(int argc, const char * argv[])
   }
 
   html = "";
-  selector = "body";
+  selector = "*";
   new_html = "Hello World";
   result = modest_select_and_prepend(html, selector, new_html, scope);
   printf("%s\n", result);
