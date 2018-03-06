@@ -91,13 +91,7 @@ Replace each element in the set of matched elements with the provided new conten
 	"<html><head></head><body><div><p>World</p></div></body></html>"
 
 ## slice
-Slice the set into two a subsets, first set from first node until selected node and second set from selected node to end.
-
-*in progress...*
-
-<!--
+Slice set into two subsets. First set from first node until selected node. Second set from selected node to end.
 
 	iex> ModestEx.slice("<p>Hello</p><p>World</p>", "p:first-of_type")
 	["<p>Hello</p>", "<p>World</p>"]
-	
--->
