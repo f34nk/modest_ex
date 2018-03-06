@@ -41,10 +41,8 @@ defmodule ModestExAttributeTest do
                 end
               "set" ->
                 output = Enum.at(matched, 7)
-                test = cond do
-                  mode == "set" and selector == "" -> ModestEx.set_attribute(input, key, value)
-                  mode == "set" -> ModestEx.set_attribute(input, selector, key, value)
-                end
+                test = ModestEx.set_attribute(input, selector, key, value)
+                
                 case test do
                   {:error, error} ->
                     raise RuntimeError,

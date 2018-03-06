@@ -39,22 +39,14 @@ const char* modest_get_attribute(const char* html, const char* key, const char* 
 const char* modest_select_and_get_attribute(const char* html, const char* selector, const char* key, const char* delimiter);
 
 /**
- * Set the value of an attribute for the first element in html string
- * @param  html  [a html string]
- * @param  key   [key of the attribute]
- * @param  value [value of the attribute]
- * @return       [updated html string]
- */
-const char* modest_set_attribute(const char* html, const char* key, const char* value);
-
-/**
  * Set the value of an attribute for the selected element in html string
  * @param  html     [a html string]
  * @param  selector [a CSS selector]
  * @param  key      [key of the attribute]
  * @param  value    [value of the attribute]
+ * @param  scope    [scope string]
  * @return          [updated html string]
  */
-const char* modest_select_and_set_attribute(const char* html, const char* selector, const char* key, const char* value);
+const char* modest_select_and_set_attribute(const char* html, const char* selector, const char* key, const char* value, const char* scope);
 
 #endif

@@ -7,10 +7,10 @@ Enabled;Mode;Input;Selector;Key;Value;Output
 1;get;<p><a href="https://elixir-lang.org">Hello</a></p>;p a;href;;https://elixir-lang.org
 1;get;<p><a href="https://elixir-lang.org">Hello</a><a href="https://google.de">World</a></p>;p a;href;;https://elixir-lang.org|https://google.de
 
-1;set;<a href="">Hello</a>;;href;https://elixir-lang.org;<html><head></head><body><a href="https://elixir-lang.org">Hello</a></body></html>
+1;set;<a href="">Hello</a>;a;href;https://elixir-lang.org;<html><head></head><body><a href="https://elixir-lang.org">Hello</a></body></html>
 1;set;<p><a href="">Hello</a></p>;p a;href;https://elixir-lang.org;<html><head></head><body><p><a href="https://elixir-lang.org">Hello</a></p></body></html>
 
-1;set;<a>Hello</a>;;href;https://elixir-lang.org;<html><head></head><body><a href="https://elixir-lang.org">Hello</a></body></html>
+1;set;<a>Hello</a>;a;href;https://elixir-lang.org;<html><head></head><body><a href="https://elixir-lang.org">Hello</a></body></html>
 1;set;<p><a>Hello</a></p>;p a;href;https://elixir-lang.org;<html><head></head><body><p><a href="https://elixir-lang.org">Hello</a></p></body></html>
 
 1;set;<p><a>Hello</a></p>;p span;href;https://elixir-lang.org;<html><head></head><body><p><a>Hello</a></p></body></html>

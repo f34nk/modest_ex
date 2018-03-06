@@ -95,15 +95,10 @@ defmodule ModestEx do
 
   ## Examples
 
-    iex> ModestEx.set_attribute("<a>Hello</a>", "href", "https://elixir-lang.org")
+    iex> ModestEx.set_attribute("<a>Hello</a>", "a", "href", "https://elixir-lang.org")
     "<html><head></head><body><a href=\\"https://elixir-lang.org\\">Hello</a></body></html>"
 
   """
-  @spec set_attribute(input(), String.t, input()) :: success() | error()
-  def set_attribute(bin, key, value) do
-    ModestEx.SetAttribute.set_attribute(bin, key, value)
-  end
-
   @spec set_attribute(input(), String.t, String.t, input()) :: success() | error()
   def set_attribute(bin, selector, key, value) do
     ModestEx.SetAttribute.set_attribute(bin, selector, key, value)
