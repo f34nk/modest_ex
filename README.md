@@ -28,26 +28,27 @@ The binding is implemented as a **C-Node** following the excellent example in Ov
 
 [Full list of features.](https://github.com/f34nk/modest_ex/blob/master/FEATURES.md)
 
-	iex> ModestEx.find("<p><a>Hello</a> World</p>", "p a")
-	["<a>Hello</a>"]
-	
-	iex> ModestEx.get_attribute("<p><a href=\"https://elixir-lang.org\">Hello</a></p>", "p a", "href")
-	["https://elixir-lang.org"]
-
-	iex> ModestEx.set_attribute("<p><a href=\"\">Hello</a></p>", "p a", "href", "https://elixir-lang.org")
-	"<html><head></head><body><p><a href=\"https://elixir-lang.org\">Hello</a></p></body></html>"
-
-	iex> ModestEx.append("<div><p>Hello</p></div>", "div", "<p>World</p>")
-	"<html><head></head><body><div><p>Hello</p><p>World</p></div></body></html>"
-
 Build transformation pipelines...
 
-	test "more complex transformation" do
-	  result = "<div><div><a>Hello</a></div><div><a>World</a></div></div>"
+	test "build up a complete DOM" do
+	  result = ""
+	  |> ModestEx.serialize()
+	  |> ModestEx.append("body", "<div>")
 	  |> ModestEx.set_attribute("body > div", "class", "col-md-12")
+	  |> ModestEx.append("body > div", "<div>")
 	  |> ModestEx.set_attribute("div.col-md-12 div", "class", "col-md-6")
+	  |> ModestEx.append("div.col-md-12 div", "<a></a>")
+	  |> ModestEx.set_text("a", "Hello")
+
+	  copy = ModestEx.find(result, "div.col-md-12 div")
+	  |> ModestEx.set_text("a", "World")
+	  |> ModestEx.find("body > *")
+	  |> List.first()
+
+	  result = ModestEx.insert_after(result, "div.col-md-12 div", copy)
 	  |> ModestEx.set_attribute("div.col-md-6:first-of-type a", "href", "https://elixir-lang.org")
 	  |> ModestEx.set_attribute("div.col-md-6:last-of-type a", "href", "https://google.de")
+	  |> ModestEx.find("body > *")
 	  |> List.first()
 
 	  assert result == "<div class=\"col-md-12\"><div class=\"col-md-6\"><a href=\"https://elixir-lang.org\">Hello</a></div><div class=\"col-md-6\"><a href=\"https://google.de\">World</a></div></div>"
