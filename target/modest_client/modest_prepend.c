@@ -40,6 +40,8 @@ void prepend_node(myhtml_t *myhtml, myhtml_collection_t *collection, const char*
       myhtml_tree_node_t *first_child = myhtml_node_child(node);
       myhtml_tree_node_t *next_child = (first_child) ? myhtml_node_next(first_child) : NULL;
 
+      printf("%s, %s, %s, %s\n", (node)?"node":"no node", (new_node)?"new_node":"no new_node", (first_child)?"first_child":"no first_child", (next_child)?"next_child":"no next_child");
+
       if(node && first_child && new_node){
         // prepend new_node before the first child of node
         myhtml_node_insert_before(first_child, new_node);
@@ -81,6 +83,17 @@ void prepend_node(myhtml_t *myhtml, myhtml_collection_t *collection, const char*
             myhtml_node_insert_before(first_child, new_text_node);
           }
         }
+      }
+      else if(node && first_child == NULL && next_child == NULL && new_node){
+        myhtml_node_append_child(node, new_node);
+      }
+      else if(node && first_child == NULL && next_child == NULL && new_node == NULL){
+        
+        const char *new_text = new_html;
+        // create new text node from new_text
+        myhtml_tree_node_t* new_text_node = myhtml_node_create(node->tree, MyHTML_TAG__TEXT, MyHTML_NAMESPACE_HTML);
+        mycore_string_t *string = myhtml_node_text_set(new_text_node, new_text, strlen(new_text), MyENCODING_UTF_8);
+        myhtml_node_append_child(node, new_text_node);
       }
       
     }
