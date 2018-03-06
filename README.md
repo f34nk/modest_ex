@@ -54,7 +54,7 @@ Build transformation pipelines...
 	end
 
 **Stay tuned for more...**
-*prepend, insert_after, insert_before, remove...*
+*insert_after, insert_before, replace...*
 
 ## Supported CSS Selectors
 

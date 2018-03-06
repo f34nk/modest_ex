@@ -81,3 +81,8 @@ Insert every element in the set of matched elements after the target.
 Insert every element in the set of matched elements before the target.
 
 *in progress...*
+
+## replace
+Replace each element in the set of matched elements with the provided new content and return the set of elements that was removed.
+
+*in progress...*
