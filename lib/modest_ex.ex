@@ -189,4 +189,34 @@ defmodule ModestEx do
     ModestEx.Prepend.prepend(bin, selector, new_bin)
   end
 
+  @doc """
+  Insert new html before selected node.
+  Returns updated html string
+
+  ## Examples
+
+    iex> ModestEx.insert_before("<div><p>World</p></div>", "div p", "<p>Hello</p>")
+    "<html><head></head><body><div><p>Hello</p><p>World</p></div></body></html>"
+
+  """
+  @spec insert_before(input(), String.t, String.t) :: success() | error()
+  def insert_before(bin, selector, new_bin) do
+    ModestEx.InsertBefore.insert_before(bin, selector, new_bin)
+  end
+
+  @doc """
+  Insert new html after selected node.
+  Returns updated html string
+
+  ## Examples
+
+    iex> ModestEx.insert_after("<div><p>Hello</p></div>", "div p", "<p>World</p>")
+    "<html><head></head><body><div><p>Hello</p><p>World</p></div></body></html>"
+
+  """
+  @spec insert_after(input(), String.t, String.t) :: success() | error()
+  def insert_after(bin, selector, new_bin) do
+    ModestEx.InsertAfter.insert_after(bin, selector, new_bin)
+  end
+
 end

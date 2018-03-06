@@ -35,6 +35,7 @@ handle_send(state_t* state, ErlMessage* emsg)
   response = handle_append(emsg, response);
   response = handle_prepend(emsg, response);
   response = handle_insert_before(emsg, response);
+  response = handle_insert_after(emsg, response);
 
   if(response == NULL)
   {

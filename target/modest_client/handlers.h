@@ -20,6 +20,8 @@ ETERM *
 handle_prepend(ErlMessage* emsg, ETERM *response);
 ETERM *
 handle_insert_before(ErlMessage* emsg, ETERM *response);
+ETERM *
+handle_insert_after(ErlMessage* emsg, ETERM *response);
 
 typedef struct _state_t {
   int fd;

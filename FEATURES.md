@@ -75,12 +75,14 @@ Insert content, specified by the parameter, to the beginning of each element in 
 ## insert_after
 Insert every element in the set of matched elements after the target.
 
-*in progress...*
+	iex> ModestEx.insert_after("<div><p>Hello</p></div>", "div p", "<p>World</p>")
+	"<html><head></head><body><div><p>Hello</p><p>World</p></div></body></html>"
 
 ## insert_before
 Insert every element in the set of matched elements before the target.
 
-*in progress...*
+	iex> ModestEx.insert_before("<div><p>World</p></div>", "div p", "<p>Hello</p>")
+	"<html><head></head><body><div><p>Hello</p><p>World</p></div></body></html>"
 
 ## replace
 Replace each element in the set of matched elements with the provided new content and return the set of elements that was removed.

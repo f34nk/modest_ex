@@ -28,9 +28,9 @@
 #include <mycss/selectors/serialization.h>
 
 #include "utils.h"
-#include "modest_insert_before.h"
+#include "modest_insert_after.h"
 
-void insert_before(myhtml_t *myhtml, myhtml_collection_t *collection, const char* new_html)
+void insert_after(myhtml_t *myhtml, myhtml_collection_t *collection, const char* new_html)
 {
   if(collection && collection->list && collection->length) {
 
@@ -40,26 +40,27 @@ void insert_before(myhtml_t *myhtml, myhtml_collection_t *collection, const char
       myhtml_tree_node_t *new_node = get_root_node(myhtml, new_html);
 
       if(node && new_node){
-        myhtml_node_insert_before(node, new_node);
+        myhtml_node_insert_after(node, new_node);
       }
       if(node && new_node == NULL){
         const char *new_text = new_html;
         myhtml_tree_node_t* new_text_node = myhtml_node_create(node->tree, MyHTML_TAG__TEXT, MyHTML_NAMESPACE_HTML);
         mycore_string_t *string = myhtml_node_text_set(new_text_node, new_text, strlen(new_text), MyENCODING_UTF_8);
-        myhtml_node_insert_before(node, new_text_node);
-      }      
+        myhtml_node_insert_after(node, new_text_node);
+      }
+      
     }
   }
 }
 
 /**
- * Insert new html before selected node
+ * Insert new html after selected node
  * @param  html      [a html string]
  * @param  selector  [a CSS selector]
  * @param  new_html  [a html string]
  * @return           [updated html string]
  */
-const char* modest_select_and_insert_before(const char* html, const char* selector, const char* new_html)
+const char* modest_select_and_insert_after(const char* html, const char* selector, const char* new_html)
 {
   /* init MyHTML and parse HTML */
   myhtml_tree_t *tree = parse_html(html, strlen(html));
@@ -79,7 +80,7 @@ const char* modest_select_and_insert_before(const char* html, const char* select
     // printf("missing collection\n");
   }
 
-  insert_before(tree->myhtml, collection, new_html);
+  insert_after(tree->myhtml, collection, new_html);
   
   FILE *stream;
   char *buf;

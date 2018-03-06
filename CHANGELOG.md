@@ -1,5 +1,12 @@
 # ModestEx Changelog
 
+## 0.0.7-dev
+
+March 2018
+
+- Feature ModestEx.insert_before
+- Feature ModestEx.insert_after
+
 ## 0.0.6-dev
 
 March 2018
