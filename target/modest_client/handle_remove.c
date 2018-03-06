@@ -5,13 +5,13 @@
 
 ETERM *handle_remove(ErlMessage* emsg, ETERM *response){
   if(response == NULL){
-    ETERM *remove_pattern = erl_format("{remove, Html, Selector, Scope}");
+    ETERM *pattern = erl_format("{remove, Html, Selector, Scope}");
     
-    if (erl_match(remove_pattern, emsg->msg))
+    if (erl_match(pattern, emsg->msg))
     {
-      ETERM *html = erl_var_content(remove_pattern, "Html");
-      ETERM *selector = erl_var_content(remove_pattern, "Selector");
-      ETERM *scope = erl_var_content(remove_pattern, "Scope");
+      ETERM *html = erl_var_content(pattern, "Html");
+      ETERM *selector = erl_var_content(pattern, "Selector");
+      ETERM *scope = erl_var_content(pattern, "Scope");
       char* html_string = (char*)ERL_BIN_PTR(html);
       char* selector_string = (char*)ERL_BIN_PTR(selector);
       char* scope_string = (char*)ERL_BIN_PTR(scope);
@@ -26,7 +26,7 @@ ETERM *handle_remove(ErlMessage* emsg, ETERM *response){
       erl_free_term(scope);
     }
 
-    erl_free_term(remove_pattern);
+    erl_free_term(pattern);
   }
   return response;
 }

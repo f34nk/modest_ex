@@ -5,12 +5,12 @@
 
 ETERM *handle_serialize(ErlMessage* emsg, ETERM *response){
   if(response == NULL){
-    ETERM *serialize_pattern = erl_format("{serialize, Html, Scope}");
+    ETERM *pattern = erl_format("{serialize, Html, Scope}");
     
-    if (erl_match(serialize_pattern, emsg->msg))
+    if (erl_match(pattern, emsg->msg))
     {
-      ETERM *html = erl_var_content(serialize_pattern, "Html");
-      ETERM *scope = erl_var_content(serialize_pattern, "Scope");
+      ETERM *html = erl_var_content(pattern, "Html");
+      ETERM *scope = erl_var_content(pattern, "Scope");
       char* html_string = (char*)ERL_BIN_PTR(html);
       char* scope_string = (char*)ERL_BIN_PTR(scope);
 
@@ -22,7 +22,7 @@ ETERM *handle_serialize(ErlMessage* emsg, ETERM *response){
       erl_free_term(html);
     }
 
-    erl_free_term(serialize_pattern);
+    erl_free_term(pattern);
   }
   return response;
 }

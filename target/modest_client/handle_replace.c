@@ -5,14 +5,14 @@
 
 ETERM *handle_replace(ErlMessage* emsg, ETERM *response){
   if(response == NULL){
-    ETERM *replace_pattern = erl_format("{replace, Html, Selector, NewHtml, Scope}");;
+    ETERM *pattern = erl_format("{replace, Html, Selector, NewHtml, Scope}");;
     
-    if (erl_match(replace_pattern, emsg->msg))
+    if (erl_match(pattern, emsg->msg))
     {
-      ETERM *html = erl_var_content(replace_pattern, "Html");
-      ETERM *selector = erl_var_content(replace_pattern, "Selector");
-      ETERM *new_html = erl_var_content(replace_pattern, "NewHtml");
-      ETERM *scope = erl_var_content(replace_pattern, "Scope");
+      ETERM *html = erl_var_content(pattern, "Html");
+      ETERM *selector = erl_var_content(pattern, "Selector");
+      ETERM *new_html = erl_var_content(pattern, "NewHtml");
+      ETERM *scope = erl_var_content(pattern, "Scope");
       char* html_string = (char*)ERL_BIN_PTR(html);
       char* selector_string = (char*)ERL_BIN_PTR(selector);
       char* new_html_string = (char*)ERL_BIN_PTR(new_html);
@@ -29,7 +29,7 @@ ETERM *handle_replace(ErlMessage* emsg, ETERM *response){
       erl_free_term(scope);
     }
   
-    erl_free_term(replace_pattern);
+    erl_free_term(pattern);
   }
   return response;
 }
