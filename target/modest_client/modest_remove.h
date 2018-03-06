@@ -23,8 +23,9 @@
  * Remove selected node
  * @param  html     [a html string]
  * @param  selector [a CSS selector]
+ * @param  scope    [scope string]
  * @return value    [updated html string]
  */
-const char* modest_select_and_remove(const char* html, const char* selector);
+const char* modest_select_and_remove(const char* html, const char* selector, const char* scope);
 
 #endif
