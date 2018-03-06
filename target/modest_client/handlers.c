@@ -1,12 +1,5 @@
 #include "handlers.h"
 
-#include "handle_find.h"
-#include "handle_serialize.h"
-#include "handle_attribute.h"
-#include "handle_text.h"
-#include "handle_remove.h"
-#include "handle_append.h"
-
 void
 handle_emsg(state_t* state, ErlMessage* emsg)
 {

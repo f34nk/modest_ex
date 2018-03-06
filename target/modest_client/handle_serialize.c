@@ -1,6 +1,7 @@
-#include "modest_serialize.h"
+#include "erl_interface.h"
+#include "ei.h"
 
-#include "handle_serialize.h"
+#include "modest_serialize.h"
 
 ETERM *handle_serialize(ErlMessage* emsg, ETERM *response){
   if(response == NULL){

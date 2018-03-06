@@ -1,6 +1,7 @@
-#include "modest_find.h"
+#include "erl_interface.h"
+#include "ei.h"
 
-#include "handle_find.h"
+#include "modest_find.h"
 
 #define DEFAULT_FIND_DELIMITER "|"
 

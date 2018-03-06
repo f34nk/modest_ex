@@ -1,6 +1,7 @@
-#include "modest_remove.h"
+#include "erl_interface.h"
+#include "ei.h"
 
-#include "handle_remove.h"
+#include "modest_remove.h"
 
 ETERM *handle_remove(ErlMessage* emsg, ETERM *response){
   if(response == NULL){

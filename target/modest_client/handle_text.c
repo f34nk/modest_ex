@@ -1,6 +1,7 @@
-#include "modest_text.h"
+#include "erl_interface.h"
+#include "ei.h"
 
-#include "handle_text.h"
+#include "modest_text.h"
 
 ETERM *handle_text(ErlMessage* emsg, ETERM *response){
   if(response == NULL){

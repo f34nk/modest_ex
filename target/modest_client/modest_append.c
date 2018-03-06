@@ -37,7 +37,12 @@ void append_node(myhtml_t *myhtml, myhtml_collection_t *collection, const char* 
     for(size_t i = 0; i < collection->length; i++) {
       myhtml_tree_node_t *node = collection->list[i];
 
-      if(node) { 
+      if(node) {
+
+        // create a new tree
+        // create new collection from new_html
+        // append root node of new collection to targert node as a child
+
         myhtml_tree_t* new_tree = myhtml_tree_create();
         myhtml_tree_init(new_tree, myhtml);
         myhtml_parse(new_tree, MyENCODING_UTF_8, new_html, strlen(new_html));

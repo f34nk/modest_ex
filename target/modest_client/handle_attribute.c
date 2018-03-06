@@ -1,6 +1,7 @@
-#include "modest_attribute.h"
+#include "erl_interface.h"
+#include "ei.h"
 
-#include "handle_attribute.h"
+#include "modest_attribute.h"
 
 ETERM *handle_attribute(ErlMessage* emsg, ETERM *response){
   if(response == NULL){

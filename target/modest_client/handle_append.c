@@ -1,6 +1,7 @@
-#include "modest_append.h"
+#include "erl_interface.h"
+#include "ei.h"
 
-#include "handle_append.h"
+#include "modest_append.h"
 
 ETERM *handle_append(ErlMessage* emsg, ETERM *response){
   if(response == NULL){
