@@ -16,6 +16,8 @@ ETERM *
 handle_attribute(ErlMessage* emsg, ETERM *response);
 ETERM *
 handle_append(ErlMessage* emsg, ETERM *response);
+ETERM *
+handle_prepend(ErlMessage* emsg, ETERM *response);
 
 typedef struct _state_t {
   int fd;

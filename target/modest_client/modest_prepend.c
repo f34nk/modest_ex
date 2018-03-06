@@ -28,138 +28,73 @@
 #include <mycss/selectors/serialization.h>
 
 #include "utils.h"
-#include "modest_append.h"
+#include "modest_prepend.h"
 
-void append_node(myhtml_t *myhtml, myhtml_collection_t *collection, const char* new_html)
+void prepend_node(myhtml_t *myhtml, myhtml_collection_t *collection, const char* new_html)
 {
   if(collection && collection->list && collection->length) {
 
     for(size_t i = 0; i < collection->length; i++) {
       myhtml_tree_node_t *node = collection->list[i];
       myhtml_tree_node_t *new_node = get_root_node(myhtml, new_html);
-      myhtml_tree_node_t *last_child = myhtml_node_last_child(node);
-      myhtml_tree_node_t *prev_child = (last_child) ? myhtml_node_prev(last_child) : NULL;
-      // printf("%s, %s, %s, %s\n", (node)?"node":"no node", (new_node)?"new_node":"no new_node", (last_child)?"last_child":"no last_child", (prev_child)?"prev_child":"no prev_child");
+      myhtml_tree_node_t *first_child = myhtml_node_child(node);
+      myhtml_tree_node_t *next_child = (first_child) ? myhtml_node_next(first_child) : NULL;
 
-      if(node && last_child && new_node){
-        myhtml_node_insert_after(last_child, new_node);
+      if(node && first_child && new_node){
+        // prepend new_node before the first child of node
+        myhtml_node_insert_before(first_child, new_node);
       }
-      else if(node && last_child && new_node == NULL){
-        // check if last_child is a text node
-        myhtml_tag_id_t tag_id = myhtml_node_tag_id(last_child);
-        printf("tag_id %d\n", tag_id);
-        const char *tag_name = myhtml_tag_name_by_id(last_child->tree, tag_id, NULL);
-        printf("tag_name %s\n", tag_name);
+      else if(node && first_child && new_node == NULL){
+        // check if first_child is a text node
+        myhtml_tag_id_t tag_id = myhtml_node_tag_id(first_child);
+        const char *tag_name = myhtml_tag_name_by_id(first_child->tree, tag_id, NULL);
         if(strcmp(tag_name, "-text") == 0){
-          // append new_html as a text to the text of the first child
-          const char *text = myhtml_node_text(last_child, NULL);
-          // char *new_text = strcat(new_html, text);
-          char *new_text = get_concat_string(text, new_html);
+          // prepend new_html as a text to the text of the first child
+          const char *text = myhtml_node_text(first_child, NULL);
+          // char *new_text = strcat(text, new_html);
+          char *new_text = get_concat_string(new_html, text);
 
           // remove old text node
-          myhtml_node_delete(last_child);
+          myhtml_node_delete(first_child);
 
           // create new text node from new_text
           myhtml_tree_node_t* new_text_node = myhtml_node_create(node->tree, MyHTML_TAG__TEXT, MyHTML_NAMESPACE_HTML);
           mycore_string_t *string = myhtml_node_text_set(new_text_node, new_text, strlen(new_text), MyENCODING_UTF_8);
 
-          if(prev_child){
-            myhtml_node_insert_after(prev_child, new_text_node);
+          if(next_child){
+            myhtml_node_insert_before(next_child, new_text_node);
           }
           else {
             myhtml_node_append_child(node, new_text_node);
           }
         }
-        else{
+        else {
           const char *new_text = new_html;
           // create new text node from new_html
           myhtml_tree_node_t* new_text_node = myhtml_node_create(node->tree, MyHTML_TAG__TEXT, MyHTML_NAMESPACE_HTML);
           mycore_string_t *string = myhtml_node_text_set(new_text_node, new_text, strlen(new_text), MyENCODING_UTF_8);
 
-          if(prev_child){
-            myhtml_node_insert_after(prev_child, new_text_node);
+          if(next_child){
+            myhtml_node_insert_before(next_child, new_text_node);
           }
           else {
-            myhtml_node_append_child(node, new_text_node);
+            myhtml_node_insert_before(first_child, new_text_node);
           }
         }
       }
+      
     }
   }
 }
 
-// void append_node(myhtml_t *myhtml, myhtml_collection_t *collection, const char* new_html)
-// {
-//   if(collection && collection->list && collection->length) {
-
-//     for(size_t i = 0; i < collection->length; i++) {
-//       myhtml_tree_node_t *node = collection->list[i];
-
-//       if(node) {
-
-//         // create a new tree
-//         // create new collection from new_html
-//         // append root node of new collection to targert node as a child
-
-//         myhtml_tree_t* new_tree = myhtml_tree_create();
-//         myhtml_tree_init(new_tree, myhtml);
-//         myhtml_parse(new_tree, MyENCODING_UTF_8, new_html, strlen(new_html));
-  
-//         /* create css parser and finder for selectors */
-//         mycss_entry_t *css_entry = create_css_parser();
-//         modest_finder_t *finder = modest_finder_create_simple();
-
-//         const char* selector = "body *";
-//         /* parse selectors */
-//         mycss_selectors_list_t *selectors_list = prepare_selector(css_entry, selector, strlen(selector));
-
-//         /* find nodes by selector */
-//         myhtml_collection_t *new_collection = NULL;
-//         modest_finder_by_selectors_list(finder, new_tree->node_html, selectors_list, &new_collection);
-
-//         if(new_collection && new_collection->list && new_collection->length) {
-//           if(new_collection->length > 0)
-//           {
-//             myhtml_tree_node_t* new_node = new_collection->list[0]; 
-//             if(new_node){
-//               myhtml_node_append_child(node, new_node);
-//             }
-//           }
-//         }
-
-//         // TODO: How to do proper cleanup here?
-        
-//         // /* destroy all */
-//         // myhtml_collection_destroy(new_collection);
-
-//         // /* destroy selector list */
-//         // mycss_selectors_list_destroy(mycss_entry_selectors(css_entry), selectors_list, true);
-
-//         // /* destroy Modest Finder */
-//         // modest_finder_destroy(finder, true);
-
-//         // // destroy MyCSS 
-//         // mycss_t *mycss = css_entry->mycss;
-//         // mycss_entry_destroy(css_entry, true);
-//         // mycss_destroy(mycss, true);
-
-//         // /* destroy MyHTML */
-//         // // myhtml_t* myhtml = new_tree->myhtml;
-//         // myhtml_tree_destroy(new_tree);
-//         // // myhtml_destroy(myhtml);
-//       }
-//     }
-//   }
-// }
-
 /**
- * Append new html as child  at the end of selected node
+ * Prepend  new html as a child to the beginning of selected node
  * @param  html      [a html string]
  * @param  selector  [a CSS selector]
  * @param  new_html  [a html string]
  * @return           [updated html string]
  */
-const char* modest_select_and_append(const char* html, const char* selector, const char* new_html)
+const char* modest_select_and_prepend(const char* html, const char* selector, const char* new_html)
 {
   /* init MyHTML and parse HTML */
   myhtml_tree_t *tree = parse_html(html, strlen(html));
@@ -179,7 +114,7 @@ const char* modest_select_and_append(const char* html, const char* selector, con
     // printf("missing collection\n");
   }
 
-  append_node(tree->myhtml, collection, new_html);
+  prepend_node(tree->myhtml, collection, new_html);
   
   FILE *stream;
   char *buf;

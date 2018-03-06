@@ -1,5 +1,5 @@
-#ifndef MODEST_APPEND_H
-#define MODEST_APPEND_H
+#ifndef MODEST_PREPEND_H
+#define MODEST_PREPEND_H
 
 /*
  Copyright (C) 2019 Frank Eickhoff
@@ -20,12 +20,12 @@
 */
 
 /**
- * Append new html as child  at the end of selected node
+ * Prepend  new html as a child to the beginning of selected node
  * @param  html      [a html string]
  * @param  selector  [a CSS selector]
  * @param  new_html  [a html string]
  * @return           [updated html string]
  */
-const char* modest_select_and_append(const char* html, const char* selector, const char* new_html);
+const char* modest_select_and_prepend(const char* html, const char* selector, const char* new_html);
 
 #endif

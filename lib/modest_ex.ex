@@ -160,7 +160,7 @@ defmodule ModestEx do
   end
 
   @doc """
-  Append new html as child of selected node.
+  Append new html as a child at the end of selected node.
   Returns updated html string
 
   ## Examples
@@ -172,6 +172,21 @@ defmodule ModestEx do
   @spec append(input(), String.t, String.t) :: success() | error()
   def append(bin, selector, new_bin) do
     ModestEx.Append.append(bin, selector, new_bin)
+  end
+
+  @doc """
+  Prepend new html as a child at the beginning of selected node.
+  Returns updated html string
+
+  ## Examples
+
+    iex> ModestEx.prepend("<div><p>World</p></div>", "div", "<p>Hello</p>")
+    "<html><head></head><body><div><p>Hello</p><p>World</p></div></body></html>"
+
+  """
+  @spec prepend(input(), String.t, String.t) :: success() | error()
+  def prepend(bin, selector, new_bin) do
+    ModestEx.Prepend.prepend(bin, selector, new_bin)
   end
 
 end

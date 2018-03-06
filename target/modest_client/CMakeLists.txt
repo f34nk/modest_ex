@@ -36,6 +36,7 @@ add_executable(
   handle_text.c
   handle_remove.c
   handle_append.c
+  handle_prepend.c
   utils.c
   modest_find.c
   modest_serialize.c
@@ -43,6 +44,7 @@ add_executable(
   modest_text.c
   modest_remove.c
   modest_append.c
+  modest_prepend.c
 )
 
 target_link_libraries(
