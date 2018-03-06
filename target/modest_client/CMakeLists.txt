@@ -39,6 +39,7 @@ add_executable(
   handle_prepend.c
   handle_insert_before.c
   handle_insert_after.c
+  handle_replace.c
   utils.c
   modest_find.c
   modest_serialize.c
@@ -49,6 +50,7 @@ add_executable(
   modest_prepend.c
   modest_insert_before.c
   modest_insert_after.c
+  modest_replace.c
 )
 
 target_link_libraries(

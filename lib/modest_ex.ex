@@ -219,4 +219,19 @@ defmodule ModestEx do
     ModestEx.InsertAfter.insert_after(bin, selector, new_bin)
   end
 
+  @doc """
+  Replace selected node with new html
+  Returns updated html string
+
+  ## Examples
+
+    iex> ModestEx.replace("<div><p>Hello</p></div>", "div p", "<p>World</p>")
+    "<html><head></head><body><div><p>World</p></div></body></html>"
+
+  """
+  @spec replace(input(), String.t, String.t) :: success() | error()
+  def replace(bin, selector, new_bin) do
+    ModestEx.Replace.replace(bin, selector, new_bin)
+  end
+
 end
