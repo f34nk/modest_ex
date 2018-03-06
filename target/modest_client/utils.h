@@ -37,5 +37,6 @@ void print_found_result(myhtml_tree_t* html_tree, myhtml_collection_t *collectio
 mystatus_t write_output(const char* data, size_t len, void* ctx);
 myhtml_tree_node_t *get_root_node(myhtml_t *myhtml, const char* new_html);
 char *get_concat_string( const char *str1, const char *str2 );
+myhtml_tree_node_t *get_scope_node(myhtml_tree_t* tree, const char* scope);
 
 #endif

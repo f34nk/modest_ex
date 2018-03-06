@@ -22,6 +22,10 @@ defmodule ModestEx do
     Application.get_env(:modest_ex, :delimiter, "|")
   end
 
+  def scope() do
+    Application.get_env(:modest_ex, :scope, "html") # html head body
+  end
+
   #
   # TODO: Find better solution for String.split
   # String.split/2 is too slow with large strings

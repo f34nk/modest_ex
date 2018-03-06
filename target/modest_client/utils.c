@@ -210,3 +210,20 @@ char *get_concat_string( const char *str1, const char *str2 )
 
     return finalString;
 }
+
+myhtml_tree_node_t *get_scope_node(myhtml_tree_t* tree, const char* scope){
+  if(strcmp(scope, "html") == 0){
+    return tree->node_html;
+  }
+  else if(strcmp(scope, "head") == 0){
+    return tree->node_head;
+  }
+  else if(strcmp(scope, "body") == 0){
+    return tree->node_body;
+  }
+  else if(strcmp(scope, "form") == 0){
+    return tree->node_form;
+  }
+  // default
+  return tree->node_html;
+}
