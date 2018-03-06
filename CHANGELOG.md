@@ -6,6 +6,7 @@ March 2018
 
 - Feature ModestEx.insert_before
 - Feature ModestEx.insert_after
+- Feature ModestEx.replace
 
 ## 0.0.6-dev
 

@@ -55,7 +55,7 @@ Build transformation pipelines...
 	end
 
 **Stay tuned for more...**
-*replace(), slice(), ...*
+*slice(), ...*
 
 ## Supported CSS Selectors
 
@@ -132,7 +132,7 @@ See [CHANGELOG](https://github.com/f34nk/modest_ex/blob/master/CHANGELOG.md).
 	- [x] Prepend node to another node
 	- [x] Insert node before another node
 	- [x] Insert node after another node
-	- [ ] Replace node with another node
+	- [x] Replace node with another node
 	- [ ] Slice html to a subset of nodes
 - [x] List of supported CSS Selectors
 - [ ] Documentation
