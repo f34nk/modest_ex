@@ -40,10 +40,7 @@ defmodule ModestExTextTest do
                 end
               "set" ->
                 output = Enum.at(matched, 6)
-                test = cond do
-                  mode == "set" and selector == "" -> ModestEx.set_text(input, text)
-                  mode == "set" -> ModestEx.set_text(input, selector, text)
-                end
+                test = ModestEx.set_text(input, selector, text)
                 case test do
                   {:error, error} ->
                     raise RuntimeError,

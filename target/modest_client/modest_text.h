@@ -37,20 +37,13 @@ const char* modest_get_text(const char* html, const char* delimiter);
 const char* modest_select_and_get_text(const char* html, const char* selector, const char* delimiter);
 
 /**
- * Set text for the first element in html string
- * @param  html  [a html string]
- * @param  text  [the text]
- * @return       [updated html string]
- */
-const char* modest_set_text(const char* html, const char* text);
-
-/**
  * Set text for the selected element in html string
  * @param  html     [a html string]
  * @param  selector [a CSS selector]
  * @param  text     [the text]
+ * @param  scope    [scope string]
  * @return          [updated html string]
  */
-const char* modest_select_and_set_text(const char* html, const char* selector, const char* text);
+const char* modest_select_and_set_text(const char* html, const char* selector, const char* text, const char* scope);
 
 #endif

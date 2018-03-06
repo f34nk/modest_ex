@@ -23,7 +23,7 @@ defmodule ModestEx do
   end
 
   def scope() do
-    result = Application.get_env(:modest_ex, :scope, :html) # :html :head :body :body_first_child
+    Application.get_env(:modest_ex, :scope, :html) # :html :head :body :body_first_child
     |> Atom.to_string()
   end
 
@@ -139,11 +139,6 @@ defmodule ModestEx do
     "<html><head></head><body><div><p>Hello World</p></div></body></html>"
 
   """
-  @spec set_text(input(), input()) :: success() | error()
-  def set_text(bin, text) do
-    ModestEx.SetText.set_text(bin, text)
-  end
-
   @spec set_text(input(), String.t, input()) :: success() | error()
   def set_text(bin, selector, text) do
     ModestEx.SetText.set_text(bin, selector, text)

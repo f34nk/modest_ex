@@ -15,24 +15,9 @@ defmodule ModestEx.Safe.Text do
     end
   end
 
-  def set_text(bin, text) do
-    case Nodex.Cnode.call(ModestEx.Safe.Cnode, {:set_text, bin <> "\0", text <> "\0"}) do
-      {:ok, {:set_text, reply}} -> 
-        case reply do
-          <<"<-undef>"::utf8>> <> result -> result
-          _ -> {:error, reply}
-        end
-      _ -> {:error, bin}
-    end
-  end
-
   def set_text(bin, selector, text) do
-    case Nodex.Cnode.call(ModestEx.Safe.Cnode, {:set_text, bin <> "\0", selector <> "\0", text <> "\0"}) do
-      {:ok, {:set_text, reply}} -> 
-        case reply do
-          <<"<-undef>"::utf8>> <> result -> result
-          _ -> {:error, reply}
-        end
+    case Nodex.Cnode.call(ModestEx.Safe.Cnode, {:set_text, bin <> "\0", selector <> "\0", text <> "\0", ModestEx.scope() <> "\0"}) do
+      {:ok, {:set_text, result}} -> result
       _ -> {:error, bin}
     end
   end
