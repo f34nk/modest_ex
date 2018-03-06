@@ -87,4 +87,17 @@ Insert every element in the set of matched elements before the target.
 ## replace
 Replace each element in the set of matched elements with the provided new content and return the set of elements that was removed.
 
+	iex> ModestEx.replace("<div><p>Hello</p></div>", "div p", "<p>World</p>")
+	"<html><head></head><body><div><p>World</p></div></body></html>"
+
+## slice
+Slice the set into two a subsets, first set from first node until selected node and second set from selected node to end.
+
 *in progress...*
+
+<!--
+
+	iex> ModestEx.slice("<p>Hello</p><p>World</p>", "p:first-of_type")
+	["<p>Hello</p>", "<p>World</p>"]
+	
+-->

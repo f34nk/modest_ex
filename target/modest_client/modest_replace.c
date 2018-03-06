@@ -37,70 +37,19 @@ void replace_node(myhtml_t *myhtml, myhtml_collection_t *collection, const char*
     for(size_t i = 0; i < collection->length; i++) {
       myhtml_tree_node_t *node = collection->list[i];
       myhtml_tree_node_t *new_node = get_root_node(myhtml, new_html);
-      myhtml_tree_node_t *last_child = myhtml_node_last_child(node);
-      myhtml_tree_node_t *prev_child = (last_child) ? myhtml_node_prev(last_child) : NULL;
 
-      printf("%s, %s, %s, %s\n", (node)?"node":"no node", (new_node)?"new_node":"no new_node", (last_child)?"last_child":"no last_child", (prev_child)?"prev_child":"no prev_child");
-
-      // if(node && last_child && new_node){
-      //   myhtml_node_insert_after(last_child, new_node);
-      // }
-      // else if(node && last_child && new_node == NULL){
-      //   // check if last_child is a text node
-      //   myhtml_tag_id_t tag_id = myhtml_node_tag_id(last_child);
-      //   printf("tag_id %d\n", tag_id);
-      //   const char *tag_name = myhtml_tag_name_by_id(last_child->tree, tag_id, NULL);
-      //   printf("tag_name %s\n", tag_name);
-      //   if(strcmp(tag_name, "-text") == 0){
-      //     // append new_html as a text to the text of the first child
-      //     const char *text = myhtml_node_text(last_child, NULL);
-      //     // char *new_text = strcat(new_html, text);
-      //     char *new_text = get_concat_string(text, new_html);
-
-      //     // remove old text node
-      //     myhtml_node_delete(last_child);
-
-      //     // create new text node from new_text
-      //     myhtml_tree_node_t* new_text_node = myhtml_node_create(node->tree, MyHTML_TAG__TEXT, MyHTML_NAMESPACE_HTML);
-      //     mycore_string_t *string = myhtml_node_text_set(new_text_node, new_text, strlen(new_text), MyENCODING_UTF_8);
-
-      //     if(prev_child){
-      //       myhtml_node_insert_after(prev_child, new_text_node);
-      //     }
-      //     else {
-      //       myhtml_node_append_child(node, new_text_node);
-      //     }
-      //   }
-      //   else{
-      //     const char *new_text = new_html;
-      //     // create new text node from new_html
-      //     myhtml_tree_node_t* new_text_node = myhtml_node_create(node->tree, MyHTML_TAG__TEXT, MyHTML_NAMESPACE_HTML);
-      //     mycore_string_t *string = myhtml_node_text_set(new_text_node, new_text, strlen(new_text), MyENCODING_UTF_8);
-
-      //     if(prev_child){
-      //       myhtml_node_insert_after(prev_child, new_text_node);
-      //     }
-      //     else {
-      //       myhtml_node_append_child(node, new_text_node);
-      //     }
-      //   }
-      // }
-      // else if(node && last_child == NULL && prev_child == NULL && new_node){
-      //   myhtml_node_append_child(node, new_node);
-      // }
-      // else if(node && last_child == NULL && prev_child == NULL && new_node == NULL){
-
-      //   // myhtml_tag_id_t tag_id = myhtml_node_tag_id(node);
-      //   // printf("tag_id %d\n", tag_id);
-      //   // const char *tag_name = myhtml_tag_name_by_id(node->tree, tag_id, NULL);
-      //   // printf("tag_name %s\n", tag_name);
-        
-      //   const char *new_text = new_html;
-      //   // create new text node from new_text
-      //   myhtml_tree_node_t* new_text_node = myhtml_node_create(node->tree, MyHTML_TAG__TEXT, MyHTML_NAMESPACE_HTML);
-      //   mycore_string_t *string = myhtml_node_text_set(new_text_node, new_text, strlen(new_text), MyENCODING_UTF_8);
-      //   myhtml_node_append_child(node, new_text_node);
-      // }
+      if(node && new_node){
+        myhtml_node_insert_after(node, new_node);
+        myhtml_node_delete_recursive(node);
+      }
+      else if(node && new_node == NULL){
+        const char *new_text = new_html;
+        // create new text node from new_text
+        myhtml_tree_node_t* new_text_node = myhtml_node_create(node->tree, MyHTML_TAG__TEXT, MyHTML_NAMESPACE_HTML);
+        mycore_string_t *string = myhtml_node_text_set(new_text_node, new_text, strlen(new_text), MyENCODING_UTF_8);
+        myhtml_node_insert_after(node, new_text_node);
+        myhtml_node_delete_recursive(node);
+      }
     }
   }
 }
