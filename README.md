@@ -67,7 +67,7 @@ Available on [hex](https://hex.pm/packages/modest_ex).
 ```elixir
 def deps do
   [
-    {:modest_ex, "~> 0.0.5-dev"}
+    {:modest_ex, "~> 0.0.6-dev"}
   ]
 end
 ```
@@ -128,7 +128,7 @@ See [CHANGELOG](https://github.com/f34nk/modest_ex/blob/master/CHANGELOG.md).
 	- [x] Set text with optional CSS selector
 	- [x] Remove a node from html
 	- [x] Append node to another node
-	- [ ] Prepend node to another node
+	- [x] Prepend node to another node
 	- [ ] Replace node with another node
 	- [ ] Slice html to a subset of nodes
 - [x] List of supported CSS Selectors

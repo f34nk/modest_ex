@@ -69,7 +69,8 @@ Insert content, specified by the parameter, to the end of each element in the se
 ## prepend
 Insert content, specified by the parameter, to the beginning of each element in the set of matched elements.
 
-*in progress...*
+	iex> ModestEx.prepend("<div><p>World</p></div>", "div", "<p>Hello</p>")
+	"<html><head></head><body><div><p>Hello</p><p>World</p></div></body></html>"
 
 ## insert_after
 Insert every element in the set of matched elements after the target.
