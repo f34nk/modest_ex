@@ -28,9 +28,9 @@
 #include <mycss/selectors/serialization.h>
 
 #include "utils.h"
-#include "modest_append.h"
+#include "modest_prepend.h"
 
-void append_node(myhtml_t *myhtml, myhtml_collection_t *collection, const char* new_html)
+void prepend_node(myhtml_t *myhtml, myhtml_collection_t *collection, const char* new_html)
 {
   if(collection && collection->list && collection->length) {
 
@@ -97,13 +97,13 @@ void append_node(myhtml_t *myhtml, myhtml_collection_t *collection, const char* 
 }
 
 /**
- * Append new html as child  at the end of selected node
+ * Prepend  new html as a child to the beginning of selected node
  * @param  html      [a html string]
  * @param  selector  [a CSS selector]
  * @param  new_html  [a html string]
  * @return           [updated html string]
  */
-const char* modest_select_and_append(const char* html, const char* selector, const char* new_html)
+const char* modest_select_and_prepend(const char* html, const char* selector, const char* new_html)
 {
   /* init MyHTML and parse HTML */
   myhtml_tree_t *tree = parse_html(html, strlen(html));
@@ -123,7 +123,7 @@ const char* modest_select_and_append(const char* html, const char* selector, con
     // printf("missing collection\n");
   }
 
-  append_node(tree->myhtml, collection, new_html);
+  prepend_node(tree->myhtml, collection, new_html);
   
   FILE *stream;
   char *buf;
