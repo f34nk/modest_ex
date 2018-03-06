@@ -51,6 +51,7 @@ add_executable(
   modest_insert_before.c
   modest_insert_after.c
   modest_replace.c
+  modest_slice.c
 )
 
 target_link_libraries(
