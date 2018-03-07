@@ -6,8 +6,8 @@ defmodule PipeTest do
     result = ""
     |> ModestEx.serialize()
     |> ModestEx.append("body", "<div>")
-    |> ModestEx.set_attribute("body > div", "class", "col-md-12")
-    |> ModestEx.append("body > div", "<div>")
+    |> ModestEx.set_attribute("div", "class", "col-md-12")
+    |> ModestEx.append("div", "<div>")
     |> ModestEx.set_attribute("div.col-md-12 div", "class", "col-md-6")
     |> ModestEx.append("div.col-md-12 div", "<a></a>")
     |> ModestEx.set_text("a", "Hello")
