@@ -1,5 +1,11 @@
 # ModestEx Changelog
 
+## 0.0.9-dev
+
+March 2018
+
+- Fixed bug in `ModestEx.find` proper use of scope
+
 ## 0.0.8-dev
 
 March 2018
