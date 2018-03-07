@@ -24,8 +24,9 @@
  * @param  html      [a html string]
  * @param  selector  [a CSS selector]
  * @param  delimiter [delimiter string]
+ * @param  scope     [scope string]
  * @return           [updated html string]
  */
-const char* modest_slice_until_selected(const char* html, const char* selector, const char* delimiter);
+const char* modest_slice_until_selected(const char* html, const char* selector, const char* delimiter, const char* scope);
 
 #endif

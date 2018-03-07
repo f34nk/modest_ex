@@ -2,12 +2,13 @@
 #include "modest_slice.h"
 int main(int argc, const char * argv[])
 {
-  const char *html = "<p>Hello</p><p>World</p>";
-  const char *selector = "p:first-of-type, :not(p:first-of-type, body)";
+  const char *html = "<h1>Lorem ipsum</h1><p>dolor sit amet</p><ul><li>Coffee</li><li>Tea</li><li>Milk</li></ul><p>Sed ut perspiciatis</p><p>unde omnis iste natus</p>";
+  const char *selector = "h1, ul";
   const char *delimiter = "|";
-  char* result = modest_slice_until_selected(html, selector, delimiter);
+  const char *scope = "body";
+  char* result = modest_slice_until_selected(html, selector, delimiter, scope);
   printf("%s\n", result);
-  if(strcmp(result, "<p>Hello</p>|<p>World</p>") != 0){
+  if(strcmp(result, "asdasd") != 0){
     printf("Failed\n");
     return 1;
   }

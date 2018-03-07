@@ -37,13 +37,13 @@
  * @param  delimiter [delimiter string]
  * @return           [updated html string]
  */
-const char* modest_slice_until_selected(const char* html, const char* selector, const char* delimiter)
+const char* modest_slice_until_selected(const char* html, const char* selector, const char* delimiter, const char* scope)
 {
   // const char *html = "<div><p id=p1><p id=p2><p id=p3><a>link</a><p id=p4><p id=p5><p id=p6></div>";
   // const char *selector = "div > :nth-child(2n+1):not(:has(a))";
 
   /* init MyHTML and parse HTML */
-  myhtml_tree_t *html_tree = parse_html(html, strlen(html));
+  myhtml_tree_t *tree = parse_html(html, strlen(html));
 
   /* create css parser and finder for selectors */
   mycss_entry_t *css_entry = create_css_parser();
@@ -54,7 +54,7 @@ const char* modest_slice_until_selected(const char* html, const char* selector, 
 
   /* find nodes by selector */
   myhtml_collection_t *collection = NULL;
-  modest_finder_by_selectors_list(finder, html_tree->node_body, selectors_list, &collection);
+  modest_finder_by_selectors_list(finder, get_scope_node(tree, scope), selectors_list, &collection);
 
   // /* print found result */
   // printf("\n\nFound nodes:");
@@ -64,7 +64,7 @@ const char* modest_slice_until_selected(const char* html, const char* selector, 
   size_t len;
   stream = open_memstream(&buf, &len);
 
-  print_found_result(html_tree, collection, delimiter, stream);
+  print_found_result(tree, collection, delimiter, stream);
 
   // close the stream, the buffer is allocated and the size is set !
   fclose(stream);
@@ -86,8 +86,8 @@ const char* modest_slice_until_selected(const char* html, const char* selector, 
   mycss_destroy(mycss, true);
 
   /* destroy MyHTML */
-  myhtml_t* myhtml = html_tree->myhtml;
-  myhtml_tree_destroy(html_tree);
+  myhtml_t* myhtml = tree->myhtml;
+  myhtml_tree_destroy(tree);
   myhtml_destroy(myhtml);
 
   // TODO: This is a leak. Implement proper memory handling.

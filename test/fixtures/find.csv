@@ -67,3 +67,5 @@ Enabled;Selector;Input;Output
 0;:visible;<span style="display:none">Hello</span><span>World</span>;asasd
 1;div > :nth-child(2n+1):not(:has(a));<div><p id=p1><p id=p2><p id=p3><a>link</a><p id=p4><p id=p5><p id=p6></div>;<p id="p1"></p>|<p id="p5"></p>
 0;:contains("Hello");<div><span>Hello</span><span>World</span></div>;<span>Hello</span>
+
+1;body:nth-child(n+2);<h1>Lorem ipsum</h1><p>dolor sit amet</p><ul><li>Coffee</li><li>Tea</li><li>Milk</li></ul><p>Sed ut perspiciatis</p><p>unde omnis iste natus</p>;asdasd
