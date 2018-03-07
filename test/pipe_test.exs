@@ -14,15 +14,11 @@ defmodule PipeTest do
 
     copy = ModestEx.find(result, "div.col-md-12 div")
     |> ModestEx.set_text("a", "World")
-    |> ModestEx.find("body > *")
-    |> List.first()
-
+    
     result = ModestEx.insert_after(result, "div.col-md-12 div", copy)
     |> ModestEx.set_attribute("div.col-md-6:first-of-type a", "href", "https://elixir-lang.org")
     |> ModestEx.set_attribute("div.col-md-6:last-of-type a", "href", "https://google.de")
-    |> ModestEx.find("body > *")
-    |> List.first()
-
+    
     assert result == "<div class=\"col-md-12\"><div class=\"col-md-6\"><a href=\"https://elixir-lang.org\">Hello</a></div><div class=\"col-md-6\"><a href=\"https://google.de\">World</a></div></div>"
   end
 
@@ -32,8 +28,6 @@ defmodule PipeTest do
     |> ModestEx.set_attribute("div.col-md-12 div", "class", "col-md-6")
     |> ModestEx.set_attribute("div.col-md-6:first-of-type a", "href", "https://elixir-lang.org")
     |> ModestEx.set_attribute("div.col-md-6:last-of-type a", "href", "https://google.de")
-    |> ModestEx.find("body > *")
-    |> List.first()
 
     assert result == "<div class=\"col-md-12\"><div class=\"col-md-6\"><a href=\"https://elixir-lang.org\">Hello</a></div><div class=\"col-md-6\"><a href=\"https://google.de\">World</a></div></div>"
   end

@@ -15,9 +15,13 @@ defmodule ModestExTextTest do
             input = Enum.at(matched, 3)
             selector = Enum.at(matched, 4)
             text = Enum.at(matched, 5)
+            output = Enum.at(matched, 6)
             case mode do
               "get" ->
-                output = String.split(Enum.at(matched, 6), "|")
+                output = cond do
+                  String.contains?(output, "|") -> String.split(output, "|")
+                  true -> output
+                end
                 test = cond do
                   mode == "get" and selector == "" -> ModestEx.get_text(input)
                   mode == "get" -> ModestEx.get_text(input, selector)
@@ -26,35 +30,34 @@ defmodule ModestExTextTest do
                   {:error, error} ->
                     raise RuntimeError,
                       "\n\tinput: " <> input <>
-                      "\n\texpected: " <> Enum.join(output, "|") <>
                       "\n\terror: " <> error
+                      # "\n\texpected: " <> Enum.join(output, "|") <>
                   reply ->
                     try do
                       assert reply == output
                     rescue
                       error in [ExUnit.AssertionError] -> 
                         raise ExUnit.AssertionError, error.message <> 
-                          "\n\t reply: " <> Enum.join(reply, "|") <>
                           "\n\t test:  " <> line
+                          # "\n\t reply: " <> Enum.join(reply, "|") <>
                     end
                 end
               "set" ->
-                output = Enum.at(matched, 6)
                 test = ModestEx.set_text(input, selector, text)
                 case test do
                   {:error, error} ->
                     raise RuntimeError,
                       "\n\tinput: " <> input <>
-                      "\n\texpected: " <> output <>
                       "\n\terror: " <> error
+                      # "\n\texpected: " <> output <>
                   reply ->
                     try do
                       assert reply == output
                     rescue
                       error in [ExUnit.AssertionError] -> 
                         raise ExUnit.AssertionError, error.message <> 
-                          "\n\t reply: " <> Enum.join(reply, "|") <>
                           "\n\t test:  " <> line
+                          # "\n\t reply: " <> Enum.join(reply, "|") <>
                     end
                 end
             end

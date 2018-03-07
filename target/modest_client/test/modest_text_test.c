@@ -19,7 +19,7 @@ int main(int argc, const char * argv[])
   }
 
   html = "<div><p></p></div>";
-  const char *scope = "body_first_child";
+  const char *scope = "body_children";
   result = modest_select_and_set_text(html, "div p", "Hello World", scope);
   printf("%s\n", result);
   if(strcmp(result, "<div><p>Hello World</p></div>") != 0){

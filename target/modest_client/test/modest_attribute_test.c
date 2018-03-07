@@ -19,7 +19,7 @@ int main(int argc, const char * argv[])
   }
 
   html = "<p><a href="">Hello</a> World</p>";
-  const char *scope = "body_first_child";
+  const char *scope = "body_children";
   result = modest_select_and_set_attribute(html, "p a", "href", "https://elixir-lang.org", scope);
   printf("%s\n", result);
   if(strcmp(result, "<p><a href=\"https://elixir-lang.org\">Hello</a> World</p>") != 0){

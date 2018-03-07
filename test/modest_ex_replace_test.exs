@@ -4,7 +4,7 @@ defmodule ModestExReplaceTest do
 
   test "replace with new html" do
     result = ModestEx.replace("<div><p>Hello</p></div>", "div p", "<p>World</p>")
-    assert result == "<html><head></head><body><div><p>World</p></div></body></html>"
+    assert result == "<div><p>World</p></div>"
   end
 
 end

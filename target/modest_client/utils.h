@@ -41,7 +41,7 @@ char *get_concat_string( const char *str1, const char *str2 );
 /**
  * [get_scope_node description]
  * @param  tree  [html tree]
- * @param  scope [can be "html", "head", "body", "body_first_child", "form"]
+ * @param  scope [can be "html", "head", "body", "body_children", "form"]
  * @return       [description]
  */
 myhtml_tree_node_t *get_scope_node(myhtml_tree_t* tree, const char* scope);

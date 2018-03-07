@@ -221,7 +221,7 @@ myhtml_tree_node_t *get_scope_node(myhtml_tree_t* tree, const char* scope){
   else if(strcmp(scope, "body") == 0){
     return tree->node_body;
   }
-  else if(strcmp(scope, "body_first_child") == 0){
+  else if(strcmp(scope, "body_children") == 0){
     return myhtml_node_child(tree->node_body);
   }
   else if(strcmp(scope, "form") == 0){

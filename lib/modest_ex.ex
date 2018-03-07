@@ -10,7 +10,7 @@ defmodule ModestEx do
   ## Example
 
     iex> ModestEx.find("<p><a>Hello</a> World</p>", "p a")
-    ["<a>Hello</a>"]
+    "<a>Hello</a>"
 
   """
 
@@ -22,8 +22,37 @@ defmodule ModestEx do
     Application.get_env(:modest_ex, :delimiter, "|")
   end
 
+  @moduledoc """
+  Serialization scope.
+  Possible values are: 
+  :html 
+    html will be serialized to complete document 
+    <html><head></head><body>...</body></html>
+    
+  :head
+    html will be reduced only to the head fragment 
+    <head>...</head>
+    
+  :body
+    html will be reduced only to the body fragment 
+    <body>...</body>
+    
+  :body_children
+    html will be reduced to the children of the body
+    
+  """
   def scope() do
-    Application.get_env(:modest_ex, :scope, :html) # :html :head :body :body_first_child
+    Application.get_env(:modest_ex, :scope, :body_children) |> to_scope()
+  end
+
+  def to_scope(flag) when is_atom(flag) do
+    case flag do
+      :html -> flag
+      :head -> flag
+      :body -> flag
+      :body_children -> flag
+      _ -> :html
+    end
     |> Atom.to_string()
   end
 
@@ -33,7 +62,11 @@ defmodule ModestEx do
   # https://github.com/elixir-lang/elixir/issues/6148
   # 
   def split(bin) when is_bitstring(bin) do
-    String.split(bin, ModestEx.delimiter())
+    result = String.split(bin, ModestEx.delimiter())
+    cond do
+      Enum.count(result) == 1 -> List.first(result)
+      true -> result
+    end
   end
 
   @doc """
@@ -43,7 +76,7 @@ defmodule ModestEx do
   ## Examples
 
     iex> ModestEx.find("<p><a>Hello</a> World</p>", "p a")
-    ["<a>Hello</a>"]
+    "<a>Hello</a>"
 
     iex> ModestEx.find("<p><span>Hello</span> <span>World</span></p>", "span")
     ["<span>Hello</span>", "<span>World</span>"]
@@ -64,9 +97,9 @@ defmodule ModestEx do
     "<html><head></head><body><div>Hello<span>World</span></div></body></html>"
 
   """
-  @spec serialize(input()) :: success() | error()
-  def serialize(bin) do
-    ModestEx.Serialize.serialize(bin)
+  @spec serialize(input(), Atom.t) :: success() | error()
+  def serialize(bin, scope \\ :html) do
+    ModestEx.Serialize.serialize(bin, scope)
   end
 
   @doc """
@@ -76,7 +109,7 @@ defmodule ModestEx do
   ## Examples
 
     iex> ModestEx.get_attribute("<a href=\\"https://elixir-lang.org\\">Hello</a>", "href")
-    ["https://elixir-lang.org"]
+    "https://elixir-lang.org"
 
   """
   @spec get_attribute(input(), String.t) :: success() | error()
@@ -96,7 +129,7 @@ defmodule ModestEx do
   ## Examples
 
     iex> ModestEx.set_attribute("<a>Hello</a>", "a", "href", "https://elixir-lang.org")
-    "<html><head></head><body><a href=\\"https://elixir-lang.org\\">Hello</a></body></html>"
+    "<a href=\\"https://elixir-lang.org\\">Hello</a>"
 
   """
   @spec set_attribute(input(), String.t, String.t, input()) :: success() | error()
@@ -111,7 +144,7 @@ defmodule ModestEx do
   ## Examples
 
     iex> ModestEx.get_text("<div>Hello World</div>")
-    ["Hello World"]
+    "Hello World"
 
   """
   @spec get_text(input()) :: success() | error()
@@ -131,7 +164,7 @@ defmodule ModestEx do
   ## Examples
 
     iex> ModestEx.set_text("<div><p></p></div>", "div p", "Hello World")
-    "<html><head></head><body><div><p>Hello World</p></div></body></html>"
+    "<div><p>Hello World</p></div>"
 
   """
   @spec set_text(input(), String.t, input()) :: success() | error()
@@ -146,7 +179,7 @@ defmodule ModestEx do
   ## Examples
 
     iex> ModestEx.remove("<div><p>Hello</p>World</div>", "div p")
-    "<html><head></head><body><div>World</div></body></html>"
+    "<div>World</div>"
 
   """
   @spec remove(input(), String.t) :: success() | error()
@@ -161,7 +194,7 @@ defmodule ModestEx do
   ## Examples
 
     iex> ModestEx.append("<div><p>Hello</p></div>", "div", "<p>World</p>")
-    "<html><head></head><body><div><p>Hello</p><p>World</p></div></body></html>"
+    "<div><p>Hello</p><p>World</p></div>"
 
   """
   @spec append(input(), String.t, String.t) :: success() | error()
@@ -176,7 +209,7 @@ defmodule ModestEx do
   ## Examples
 
     iex> ModestEx.prepend("<div><p>World</p></div>", "div", "<p>Hello</p>")
-    "<html><head></head><body><div><p>Hello</p><p>World</p></div></body></html>"
+    "<div><p>Hello</p><p>World</p></div>"
 
   """
   @spec prepend(input(), String.t, String.t) :: success() | error()
@@ -191,7 +224,7 @@ defmodule ModestEx do
   ## Examples
 
     iex> ModestEx.insert_before("<div><p>World</p></div>", "div p", "<p>Hello</p>")
-    "<html><head></head><body><div><p>Hello</p><p>World</p></div></body></html>"
+    "<div><p>Hello</p><p>World</p></div>"
 
   """
   @spec insert_before(input(), String.t, String.t) :: success() | error()
@@ -206,7 +239,7 @@ defmodule ModestEx do
   ## Examples
 
     iex> ModestEx.insert_after("<div><p>Hello</p></div>", "div p", "<p>World</p>")
-    "<html><head></head><body><div><p>Hello</p><p>World</p></div></body></html>"
+    "<div><p>Hello</p><p>World</p></div>"
 
   """
   @spec insert_after(input(), String.t, String.t) :: success() | error()
@@ -221,7 +254,7 @@ defmodule ModestEx do
   ## Examples
 
     iex> ModestEx.replace("<div><p>Hello</p></div>", "div p", "<p>World</p>")
-    "<html><head></head><body><div><p>World</p></div></body></html>"
+    "<div><p>World</p></div>"
 
   """
   @spec replace(input(), String.t, String.t) :: success() | error()

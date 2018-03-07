@@ -21,7 +21,7 @@ int main(int argc, const char * argv[])
   }
 
   html = "<span Hello World";
-  scope = "body_first_child";
+  scope = "body_children";
   result = modest_serialize(html, scope);
   printf("%s\n", result);
   if(strcmp(result, "<span hello=\"\" world=\"\"></span>") != 0){
