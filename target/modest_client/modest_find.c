@@ -30,6 +30,26 @@
 #include "utils.h"
 #include "modest_find.h"
 
+const char* get_scoped_selector(const char* selector, const char* scope){
+  if(strcmp(scope, "html") == 0){
+    return get_concat_string("html, html ", selector);
+  }
+  else if(strcmp(scope, "head") == 0){
+    return get_concat_string("head, head ", selector);
+  }
+  else if(strcmp(scope, "body") == 0){
+    return get_concat_string("body, html ", get_concat_string(selector, " :not(head)"));
+  }
+  else if(strcmp(scope, "body_children") == 0){
+    return get_concat_string("body ", selector);
+  }
+  else if(strcmp(scope, "form") == 0){
+    return get_concat_string("form, ", selector);
+  }
+  // default
+  return selector;
+}
+
 /**
  * Find nodes with a CSS selector with optional delimiter.
  * @param  html      [a html string]
@@ -46,12 +66,16 @@ const char* modest_find(const char* html, const char* selector, const char* deli
   mycss_entry_t *css_entry = create_css_parser();
   modest_finder_t *finder = modest_finder_create_simple();
 
+  const char* new_selector = get_scoped_selector(selector, scope);
+  printf("new_selector: %s\n", new_selector);
+
   /* parse selectors */
-  mycss_selectors_list_t *selectors_list = prepare_selector(css_entry, selector, strlen(selector));
+  mycss_selectors_list_t *selectors_list = prepare_selector(css_entry, new_selector, strlen(new_selector));
 
   /* find nodes by selector */
   myhtml_collection_t *collection = NULL;
-  modest_finder_by_selectors_list(finder, tree->node_html/*get_scope_node(tree, scope)*/, selectors_list, &collection);
+  // modest_finder_by_selectors_list(finder, get_scope_node(tree, scope), selectors_list, &collection);
+  modest_finder_by_selectors_list(finder, tree->node_html, selectors_list, &collection);
 
   // /* print found result */
   // printf("\n\nFound nodes:");
