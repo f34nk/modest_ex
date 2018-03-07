@@ -30,14 +30,71 @@
 #include "utils.h"
 #include "modest_slice.h"
 
+myhtml_collection_t* slice(myhtml_t *myhtml, myhtml_collection_t *collection, int start, int end)
+{
+  if(collection && collection->list && collection->length){
+
+    if(end == -1) {
+      end = collection->length;
+    }
+
+    if(start >= 0 && end >= 0) {
+
+      int new_collection_size = end - start;
+      printf("new_collection_size %d\n", new_collection_size);
+
+      mystatus_t status;
+      myhtml_collection_t *new_collection = myhtml_collection_create(new_collection_size, &status);
+
+      for(size_t i = 0; i < start; i++) {
+        myhtml_tree_node_t *node = collection->list[i];
+        if(node){
+          myhtml_tag_id_t tag_id = myhtml_node_tag_id(node);
+          const char *tag_name = myhtml_tag_name_by_id(node->tree, tag_id, NULL);
+          printf("exclude %d, tag_name %s\n", i, tag_name);
+        }
+      }
+      for(size_t i = start; i < end; i++) {
+        myhtml_tree_node_t *node = collection->list[i];
+        if(node){
+          myhtml_tag_id_t tag_id = myhtml_node_tag_id(node);
+          const char *tag_name = myhtml_tag_name_by_id(node->tree, tag_id, NULL);
+          printf("include %d, tag_name %s\n", i, tag_name);
+
+          if(myhtml_collection_check_size(new_collection, 1, 1024) == MyHTML_STATUS_OK) {
+            new_collection->list[new_collection->length] = node;
+            new_collection->length++;
+          }
+        }
+      }
+      for(size_t i = end; i < collection->length; i++) {
+        myhtml_tree_node_t *node = collection->list[i];
+        if(node){
+          myhtml_tag_id_t tag_id = myhtml_node_tag_id(node);
+          const char *tag_name = myhtml_tag_name_by_id(node->tree, tag_id, NULL);
+          printf("exclude %d, tag_name %s\n", i, tag_name);
+        }
+      }
+
+      return new_collection;
+    }
+  }
+
+  return NULL;
+}
+
 /**
- * Slice set into two subsets. First set from first node until selected node. Second set from selected node to end.
+ * Slice selected set into subset. Index each element in the set. 
+ * Return a set from start to end.
  * @param  html      [a html string]
  * @param  selector  [a CSS selector]
+ * @param  start     [start index]
+ * @param  end       [end index]
  * @param  delimiter [delimiter string]
- * @return           [updated html string]
+ * @param  scope     [scope string]
+ * @return           [delimited string]
  */
-const char* modest_slice_until_selected(const char* html, const char* selector, const char* delimiter, const char* scope)
+const char* modest_slice_selected(const char* html, const char* selector, int start, int end, const char* delimiter, const char* scope)
 {
   // const char *html = "<div><p id=p1><p id=p2><p id=p3><a>link</a><p id=p4><p id=p5><p id=p6></div>";
   // const char *selector = "div > :nth-child(2n+1):not(:has(a))";
@@ -49,12 +106,16 @@ const char* modest_slice_until_selected(const char* html, const char* selector, 
   mycss_entry_t *css_entry = create_css_parser();
   modest_finder_t *finder = modest_finder_create_simple();
 
+  const char* new_selector = get_scoped_selector(selector, scope);
+  printf("scoped_selector: %s\n", new_selector);
+
   /* parse selectors */
-  mycss_selectors_list_t *selectors_list = prepare_selector(css_entry, selector, strlen(selector));
+  mycss_selectors_list_t *selectors_list = prepare_selector(css_entry, new_selector, strlen(new_selector));
 
   /* find nodes by selector */
   myhtml_collection_t *collection = NULL;
-  modest_finder_by_selectors_list(finder, get_scope_node(tree, scope), selectors_list, &collection);
+  // modest_finder_by_selectors_list(finder, get_scope_node(tree, scope), selectors_list, &collection);
+  modest_finder_by_selectors_list(finder, tree->node_html, selectors_list, &collection);
 
   // /* print found result */
   // printf("\n\nFound nodes:");
@@ -64,7 +125,9 @@ const char* modest_slice_until_selected(const char* html, const char* selector, 
   size_t len;
   stream = open_memstream(&buf, &len);
 
-  print_found_result(tree, collection, delimiter, stream);
+  myhtml_collection_t *new_collection = slice(tree->myhtml, collection, start, end);
+
+  print_found_result(tree, new_collection, delimiter, stream);
 
   // close the stream, the buffer is allocated and the size is set !
   fclose(stream);
@@ -73,6 +136,7 @@ const char* modest_slice_until_selected(const char* html, const char* selector, 
 
   /* destroy all */
   myhtml_collection_destroy(collection);
+  myhtml_collection_destroy(new_collection);
 
   /* destroy selector list */
   mycss_selectors_list_destroy(mycss_entry_selectors(css_entry), selectors_list, true);

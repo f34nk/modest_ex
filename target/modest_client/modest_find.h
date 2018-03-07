@@ -25,7 +25,7 @@
  * @param  selector  [a CSS selector]
  * @param  delimiter [a delimiter string]
  * @param  scope     [scope string]
- * @return           [a html string]
+ * @return           [delimited string]
  */
 const char* modest_find(const char* html, const char* selector, const char* delimiter, const char* scope);
 
