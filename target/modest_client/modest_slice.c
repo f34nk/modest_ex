@@ -30,6 +30,26 @@
 #include "utils.h"
 #include "modest_slice.h"
 
+// const char* get_scoped_selector_for_slice(const char* selector, const char* scope){
+//   if(strcmp(scope, "html") == 0){
+//     return get_concat_string("html, html ", selector);
+//   }
+//   else if(strcmp(scope, "head") == 0){
+//     return get_concat_string("head, head ", selector);
+//   }
+//   else if(strcmp(scope, "body") == 0){
+//     return get_concat_string("body, html ", get_concat_string(selector, " :not(head)"));
+//   }
+//   else if(strcmp(scope, "body_children") == 0){
+//     return get_concat_string("body ", selector);
+//   }
+//   else if(strcmp(scope, "form") == 0){
+//     return get_concat_string("form, ", selector);
+//   }
+//   // default
+//   return selector;
+// }
+
 myhtml_collection_t* slice(myhtml_t *myhtml, myhtml_collection_t *collection, int start, int end)
 {
   if(collection && collection->list && collection->length){
