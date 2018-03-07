@@ -70,9 +70,7 @@ defmodule ModestEx.MixProject do
       # benchmarking helpers
       {:benchfella, "~> 0.3.0", only: :dev},
       # cnode helpers
-      {:nodex, "~> 0.1.1"},
-      # watch tests
-      {:mix_test_watch, "~> 0.5", only: :dev, runtime: false}
+      {:nodex, "~> 0.1.1"}
     ]
   end
 end
