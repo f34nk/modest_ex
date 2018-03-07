@@ -72,39 +72,39 @@ end
 ```
 
 ## Target dependencies
-
-  cmake 3.x
-  erlang-dev
-  erlang-xmerl
-  erlang-parsetools
-
+```
+cmake 3.x
+erlang-dev
+erlang-xmerl
+erlang-parsetools
+```
 ## Compile and test
-
-  mix deps.get
-  mix compile
-  mix test
-
+```
+mix deps.get
+mix compile
+mix test
+```
 ## Cloning
-
-  git clone git@github.com:f34nk/modest_ex.git
-  cd modest_ex
-
+```
+git clone git@github.com:f34nk/modest_ex.git
+cd modest_ex
+```
 All binding targets are added as submodules in the `target/` folder.
-
-  git submodule update --init --recursive --remote
-  mix deps.get
-  mix compile
-  mix test
-  mix test.target
-
+```
+git submodule update --init --recursive --remote
+mix deps.get
+mix compile
+mix test
+mix test.target
+```
 Cleanup
-
-  mix clean
-
+```
+mix clean
+```
 Benchmark
-
-  mix bench
-
+```
+mix bench
+```
 ## Roadmap
 
 See [CHANGELOG](https://github.com/f34nk/modest_ex/blob/master/CHANGELOG.md).
