@@ -13,14 +13,14 @@ Elixir/Erlang bindings for lexborisovs **Modest**
 >Modest is a fast HTML renderer implemented as a pure C99 library with no outside dependencies.
 
 - [Modest](https://github.com/lexborisov/Modest)
-	- HTML5 parsing library in pure C99
-	- fully conformant with the HTML5 spec
+  - HTML5 parsing library in pure C99
+  - fully conformant with the HTML5 spec
 
 The binding is implemented as a **C-Node** following the excellent example in Overbryd package **nodex**. If you want to learn how to set up bindings to C/C++, you should definitely check it out.
 
 - [nodex](https://github.com/Overbryd/nodex)
-	- distributed Elixir
-	- save binding with C-Nodes
+  - distributed Elixir
+  - save binding with C-Nodes
 
 >C-Nodes are external os-processes that communicate with the Erlang VM through erlang messaging. That way you can implement native code and call into it from Elixir in a safe predictable way. The Erlang VM stays unaffected by crashes of the external process.
 
@@ -30,25 +30,27 @@ The binding is implemented as a **C-Node** following the excellent example in Ov
 
 Build transformation pipelines...
 
-	test "build up a complete DOM" do
-		result = ""
-		|> ModestEx.serialize()
-		|> ModestEx.append("body", "<div>")
-		|> ModestEx.set_attribute("body > div", "class", "col-md-12")
-		|> ModestEx.append("body > div", "<div>")
-		|> ModestEx.set_attribute("div.col-md-12 div", "class", "col-md-6")
-		|> ModestEx.append("div.col-md-12 div", "<a></a>")
-		|> ModestEx.set_text("a", "Hello")
+```elixir
+test "build up a complete DOM" do
+  result = ""
+  |> ModestEx.serialize()
+  |> ModestEx.append("body", "<div>")
+  |> ModestEx.set_attribute("body > div", "class", "col-md-12")
+  |> ModestEx.append("body > div", "<div>")
+  |> ModestEx.set_attribute("div.col-md-12 div", "class", "col-md-6")
+  |> ModestEx.append("div.col-md-12 div", "<a></a>")
+  |> ModestEx.set_text("a", "Hello")
 
-		copy = ModestEx.find(result, "div.col-md-12 div")
-		|> ModestEx.set_text("a", "World")
+  copy = ModestEx.find(result, "div.col-md-12 div")
+  |> ModestEx.set_text("a", "World")
 
-		result = ModestEx.insert_after(result, "div.col-md-12 div", copy)
-		|> ModestEx.set_attribute("div.col-md-6:first-of-type a", "href", "https://elixir-lang.org")
-		|> ModestEx.set_attribute("div.col-md-6:last-of-type a", "href", "https://google.de")
+  result = ModestEx.insert_after(result, "div.col-md-12 div", copy)
+  |> ModestEx.set_attribute("div.col-md-6:first-of-type a", "href", "https://elixir-lang.org")
+  |> ModestEx.set_attribute("div.col-md-6:last-of-type a", "href", "https://google.de")
 
-		assert result == "<div class=\"col-md-12\"><div class=\"col-md-6\"><a href=\"https://elixir-lang.org\">Hello</a></div><div class=\"col-md-6\"><a href=\"https://google.de\">World</a></div></div>"
-	end
+  assert result == "<div class=\"col-md-12\"><div class=\"col-md-6\"><a href=\"https://elixir-lang.org\">Hello</a></div><div class=\"col-md-6\"><a href=\"https://google.de\">World</a></div></div>"
+end
+```
 
 **Stay tuned for more...**
 *slice(), ...*
@@ -71,65 +73,65 @@ end
 
 ## Target dependencies
 
-	cmake 3.x
-	erlang-dev
-	erlang-xmerl
-	erlang-parsetools
+  cmake 3.x
+  erlang-dev
+  erlang-xmerl
+  erlang-parsetools
 
 ## Compile and test
 
-	mix deps.get
-	mix compile
-	mix test
+  mix deps.get
+  mix compile
+  mix test
 
 ## Cloning
 
-	git clone git@github.com:f34nk/modest_ex.git
-	cd modest_ex
+  git clone git@github.com:f34nk/modest_ex.git
+  cd modest_ex
 
 All binding targets are added as submodules in the `target/` folder.
 
-	git submodule update --init --recursive --remote
-	mix deps.get
-	mix compile
-	mix test
-	mix test.target
+  git submodule update --init --recursive --remote
+  mix deps.get
+  mix compile
+  mix test
+  mix test.target
 
 Cleanup
 
-	mix clean
+  mix clean
 
 Benchmark
 
-	mix bench
+  mix bench
 
 ## Roadmap
 
 See [CHANGELOG](https://github.com/f34nk/modest_ex/blob/master/CHANGELOG.md).
 
 - [ ] Bindings
-	- [x] Call as C-Node
-	- [ ] Call as dirty-nif
+  - [x] Call as C-Node
+  - [ ] Call as dirty-nif
 - [ ] Tests
-	- [x] Call as C-Node
-	- [ ] Call as dirty-nif
-	- [x] Target tests
-	- [x] Feature tests
-	- [x] Package test
+  - [x] Call as C-Node
+  - [ ] Call as dirty-nif
+  - [x] Target tests
+  - [x] Feature tests
+  - [x] Package test
 - [ ] Features
-	- [x] Find nodes using a CSS selector
-	- [x] Serialize any string with valid or broken html
-	- [x] Get attribute with optional CSS selector
-	- [x] Set attribute with optional CSS selector
-	- [x] Get text with optional CSS selector
-	- [x] Set text with optional CSS selector
-	- [x] Remove a node from html
-	- [x] Append node to another node
-	- [x] Prepend node to another node
-	- [x] Insert node before another node
-	- [x] Insert node after another node
-	- [x] Replace node with another node
-	- [ ] Slice html to a subset of nodes
+  - [x] Find nodes using a CSS selector
+  - [x] Serialize any string with valid or broken html
+  - [x] Get attribute with optional CSS selector
+  - [x] Set attribute with optional CSS selector
+  - [x] Get text with optional CSS selector
+  - [x] Set text with optional CSS selector
+  - [x] Remove a node from html
+  - [x] Append node to another node
+  - [x] Prepend node to another node
+  - [x] Insert node before another node
+  - [x] Insert node after another node
+  - [x] Replace node with another node
+  - [ ] Slice html to a subset of nodes
 - [x] Scope flag to control serialization
 - [x] List of supported CSS Selectors
 - [ ] Documentation
