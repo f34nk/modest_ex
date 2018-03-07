@@ -2,12 +2,8 @@ defmodule ModestEx.Safe.Remove do
    @moduledoc false
   
   def remove(bin, selector) do
-    case Nodex.Cnode.call(ModestEx.Safe.Cnode, {:remove, bin <> "\0", selector <> "\0"}) do
-      {:ok, {:remove, reply}} -> 
-        case reply do
-          <<"<-undef>"::utf8>> <> result -> result
-          _ -> {:error, reply}
-        end
+    case Nodex.Cnode.call(ModestEx.Safe.Cnode, {:remove, bin <> "\0", selector <> "\0", ModestEx.scope() <> "\0"}) do
+      {:ok, {:remove, result}} -> result
       _ -> {:error, bin}
     end
   end

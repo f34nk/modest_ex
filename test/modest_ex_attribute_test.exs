@@ -16,9 +16,14 @@ defmodule ModestExAttributeTest do
             selector = Enum.at(matched, 4)
             key = Enum.at(matched, 5)
             value = Enum.at(matched, 6)
+            output = Enum.at(matched, 7)
             case mode do
               "get" ->
-                output = String.split(Enum.at(matched, 7), "|")
+                # output = String.split(Enum.at(matched, 7), "|")
+                output = cond do
+                  String.contains?(output, "|") -> String.split(output, "|")
+                  true -> output
+                end
                 test = cond do
                   mode == "get" and selector == "" -> ModestEx.get_attribute(input, key)
                   mode == "get" -> ModestEx.get_attribute(input, selector, key)
@@ -27,38 +32,36 @@ defmodule ModestExAttributeTest do
                   {:error, error} ->
                     raise RuntimeError,
                       "\n\tinput: " <> input <>
-                      "\n\texpected: " <> Enum.join(output, "|") <>
                       "\n\terror: " <> error
+                      # "\n\texpected: " <> Enum.join(output, "|") <>
                   reply ->
                     try do
                       assert reply == output
                     rescue
                       error in [ExUnit.AssertionError] -> 
                         raise ExUnit.AssertionError, error.message <> 
-                          "\n\t reply: " <> Enum.join(reply, "|") <>
                           "\n\t test:  " <> line
+                          # "\n\t reply: " <> Enum.join(reply, "|") <>
                     end
                 end
               "set" ->
-                output = Enum.at(matched, 7)
-                test = cond do
-                  mode == "set" and selector == "" -> ModestEx.set_attribute(input, key, value)
-                  mode == "set" -> ModestEx.set_attribute(input, selector, key, value)
-                end
+                # output = Enum.at(matched, 7)
+                test = ModestEx.set_attribute(input, selector, key, value)
+                
                 case test do
                   {:error, error} ->
                     raise RuntimeError,
                       "\n\tinput: " <> input <>
-                      "\n\texpected: " <> output <>
                       "\n\terror: " <> error
+                      # "\n\texpected: " <> output <>
                   reply ->
                     try do
                       assert reply == output
                     rescue
                       error in [ExUnit.AssertionError] -> 
                         raise ExUnit.AssertionError, error.message <> 
-                          "\n\t reply: " <> Enum.join(reply, "|") <>
                           "\n\t test:  " <> line
+                          # "\n\t reply: " <> Enum.join(reply, "|") <>
                     end
                 end
             end

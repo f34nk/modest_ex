@@ -5,9 +5,10 @@ int main(int argc, const char * argv[])
   const char *html = "<div><p>Hello</p></div>";
   const char *selector = "div p";
   const char *new_html = "<p>World</p>";
-  char* result = modest_select_and_insert_after(html, selector, new_html);
+  const char *scope = "body_children";
+  char* result = modest_select_and_insert_after(html, selector, new_html, scope);
   printf("%s\n", result);
-  if(strcmp(result, "<-undef><html><head></head><body><div><p>Hello</p><p>World</p></div></body></html>") != 0){
+  if(strcmp(result, "<div><p>Hello</p><p>World</p></div>") != 0){
     printf("Failed\n");
     return 1;
   }
@@ -15,9 +16,9 @@ int main(int argc, const char * argv[])
   html = "<div><p>Hello</p></div>";
   selector = "div p";
   new_html = "World";
-  result = modest_select_and_insert_after(html, selector, new_html);
+  result = modest_select_and_insert_after(html, selector, new_html, scope);
   printf("%s\n", result);
-  if(strcmp(result, "<-undef><html><head></head><body><div><p>Hello</p>World</div></body></html>") != 0){
+  if(strcmp(result, "<div><p>Hello</p>World</div>") != 0){
     printf("Failed\n");
     return 1;
   }

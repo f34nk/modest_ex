@@ -12,21 +12,25 @@ defmodule ModestExFindTest do
           matched != nil && Enum.count(matched) == 5 && Enum.at(matched, 1) == "1" ->
             selector = Enum.at(matched, 2)
             input = Enum.at(matched, 3)
-            output = String.split(Enum.at(matched, 4), "|")
+            output = Enum.at(matched, 4)
+            output = cond do
+              String.contains?(output, "|") -> String.split(output, "|")
+              true -> output
+            end
             case ModestEx.find(input, selector) do
               {:error, _} ->
                 raise RuntimeError,
                   "\n\tpattern: " <> selector <>
-                  "\n\tinput: " <> input <>
-                  "\n\texpected: " <> Enum.join(output, "|")
+                  "\n\tinput: " <> input
+                  # "\n\texpected: " <> Enum.join(output, "|")
               reply ->
                 try do
                   assert reply == output
                 rescue
                   error in [ExUnit.AssertionError] ->
                     raise ExUnit.AssertionError, error.message <> 
-                      "\n\t reply: " <> Enum.join(reply, "|") <>
                       "\n\t test:  " <> line
+                      # "\n\t reply: " <> Enum.join(reply, "|") <>
                 end
             end
           true -> ""

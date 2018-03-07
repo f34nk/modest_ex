@@ -4,7 +4,7 @@ defmodule ModestExInsertBeforeTest do
 
   test "insert new html before selected node" do
     result = ModestEx.insert_before("<div><p>World</p></div>", "div p", "<p>Hello</p>")
-    assert result == "<html><head></head><body><div><p>Hello</p><p>World</p></div></body></html>"
+    assert result == "<div><p>Hello</p><p>World</p></div>"
   end
 
 end

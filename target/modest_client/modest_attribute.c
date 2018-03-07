@@ -175,85 +175,6 @@ const char* modest_select_and_get_attribute(const char* html, const char* select
 }
 
 /**
- * Set the value of an attribute for the first element in html string
- * @param  html  [a html string]
- * @param  key  [key of the attribute]
- * @param  value [value of the attribute]
- * @return       [updated html string]
- */
-const char* modest_set_attribute(const char* html, const char* key, const char* value)
-{
-  // basic init
-  myhtml_t* myhtml = myhtml_create();
-  myhtml_init(myhtml, MyHTML_OPTIONS_DEFAULT, 1, 0);
-
-  // init tree
-  myhtml_tree_t* tree = myhtml_tree_create();
-  myhtml_tree_init(tree, myhtml);
-
-  // parse html
-  myhtml_parse(tree, MyENCODING_UTF_8, html, strlen(html));
-  // <-undef><html><head></head>...</body></html>
-
-  // parse html
-  myhtml_collection_t *collection = NULL;
-  collection = myhtml_get_nodes_by_attribute_key(tree, NULL, NULL, key, strlen(key), NULL);
-
-  if(collection->length == 0) {
-
-    myhtml_collection_destroy(collection);
-    // node with attribute key not found
-    // get root
-    // myhtml_tree_node_t *node = myhtml_node_first(tree);
-    // if(node){
-    //   // insert new attribute
-    //   myhtml_attribute_add(node, key, strlen(key), value, strlen(value), MyENCODING_UTF_8);
-    // }
-    
-    const char* selector = "body *";
-
-    /* create css parser and finder for selectors */
-    mycss_entry_t *css_entry = create_css_parser();
-    modest_finder_t *finder = modest_finder_create_simple();
-
-    /* parse selectors */
-    mycss_selectors_list_t *selectors_list = prepare_selector(css_entry, selector, strlen(selector));
-
-    /* find nodes by selector */
-    // myhtml_collection_t *collection = NULL;
-    collection = NULL;
-    modest_finder_by_selectors_list(finder, tree->node_html, selectors_list, &collection);
-  }
-
-
-  set_attributes_by_key(collection, key, value);
-
-  FILE *stream;
-  char *buf;
-  size_t len;
-  stream = open_memstream(&buf, &len);
-
-  // serialize complete html page
-  myhtml_serialization_tree_callback(myhtml_tree_get_document(tree), write_output, stream);
-  
-  // const char* delimiter = "|";
-  // print_found_result(tree, collection, delimiter, stream);
-
-  // close the stream, the buffer is allocated and the size is set !
-  fclose(stream);
-  // printf ("the result is '%s' (%d characters)\n", buf, len);
-  // free(buf);
-
-  // release resources
-  myhtml_collection_destroy(collection);
-  myhtml_tree_destroy(tree);
-  myhtml_destroy(myhtml);
-
-  // TODO: This is a leak. Implement proper memory handling.
-  return buf;
-}
-
-/**
  * Set the value of an attribute for the selected element in html string
  * @param  html     [a html string]
  * @param  selector [a CSS selector]
@@ -261,7 +182,7 @@ const char* modest_set_attribute(const char* html, const char* key, const char* 
  * @param  value    [value of the attribute]
  * @return          [updated html string]
  */
-const char* modest_select_and_set_attribute(const char* html, const char* selector, const char* key, const char* value)
+const char* modest_select_and_set_attribute(const char* html, const char* selector, const char* key, const char* value, const char* scope)
 {
   /* init MyHTML and parse HTML */
   myhtml_tree_t *tree = parse_html(html, strlen(html));
@@ -275,7 +196,7 @@ const char* modest_select_and_set_attribute(const char* html, const char* select
 
   /* find nodes by selector */
   myhtml_collection_t *collection = NULL;
-  modest_finder_by_selectors_list(finder, tree->node_html, selectors_list, &collection);
+  modest_finder_by_selectors_list(finder, tree->node_html/*get_scope_node(tree, scope)*/, selectors_list, &collection);
 
   if(collection == NULL || collection->length == 0) {
     printf("missing collection\n");
@@ -289,7 +210,7 @@ const char* modest_select_and_set_attribute(const char* html, const char* select
   stream = open_memstream(&buf, &len);
 
   // serialize complete html page
-  myhtml_serialization_tree_callback(myhtml_tree_get_document(tree), write_output, stream);
+  myhtml_serialization_tree_callback(get_scope_node(tree, scope), write_output, stream);
   
   // const char* delimiter = "|";
   // print_found_result(tree, collection, delimiter, stream);

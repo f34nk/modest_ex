@@ -4,7 +4,7 @@ defmodule ModestEx.MixProject do
   def project do
     [
       app: :modest_ex,
-      version: "0.0.7-dev",
+      version: "0.0.8-dev",
       elixir: "~> 1.5",
       compilers: [:modest_ex_compile] ++ Mix.compilers,
       build_embedded: Mix.env == :prod,
@@ -70,9 +70,7 @@ defmodule ModestEx.MixProject do
       # benchmarking helpers
       {:benchfella, "~> 0.3.0", only: :dev},
       # cnode helpers
-      {:nodex, "~> 0.1.1"},
-      # watch tests
-      {:mix_test_watch, "~> 0.5", only: :dev, runtime: false}
+      {:nodex, "~> 0.1.1"}
     ]
   end
 end

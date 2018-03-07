@@ -49,8 +49,8 @@ EOF
 mix deps.get
 mix compile
 
-mix run -e 'IO.inspect ["<a>Hello</a>"] = ModestEx.find("<p><a>Hello</a> World</p>", "p a")'
-mix run -e 'IO.inspect ["https://elixir-lang.org"] = ModestEx.get_attribute("<a href=\"https://elixir-lang.org\">Hello</a>", "href")'
+mix run -e 'IO.inspect "<a>Hello</a>" = ModestEx.find("<p><a>Hello</a> World</p>", "p a")'
+mix run -e 'IO.inspect "https://elixir-lang.org" = ModestEx.get_attribute("<a href=\"https://elixir-lang.org\">Hello</a>", "href")'
 
 cd $current
 rm -rf package_test

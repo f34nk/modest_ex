@@ -14,9 +14,9 @@ The W3C CSS specification contains the [complete set of rules regarding valid CS
 | E[name="value"]  | yes | Selects elements that have the specified attribute with a value exactly equal to a certain value. |
 | E[name!="value"]  | **no** | Select elements that either don’t have the specified attribute, or do have the specified attribute but not with a certain value. |
 | E[name^="value"]  | yes | Selects elements that have the specified attribute with a value beginning exactly with a given string. |
-| :button 					| **no** | Selects all button elements and elements of type button. Use selector "button" instead. |
-| :checkbox 				| **no** | Selects all button elements and elements of type checkbox. Use selector "input[type=checkbox]" instead. |
-| :checked 				| yes | Matches all elements that are checked or selected. |
+| :button           | **no** | Selects all button elements and elements of type button. Use selector "button" instead. |
+| :checkbox         | **no** | Selects all button elements and elements of type checkbox. Use selector "input[type=checkbox]" instead. |
+| :checked        | yes | Matches all elements that are checked or selected. |
 | parent > child | yes | Selects all direct child elements specified by "child" of elements specified by "parent". |
 | .class | yes | Selects all elements with the given class. |
 | :contains(text) | [**not yet**](https://github.com/lexborisov/Modest/issues/36) | Select all elements that contain the specified text. The current W3C CSS specification [left this section intentionally blank](https://www.w3.org/TR/selectors-3/#content-selectors). However, some information can be found [in an old spec from 2001](https://www.w3.org/TR/2001/CR-css3-selectors-20011113/#content-selectors). |

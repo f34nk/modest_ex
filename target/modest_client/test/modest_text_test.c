@@ -18,18 +18,11 @@ int main(int argc, const char * argv[])
     return 1;
   }
 
-  html = "<div></div>";
-  result = modest_set_text(html, "Hello World");
-  printf("%s\n", result);
-  if(strcmp(result, "<-undef><html><head></head><body><div>Hello World</div></body></html>") != 0){
-    printf("Failed\n");
-    return 1;
-  }
-
   html = "<div><p></p></div>";
-  result = modest_select_and_set_text(html, "div p", "Hello World");
+  const char *scope = "body_children";
+  result = modest_select_and_set_text(html, "div p", "Hello World", scope);
   printf("%s\n", result);
-  if(strcmp(result, "<-undef><html><head></head><body><div><p>Hello World</p></div></body></html>") != 0){
+  if(strcmp(result, "<div><p>Hello World</p></div>") != 0){
     printf("Failed\n");
     return 1;
   }

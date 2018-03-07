@@ -2,6 +2,16 @@ defmodule ModestExSerializeTest do
   use ExUnit.Case
   doctest ModestEx
 
+  test "can serialize an empty string" do
+    result = ModestEx.serialize("", :html)
+    assert result == "<html><head></head><body></body></html>"
+  end
+
+  test "use custom scope to control serialization" do
+    result = ModestEx.serialize("<div>Hello<span>World", :body_children)
+    assert result == "<div>Hello<span>World</span></div>"
+  end
+
   test "all test cases from file" do
   
     File.open("test/fixtures/serialize.csv", [:read], fn(file) ->

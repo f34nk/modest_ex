@@ -180,73 +180,13 @@ const char* modest_select_and_get_text(const char* html, const char* selector, c
 }
 
 /**
- * Set text for the first element in html string
- * @param  html  [a html string]
- * @param  text  [the text]
- * @return       [updated html string]
- */
-const char* modest_set_text(const char* html, const char* text)
-{
-  // basic init
-  myhtml_t* myhtml = myhtml_create();
-  myhtml_init(myhtml, MyHTML_OPTIONS_DEFAULT, 1, 0);
-
-  // init tree
-  myhtml_tree_t* tree = myhtml_tree_create();
-  myhtml_tree_init(tree, myhtml);
-
-  // parse html
-  myhtml_parse(tree, MyENCODING_UTF_8, html, strlen(html));
-  // <-undef><html><head></head>...</body></html>
-    
-  const char* selector = "body *";
-
-  /* create css parser and finder for selectors */
-  mycss_entry_t *css_entry = create_css_parser();
-  modest_finder_t *finder = modest_finder_create_simple();
-
-  /* parse selectors */
-  mycss_selectors_list_t *selectors_list = prepare_selector(css_entry, selector, strlen(selector));
-
-  /* find nodes by selector */
-  myhtml_collection_t *collection = NULL;
-  modest_finder_by_selectors_list(finder, tree->node_html, selectors_list, &collection);
-
-  set_text(tree, collection, text);
-
-  FILE *stream;
-  char *buf;
-  size_t len;
-  stream = open_memstream(&buf, &len);
-
-  // serialize complete html page
-  myhtml_serialization_tree_callback(myhtml_tree_get_document(tree), write_output, stream);
-  
-  // const char* delimiter = "|";
-  // print_found_result(tree, collection, delimiter, stream);
-
-  // close the stream, the buffer is allocated and the size is set !
-  fclose(stream);
-  // printf ("the result is '%s' (%d characters)\n", buf, len);
-  // free(buf);
-
-  // release resources
-  myhtml_collection_destroy(collection);
-  myhtml_tree_destroy(tree);
-  myhtml_destroy(myhtml);
-
-  // TODO: This is a leak. Implement proper memory handling.
-  return buf;
-}
-
-/**
  * Set text for the selected element in html string
  * @param  html     [a html string]
  * @param  selector [a CSS selector]
  * @param  text     [the text]
  * @return          [updated html string]
  */
-const char* modest_select_and_set_text(const char* html, const char* selector, const char* text)
+const char* modest_select_and_set_text(const char* html, const char* selector, const char* text, const char* scope)
 {
   /* init MyHTML and parse HTML */
   myhtml_tree_t *tree = parse_html(html, strlen(html));
@@ -260,7 +200,7 @@ const char* modest_select_and_set_text(const char* html, const char* selector, c
 
   /* find nodes by selector */
   myhtml_collection_t *collection = NULL;
-  modest_finder_by_selectors_list(finder, tree->node_html, selectors_list, &collection);
+  modest_finder_by_selectors_list(finder, tree->node_html/*get_scope_node(tree, scope)*/, selectors_list, &collection);
 
   if(collection == NULL || collection->length == 0) {
     // printf("missing collection\n");
@@ -274,7 +214,7 @@ const char* modest_select_and_set_text(const char* html, const char* selector, c
   stream = open_memstream(&buf, &len);
 
   // serialize complete html page
-  myhtml_serialization_tree_callback(myhtml_tree_get_document(tree), write_output, stream);
+  myhtml_serialization_tree_callback(get_scope_node(tree, scope), write_output, stream);
   
   // const char* delimiter = "|";
   // print_found_result(tree, collection, delimiter, stream);

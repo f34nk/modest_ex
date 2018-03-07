@@ -61,7 +61,7 @@ void replace_node(myhtml_t *myhtml, myhtml_collection_t *collection, const char*
  * @param  new_html  [a html string]
  * @return           [updated html string]
  */
-const char* modest_select_and_replace(const char* html, const char* selector, const char* new_html)
+const char* modest_select_and_replace(const char* html, const char* selector, const char* new_html, const char* scope)
 {
   /* init MyHTML and parse HTML */
   myhtml_tree_t *tree = parse_html(html, strlen(html));
@@ -75,7 +75,7 @@ const char* modest_select_and_replace(const char* html, const char* selector, co
 
   /* find nodes by selector */
   myhtml_collection_t *collection = NULL;
-  modest_finder_by_selectors_list(finder, tree->node_html, selectors_list, &collection);
+  modest_finder_by_selectors_list(finder, tree->node_html/*get_scope_node(tree, scope)*/, selectors_list, &collection);
 
   if(collection == NULL || collection->length == 0) {
     // printf("missing collection\n");
@@ -89,7 +89,7 @@ const char* modest_select_and_replace(const char* html, const char* selector, co
   stream = open_memstream(&buf, &len);
 
   // serialize complete html page
-  myhtml_serialization_tree_callback(myhtml_tree_get_document(tree), write_output, stream);
+  myhtml_serialization_tree_callback(get_scope_node(tree, scope), write_output, stream);
   
   // const char* delimiter = "|";
   // print_found_result(tree, collection, delimiter, stream);

@@ -21,11 +21,12 @@
 
 /**
  * Replace selected node with new html
- * @param  html      [a html string]
- * @param  selector  [a CSS selector]
- * @param  new_html  [a html string]
- * @return           [updated html string]
+ * @param  html     [a html string]
+ * @param  selector [a CSS selector]
+ * @param  new_html [a html string]
+ * @param  scope    [scope string]
+ * @return          [updated html string]
  */
-const char* modest_select_and_replace(const char* html, const char* selector, const char* new_html);
+const char* modest_select_and_replace(const char* html, const char* selector, const char* new_html, const char* scope);
 
 #endif
