@@ -128,7 +128,7 @@ See [CHANGELOG](https://github.com/f34nk/modest_ex/blob/master/CHANGELOG.md).
   - [x] Insert node before another node
   - [x] Insert node after another node
   - [x] Replace node with another node
-  - [ ] Slice html to a subset of nodes
+  - [x] Slice html to a subset of nodes
 - [x] Scope flag to control serialization
 - [x] List of supported CSS Selectors
 - [ ] Documentation
