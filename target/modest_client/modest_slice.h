@@ -20,12 +20,16 @@
 */
 
 /**
- * Slice set into two subsets. First set from first node until selected node. Second set from selected node to end.
+ * Slice selected set into subset. Index each element in the set. 
+ * Return a set from start to end.
  * @param  html      [a html string]
  * @param  selector  [a CSS selector]
+ * @param  start     [start index]
+ * @param  end       [end index]
  * @param  delimiter [delimiter string]
- * @return           [updated html string]
+ * @param  scope     [scope string]
+ * @return           [delimited string]
  */
-const char* modest_slice_until_selected(const char* html, const char* selector, const char* delimiter);
+const char* modest_slice_selected(const char* html, const char* selector, int start, int end, const char* delimiter, const char* scope);
 
 #endif

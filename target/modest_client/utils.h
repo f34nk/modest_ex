@@ -45,5 +45,6 @@ char *get_concat_string( const char *str1, const char *str2 );
  * @return       [description]
  */
 myhtml_tree_node_t *get_scope_node(myhtml_tree_t* tree, const char* scope);
+const char* get_scoped_selector(const char* selector, const char* scope);
 
 #endif

@@ -5,6 +5,7 @@
 March 2018
 
 - Fixed bug in `ModestEx.find` proper use of scope
+- Feature `ModestEx.slice`
 
 ## 0.0.8-dev
 

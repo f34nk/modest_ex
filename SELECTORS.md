@@ -64,7 +64,6 @@ same element name. |
 | :root |     | Selects the element that is the root of the document. |
 | :selected | **no**    | Selects all elements that are selected. |
 | :submit |     | Selects all elements of type submit. |
-| :target |     | Selects the target element indicated by the fragment identifier of
-the document’s URI. |
+| :target |     | Selects the target element indicated by the fragment identifier of the document’s URI. |
 | :text | **no**     | Selects all input elements of type text. |
 | :visible | **no**     | Selects all elements that are visible. |

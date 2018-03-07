@@ -230,3 +230,23 @@ myhtml_tree_node_t *get_scope_node(myhtml_tree_t* tree, const char* scope){
   // default
   return tree->node_html;
 }
+
+const char* get_scoped_selector(const char* selector, const char* scope){
+  if(strcmp(scope, "html") == 0){
+    return get_concat_string("html, html ", selector);
+  }
+  else if(strcmp(scope, "head") == 0){
+    return get_concat_string("head, head ", selector);
+  }
+  else if(strcmp(scope, "body") == 0){
+    return get_concat_string("body, html ", get_concat_string(selector, " :not(head)"));
+  }
+  else if(strcmp(scope, "body_children") == 0){
+    return get_concat_string("body ", selector);
+  }
+  else if(strcmp(scope, "form") == 0){
+    return get_concat_string("form, ", selector);
+  }
+  // default
+  return selector;
+}

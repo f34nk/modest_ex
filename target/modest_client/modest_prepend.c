@@ -40,7 +40,7 @@ void prepend_node(myhtml_t *myhtml, myhtml_collection_t *collection, const char*
       myhtml_tree_node_t *first_child = myhtml_node_child(node);
       myhtml_tree_node_t *next_child = (first_child) ? myhtml_node_next(first_child) : NULL;
 
-      printf("%s, %s, %s, %s\n", (node)?"node":"no node", (new_node)?"new_node":"no new_node", (first_child)?"first_child":"no first_child", (next_child)?"next_child":"no next_child");
+      // printf("%s, %s, %s, %s\n", (node)?"node":"no node", (new_node)?"new_node":"no new_node", (first_child)?"first_child":"no first_child", (next_child)?"next_child":"no next_child");
 
       if(node && first_child && new_node){
         // prepend new_node before the first child of node

@@ -40,7 +40,7 @@ void append_node(myhtml_t *myhtml, myhtml_collection_t *collection, const char* 
       myhtml_tree_node_t *last_child = myhtml_node_last_child(node);
       myhtml_tree_node_t *prev_child = (last_child) ? myhtml_node_prev(last_child) : NULL;
 
-      printf("%s, %s, %s, %s\n", (node)?"node":"no node", (new_node)?"new_node":"no new_node", (last_child)?"last_child":"no last_child", (prev_child)?"prev_child":"no prev_child");
+      // printf("%s, %s, %s, %s\n", (node)?"node":"no node", (new_node)?"new_node":"no new_node", (last_child)?"last_child":"no last_child", (prev_child)?"prev_child":"no prev_child");
 
       if(node && last_child && new_node){
         myhtml_node_insert_after(last_child, new_node);
@@ -48,9 +48,9 @@ void append_node(myhtml_t *myhtml, myhtml_collection_t *collection, const char* 
       else if(node && last_child && new_node == NULL){
         // check if last_child is a text node
         myhtml_tag_id_t tag_id = myhtml_node_tag_id(last_child);
-        printf("tag_id %d\n", tag_id);
+        // printf("tag_id %d\n", tag_id);
         const char *tag_name = myhtml_tag_name_by_id(last_child->tree, tag_id, NULL);
-        printf("tag_name %s\n", tag_name);
+        // printf("tag_name %s\n", tag_name);
         if(strcmp(tag_name, "-text") == 0){
           // append new_html as a text to the text of the first child
           const char *text = myhtml_node_text(last_child, NULL);

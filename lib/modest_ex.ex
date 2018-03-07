@@ -262,4 +262,19 @@ defmodule ModestEx do
     ModestEx.Replace.replace(bin, selector, new_bin)
   end
 
+  @doc """
+  Slice selected set into subset.
+  Returns single html string or returns list of strings. 
+
+  ## Examples
+
+    iex> ModestEx.slice("<h1>Lorem ipsum</h1><p>dolor sit amet</p><ul><li>Coffee</li><li>Tea</li><li>Milk</li></ul><p>Sed ut perspiciatis</p><p>unde omnis iste natus</p>", "> *", 0, -1)
+    ["<h1>Lorem ipsum</h1>", "<p>dolor sit amet</p>", "<ul><li>Coffee</li><li>Tea</li><li>Milk</li></ul>", "<p>Sed ut perspiciatis</p>", "<p>unde omnis iste natus</p>"]
+
+  """
+  @spec slice(input(), String.t, Integer.t, Integer.t) :: success() | error()
+  def slice(bin, selector, start_index, end_index) do
+    ModestEx.Slice.slice(bin, selector, start_index, end_index)
+  end
+
 end
