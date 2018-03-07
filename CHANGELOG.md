@@ -1,5 +1,13 @@
 # ModestEx Changelog
 
+## 0.0.8-dev
+
+March 2018
+
+- Added scope flag to applications config. The 'scope' controls the way html is serialized. Default scope is now :body_children, which handles fragmented html as fragments. This behaviour is much closer to the common use case.
+- Added custom scope to ModestEx.serialize, since this function can be used to build a complete html document from an empty string (see test for example).
+- ModestEx.split now returns a single string on lists with one item. That function is only used internally. However, all features return single strings if only a single result is being processed. That's much easier.
+
 ## 0.0.7-dev
 
 March 2018

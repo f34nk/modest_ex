@@ -5,18 +5,19 @@
 Get the descendants of each element in the current set of matched elements, filtered by a selector.
 
 	iex> ModestEx.find("<p><a>Hello</a> World</p>", "p a")
-	["<a>Hello</a>"]
+	"<a>Hello</a>"
 
 	iex> ModestEx.find("<p><span>Hello</span><span>World</span></p>", "span")
 	["<span>Hello</span>", "<span>World</span>"]
 
 ## serialize
 Serialize any string with valid or broken html and return a valid html string.
+Use a custom scope to control serialization.
 
-	iex> ModestEx.serialize("<div>Hello<span>World")
-	"<html><head></head><body><div>Hello<span>World</span></div></body></html>"
+	iex> ModestEx.serialize("<div>Hello<span>World", :body_children)
+	"<div>Hello<span>World</span></div>"
 
-	iex> ModestEx.serialize("")
+	iex> ModestEx.serialize("", :html)
 	"<html><head></head><body></body></html>"
   
 ## get_attribute
@@ -24,10 +25,10 @@ Serialize any string with valid or broken html and return a valid html string.
 Get the value of an attribute for all elements in the set of matched elements.
 
 	iex> ModestEx.get_attribute("<a href=\"https://elixir-lang.org\">Hello</a>", href")
-	["https://elixir-lang.org"]
+	"https://elixir-lang.org"
 
 	iex> ModestEx.get_attribute("<p><a href=\"https://elixir-lang.org\">Hello</a></p>", "p a", "href")
-	["https://elixir-lang.org"]
+	"https://elixir-lang.org"
 
 ## set_attribute
 
