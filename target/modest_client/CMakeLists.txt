@@ -40,6 +40,7 @@ add_executable(
   handle_insert_before.c
   handle_insert_after.c
   handle_replace.c
+  handle_slice.c
   utils.c
   modest_find.c
   modest_serialize.c

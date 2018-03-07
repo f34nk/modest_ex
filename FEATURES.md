@@ -121,8 +121,7 @@ iex> ModestEx.replace("<div><p>Hello</p></div>", "div p", "<p>World</p>")
 ## slice
 Slice set into two subsets. First set from first node until selected node. Second set from selected node to end.
 
-*in progress...*
-<!--
-	iex> ModestEx.slice("<p>Hello</p><p>World</p>", "p:first-of_type")
-	["<p>Hello</p>", "<p>World</p>"]
--->
+```elixir
+iex> ModestEx.slice("<h1>Lorem ipsum</h1><p>dolor sit amet</p><ul><li>Coffee</li><li>Tea</li><li>Milk</li></ul><p>Sed ut perspiciatis</p><p>unde omnis iste natus</p>", "> *", 0, -1)
+["<h1>Lorem ipsum</h1>", "<p>dolor sit amet</p>", "<ul><li>Coffee</li><li>Tea</li><li>Milk</li></ul>", "<p>Sed ut perspiciatis</p>", "<p>unde omnis iste natus</p>"]
+```

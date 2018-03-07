@@ -61,7 +61,7 @@ myhtml_collection_t* slice(myhtml_t *myhtml, myhtml_collection_t *collection, in
     if(start >= 0 && end >= 0) {
 
       int new_collection_size = end - start;
-      printf("new_collection_size %d\n", new_collection_size);
+      // printf("new_collection_size %d\n", new_collection_size);
 
       mystatus_t status;
       myhtml_collection_t *new_collection = myhtml_collection_create(new_collection_size, &status);
@@ -71,7 +71,7 @@ myhtml_collection_t* slice(myhtml_t *myhtml, myhtml_collection_t *collection, in
         if(node){
           myhtml_tag_id_t tag_id = myhtml_node_tag_id(node);
           const char *tag_name = myhtml_tag_name_by_id(node->tree, tag_id, NULL);
-          printf("exclude %d, tag_name %s\n", i, tag_name);
+          // printf("exclude %d, tag_name %s\n", i, tag_name);
         }
       }
       for(size_t i = start; i < end; i++) {
@@ -79,7 +79,7 @@ myhtml_collection_t* slice(myhtml_t *myhtml, myhtml_collection_t *collection, in
         if(node){
           myhtml_tag_id_t tag_id = myhtml_node_tag_id(node);
           const char *tag_name = myhtml_tag_name_by_id(node->tree, tag_id, NULL);
-          printf("include %d, tag_name %s\n", i, tag_name);
+          // printf("include %d, tag_name %s\n", i, tag_name);
 
           if(myhtml_collection_check_size(new_collection, 1, 1024) == MyHTML_STATUS_OK) {
             new_collection->list[new_collection->length] = node;
@@ -92,7 +92,7 @@ myhtml_collection_t* slice(myhtml_t *myhtml, myhtml_collection_t *collection, in
         if(node){
           myhtml_tag_id_t tag_id = myhtml_node_tag_id(node);
           const char *tag_name = myhtml_tag_name_by_id(node->tree, tag_id, NULL);
-          printf("exclude %d, tag_name %s\n", i, tag_name);
+          // printf("exclude %d, tag_name %s\n", i, tag_name);
         }
       }
 
@@ -127,7 +127,7 @@ const char* modest_slice_selected(const char* html, const char* selector, int st
   modest_finder_t *finder = modest_finder_create_simple();
 
   const char* new_selector = get_scoped_selector(selector, scope);
-  printf("scoped_selector: %s\n", new_selector);
+  // printf("scoped_selector: %s\n", new_selector);
 
   /* parse selectors */
   mycss_selectors_list_t *selectors_list = prepare_selector(css_entry, new_selector, strlen(new_selector));

@@ -67,7 +67,7 @@ const char* modest_find(const char* html, const char* selector, const char* deli
   modest_finder_t *finder = modest_finder_create_simple();
 
   const char* new_selector = get_scoped_selector(selector, scope);
-  printf("scoped_selector: %s\n", new_selector);
+  // printf("scoped_selector: %s\n", new_selector);
 
   /* parse selectors */
   mycss_selectors_list_t *selectors_list = prepare_selector(css_entry, new_selector, strlen(new_selector));

@@ -26,7 +26,7 @@ The binding is implemented as a **C-Node** following the excellent example in Ov
 
 ## Example
 
-[Full list of features.](https://github.com/f34nk/modest_ex/blob/master/FEATURES.md)
+[**Full list of features.**](https://github.com/f34nk/modest_ex/blob/master/FEATURES.md)
 
 Build transformation pipelines...
 
@@ -52,12 +52,9 @@ test "build up a complete DOM" do
 end
 ```
 
-**Stay tuned for more...**
-*slice(), ...*
-
 ## Supported CSS Selectors
 
-All common CSS Selectors are supported. For an extensive list please [check out this table](https://github.com/f34nk/modest_ex/blob/master/SELECTORS.md).
+All common CSS Selectors are supported. For an extensive list please [**check out this full list of supported CSS selectors**](https://github.com/f34nk/modest_ex/blob/master/SELECTORS.md).
 
 ## Installation
 
@@ -66,7 +63,7 @@ Available on [hex](https://hex.pm/packages/modest_ex).
 ```elixir
 def deps do
   [
-    {:modest_ex, "~> 0.0.8-dev"}
+    {:modest_ex, "~> 0.0.9-dev"}
   ]
 end
 ```
