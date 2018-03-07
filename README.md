@@ -26,7 +26,7 @@ The binding is implemented as a **C-Node** following the excellent example in Ov
 
 ## Example
 
-[**Full list of features.**](https://github.com/f34nk/modest_ex/blob/master/FEATURES.md)
+See [**complete feature list**](https://github.com/f34nk/modest_ex/blob/master/FEATURES.md).
 
 Build transformation pipelines...
 
@@ -54,7 +54,8 @@ end
 
 ## Supported CSS Selectors
 
-All common CSS Selectors are supported. For an extensive list please [**check out this full list of supported CSS selectors**](https://github.com/f34nk/modest_ex/blob/master/SELECTORS.md).
+All common CSS Selectors are supported. 
+See [**complete list of supported CSS selectors**](https://github.com/f34nk/modest_ex/blob/master/SELECTORS.md).
 
 ## Installation
 
