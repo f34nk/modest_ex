@@ -1,0 +1,624 @@
+diff --git a/target/Modest b/target/Modest
+--- a/target/Modest
++++ b/target/Modest
+@@ -1 +1 @@
+-Subproject commit a190b8f493ea2b045c9874922eefa7070d826341
++Subproject commit a190b8f493ea2b045c9874922eefa7070d826341-dirty
+diff --git a/target/modest_client/CMakeLists.txt b/target/modest_client/CMakeLists.txt
+index c6e431d..6028946 100644
+--- a/target/modest_client/CMakeLists.txt
++++ b/target/modest_client/CMakeLists.txt
+@@ -29,7 +29,6 @@ set(CMAKE_C_LINK_EXECUTABLE "${CMAKE_C_LINK_EXECUTABLE} -lerl_interface -lei -lp
+ add_executable(
+ 	${PROJECT_NAME}
+ 	modest_client.c
+-  handlers.c
+   handle_find.c
+   handle_serialize.c
+   handle_attribute.c
+@@ -43,6 +42,7 @@ add_executable(
+   handle_slice.c
+   handle_position.c
+   handle_wrap.c
++  handlers.c
+   utils.c
+   modest_find.c
+   modest_serialize.c
+diff --git a/target/modest_client/handlers.c b/target/modest_client/handlers.c
+index 0bb1d4a..4812ae9 100644
+--- a/target/modest_client/handlers.c
++++ b/target/modest_client/handlers.c
+@@ -1,5 +1,64 @@
+ #include "handlers.h"
+ 
++ETERM* handle_text(ErlMessage* emsg, ETERM* response);
++ETERM* handle_serialize(ErlMessage* emsg, ETERM* response);
++ETERM* handle_remove(ErlMessage* emsg, ETERM* response);
++ETERM* handle_find(ErlMessage* emsg, ETERM* response);
++ETERM* handle_attribute(ErlMessage* emsg, ETERM* response);
++ETERM* handle_append(ErlMessage* emsg, ETERM* response);
++ETERM* handle_prepend(ErlMessage* emsg, ETERM* response);
++ETERM* handle_insert_before(ErlMessage* emsg, ETERM* response);
++ETERM* handle_insert_after(ErlMessage* emsg, ETERM* response);
++ETERM* handle_replace(ErlMessage* emsg, ETERM* response);
++ETERM* handle_slice(ErlMessage* emsg, ETERM* response);
++ETERM* handle_position(ErlMessage* emsg, ETERM* response);
++ETERM* handle_wrap(ErlMessage* emsg, ETERM* response);
++
++// ETERM* handle_test(ErlMessage* emsg, ETERM* response)
++// {
++//   printf("handle_test\n");
++//   const char *result_string = "Hello";
++//   ETERM* result_bin = erl_mk_binary(result_string, strlen(result_string));
++//   // response = erl_format("{test, ~w}", result_bin);
++//   return response;
++// }
++
++// ETERM* handle_test(ErlMessage* emsg, ETERM* response);
++// ETERM *handle_text(ErlMessage* emsg, ETERM *response);
++typedef (*Fi)(ErlMessage* emsg, ETERM* response);
++// typedef Fi (*ETERM)(ErlMessage* emsg, ETERM* response);
++
++// typedef struct{
++//   ErlMessage* emsg;
++//   ETERM* response;
++// }handler_t;
++// typedef int (*Fi)(handler_t*);
++// typedef (*Fi)(ErlMessage* emsg, ETERM* response);
++
++int max_handlers = 1;
++// Fi handlers[] = {handle_test};
++// Fi handlers[] = {handle_text};
++// int max_handlers = 12;
++Fi handlers[] = {handle_text, handle_serialize, handle_remove, handle_find, handle_attribute, handle_append, handle_prepend, handle_insert_before, handle_insert_after, handle_replace, handle_slice, handle_position, handle_wrap};
++
++ETERM*
++handle_all(ErlMessage* emsg, ETERM* response){
++  int max_handlers = sizeof(handlers)/sizeof(handlers[0]);
++  // printf("max_handlers %d\n", max_handlers);
++  for(int i = 0; i < max_handlers; i++){
++    // printf("handle %d\n", i);
++    response = handlers[i](emsg, response);
++    // printf("next...\n");
++  }
++  return response;
++}
++
++ETERM*
++err_term(const char* error_atom)
++{
++  return erl_format("{error, ~w}", erl_mk_atom(error_atom));
++}
++
+ void
+ handle_emsg(state_t* state, ErlMessage* emsg)
+ {
+@@ -27,19 +86,21 @@ handle_send(state_t* state, ErlMessage* emsg)
+ {
+   ETERM *response;
+ 
+-  response = handle_find(emsg, response);
+-  response = handle_serialize(emsg, response);
+-  response = handle_attribute(emsg, response);
+-  response = handle_text(emsg, response);
+-  response = handle_remove(emsg, response);
+-  response = handle_append(emsg, response);
+-  response = handle_prepend(emsg, response);
+-  response = handle_insert_before(emsg, response);
+-  response = handle_insert_after(emsg, response);
+-  response = handle_replace(emsg, response);
+-  response = handle_slice(emsg, response);
+-  response = handle_position(emsg, response);
+-  response = handle_wrap(emsg, response);
++  response = handle_all(emsg, response);
++  
++  // response = handle_find(emsg, response);
++  // response = handle_serialize(emsg, response);
++  // response = handle_attribute(emsg, response);
++  // response = handle_text(emsg, response);
++  // response = handle_remove(emsg, response);
++  // response = handle_append(emsg, response);
++  // response = handle_prepend(emsg, response);
++  // response = handle_insert_before(emsg, response);
++  // response = handle_insert_after(emsg, response);
++  // response = handle_replace(emsg, response);
++  // response = handle_slice(emsg, response);
++  // response = handle_position(emsg, response);
++  // response = handle_wrap(emsg, response);
+ 
+   if(response == NULL)
+   {
+diff --git a/target/modest_client/handlers.h b/target/modest_client/handlers.h
+index 0ada02f..016b7bc 100644
+--- a/target/modest_client/handlers.h
++++ b/target/modest_client/handlers.h
+@@ -1,35 +1,26 @@
+ #ifndef HANDLERS_H
+ #define HANDLERS_H
+ 
++#include <stdio.h>
+ #include "erl_interface.h"
+ #include "ei.h"
+ 
+-ETERM *
+-handle_text(ErlMessage* emsg, ETERM *response);
+-ETERM *
+-handle_serialize(ErlMessage* emsg, ETERM *response);
+-ETERM *
+-handle_remove(ErlMessage* emsg, ETERM *response);
+-ETERM *
+-handle_find(ErlMessage* emsg, ETERM *response);
+-ETERM *
+-handle_attribute(ErlMessage* emsg, ETERM *response);
+-ETERM *
+-handle_append(ErlMessage* emsg, ETERM *response);
+-ETERM *
+-handle_prepend(ErlMessage* emsg, ETERM *response);
+-ETERM *
+-handle_insert_before(ErlMessage* emsg, ETERM *response);
+-ETERM *
+-handle_insert_after(ErlMessage* emsg, ETERM *response);
+-ETERM *
+-handle_replace(ErlMessage* emsg, ETERM *response);
+-ETERM *
+-handle_slice(ErlMessage* emsg, ETERM *response);
+-ETERM *
+-handle_position(ErlMessage* emsg, ETERM *response);
+-ETERM *
+-handle_wrap(ErlMessage* emsg, ETERM *response);
++
++
++ETERM* handle_all(ErlMessage* emsg, ETERM* response);
++// ETERM* handle_text(ErlMessage* emsg, ETERM* response);
++// ETERM* handle_serialize(ErlMessage* emsg, ETERM* response);
++// ETERM* handle_remove(ErlMessage* emsg, ETERM* response);
++// ETERM* handle_find(ErlMessage* emsg, ETERM* response);
++// ETERM* handle_attribute(ErlMessage* emsg, ETERM* response);
++// ETERM* handle_append(ErlMessage* emsg, ETERM* response);
++// ETERM* handle_prepend(ErlMessage* emsg, ETERM* response);
++// ETERM* handle_insert_before(ErlMessage* emsg, ETERM* response);
++// ETERM* handle_insert_after(ErlMessage* emsg, ETERM* response);
++// ETERM* handle_replace(ErlMessage* emsg, ETERM* response);
++// ETERM* handle_slice(ErlMessage* emsg, ETERM* response);
++// ETERM* handle_position(ErlMessage* emsg, ETERM* response);
++// ETERM* handle_wrap(ErlMessage* emsg, ETERM* response);
+ 
+ typedef struct _state_t {
+   int fd;
+diff --git a/target/modest_client/modest_append.c b/target/modest_client/modest_append.c
+index 1b9c51f..d9486e5 100644
+--- a/target/modest_client/modest_append.c
++++ b/target/modest_client/modest_append.c
+@@ -62,7 +62,7 @@ void append_node(myhtml_t *myhtml, myhtml_collection_t *collection, const char*
+ 
+           // create new text node from new_text
+           myhtml_tree_node_t* new_text_node = myhtml_node_create(node->tree, MyHTML_TAG__TEXT, MyHTML_NAMESPACE_HTML);
+-          mycore_string_t *string = myhtml_node_text_set(new_text_node, new_text, strlen(new_text), MyENCODING_UTF_8);
++          myhtml_node_text_set(new_text_node, new_text, strlen(new_text), MyENCODING_UTF_8);
+ 
+           if(prev_child){
+             myhtml_node_insert_after(prev_child, new_text_node);
+@@ -75,7 +75,7 @@ void append_node(myhtml_t *myhtml, myhtml_collection_t *collection, const char*
+           const char *new_text = new_html;
+           // create new text node from new_html
+           myhtml_tree_node_t* new_text_node = myhtml_node_create(node->tree, MyHTML_TAG__TEXT, MyHTML_NAMESPACE_HTML);
+-          mycore_string_t *string = myhtml_node_text_set(new_text_node, new_text, strlen(new_text), MyENCODING_UTF_8);
++          myhtml_node_text_set(new_text_node, new_text, strlen(new_text), MyENCODING_UTF_8);
+ 
+           if(prev_child){
+             myhtml_node_insert_after(prev_child, new_text_node);
+@@ -98,7 +98,7 @@ void append_node(myhtml_t *myhtml, myhtml_collection_t *collection, const char*
+         const char *new_text = new_html;
+         // create new text node from new_text
+         myhtml_tree_node_t* new_text_node = myhtml_node_create(node->tree, MyHTML_TAG__TEXT, MyHTML_NAMESPACE_HTML);
+-        mycore_string_t *string = myhtml_node_text_set(new_text_node, new_text, strlen(new_text), MyENCODING_UTF_8);
++        myhtml_node_text_set(new_text_node, new_text, strlen(new_text), MyENCODING_UTF_8);
+         myhtml_node_append_child(node, new_text_node);
+       }
+     }
+diff --git a/target/modest_client/modest_client.c b/target/modest_client/modest_client.c
+index 36ae518..94eb1c4 100644
+--- a/target/modest_client/modest_client.c
++++ b/target/modest_client/modest_client.c
+@@ -16,9 +16,6 @@
+ 
+ #define BUFFER_SIZE 1000
+ 
+-ETERM*
+-err_term(const char* error_atom);
+-
+ int main(int argc, char **argv) {
+   if (argc != 5 || !strcmp(argv[1], "-h") || !strcmp(argv[1], "--help")) {
+     printf("\n");
+@@ -96,9 +93,3 @@ int main(int argc, char **argv) {
+ 
+ }
+ 
+-ETERM*
+-err_term(const char* error_atom)
+-{
+-  return erl_format("{error, ~w}", erl_mk_atom(error_atom));
+-}
+-
+diff --git a/target/modest_client/modest_insert_after.c b/target/modest_client/modest_insert_after.c
+index e2a9f55..eeaec05 100644
+--- a/target/modest_client/modest_insert_after.c
++++ b/target/modest_client/modest_insert_after.c
+@@ -45,7 +45,7 @@ void insert_after(myhtml_t *myhtml, myhtml_collection_t *collection, const char*
+       if(node && new_node == NULL){
+         const char *new_text = new_html;
+         myhtml_tree_node_t* new_text_node = myhtml_node_create(node->tree, MyHTML_TAG__TEXT, MyHTML_NAMESPACE_HTML);
+-        mycore_string_t *string = myhtml_node_text_set(new_text_node, new_text, strlen(new_text), MyENCODING_UTF_8);
++        myhtml_node_text_set(new_text_node, new_text, strlen(new_text), MyENCODING_UTF_8);
+         myhtml_node_insert_after(node, new_text_node);
+       }
+       
+diff --git a/target/modest_client/modest_insert_before.c b/target/modest_client/modest_insert_before.c
+index ad05430..b9ed064 100644
+--- a/target/modest_client/modest_insert_before.c
++++ b/target/modest_client/modest_insert_before.c
+@@ -45,7 +45,7 @@ void insert_before(myhtml_t *myhtml, myhtml_collection_t *collection, const char
+       if(node && new_node == NULL){
+         const char *new_text = new_html;
+         myhtml_tree_node_t* new_text_node = myhtml_node_create(node->tree, MyHTML_TAG__TEXT, MyHTML_NAMESPACE_HTML);
+-        mycore_string_t *string = myhtml_node_text_set(new_text_node, new_text, strlen(new_text), MyENCODING_UTF_8);
++        myhtml_node_text_set(new_text_node, new_text, strlen(new_text), MyENCODING_UTF_8);
+         myhtml_node_insert_before(node, new_text_node);
+       }      
+     }
+diff --git a/target/modest_client/modest_prepend.c b/target/modest_client/modest_prepend.c
+index ba41c0f..c557c99 100644
+--- a/target/modest_client/modest_prepend.c
++++ b/target/modest_client/modest_prepend.c
+@@ -61,7 +61,7 @@ void prepend_node(myhtml_t *myhtml, myhtml_collection_t *collection, const char*
+ 
+           // create new text node from new_text
+           myhtml_tree_node_t* new_text_node = myhtml_node_create(node->tree, MyHTML_TAG__TEXT, MyHTML_NAMESPACE_HTML);
+-          mycore_string_t *string = myhtml_node_text_set(new_text_node, new_text, strlen(new_text), MyENCODING_UTF_8);
++          myhtml_node_text_set(new_text_node, new_text, strlen(new_text), MyENCODING_UTF_8);
+ 
+           if(next_child){
+             myhtml_node_insert_before(next_child, new_text_node);
+@@ -74,7 +74,7 @@ void prepend_node(myhtml_t *myhtml, myhtml_collection_t *collection, const char*
+           const char *new_text = new_html;
+           // create new text node from new_html
+           myhtml_tree_node_t* new_text_node = myhtml_node_create(node->tree, MyHTML_TAG__TEXT, MyHTML_NAMESPACE_HTML);
+-          mycore_string_t *string = myhtml_node_text_set(new_text_node, new_text, strlen(new_text), MyENCODING_UTF_8);
++          myhtml_node_text_set(new_text_node, new_text, strlen(new_text), MyENCODING_UTF_8);
+ 
+           if(next_child){
+             myhtml_node_insert_before(next_child, new_text_node);
+@@ -92,7 +92,7 @@ void prepend_node(myhtml_t *myhtml, myhtml_collection_t *collection, const char*
+         const char *new_text = new_html;
+         // create new text node from new_text
+         myhtml_tree_node_t* new_text_node = myhtml_node_create(node->tree, MyHTML_TAG__TEXT, MyHTML_NAMESPACE_HTML);
+-        mycore_string_t *string = myhtml_node_text_set(new_text_node, new_text, strlen(new_text), MyENCODING_UTF_8);
++        myhtml_node_text_set(new_text_node, new_text, strlen(new_text), MyENCODING_UTF_8);
+         myhtml_node_append_child(node, new_text_node);
+       }
+       
+diff --git a/target/modest_client/modest_replace.c b/target/modest_client/modest_replace.c
+index ee6dabb..f535bf0 100644
+--- a/target/modest_client/modest_replace.c
++++ b/target/modest_client/modest_replace.c
+@@ -46,7 +46,7 @@ void replace_node(myhtml_t *myhtml, myhtml_collection_t *collection, const char*
+         const char *new_text = new_html;
+         // create new text node from new_text
+         myhtml_tree_node_t* new_text_node = myhtml_node_create(node->tree, MyHTML_TAG__TEXT, MyHTML_NAMESPACE_HTML);
+-        mycore_string_t *string = myhtml_node_text_set(new_text_node, new_text, strlen(new_text), MyENCODING_UTF_8);
++        myhtml_node_text_set(new_text_node, new_text, strlen(new_text), MyENCODING_UTF_8);
+         myhtml_node_insert_after(node, new_text_node);
+         myhtml_node_delete_recursive(node);
+       }
+diff --git a/target/modest_client/modest_wrap.c b/target/modest_client/modest_wrap.c
+index c991532..39b212d 100644
+--- a/target/modest_client/modest_wrap.c
++++ b/target/modest_client/modest_wrap.c
+@@ -60,7 +60,7 @@ void wrap(myhtml_t *myhtml, myhtml_collection_t *collection, const char* new_htm
+       // if(node && new_node == NULL){
+       //   const char *new_text = new_html;
+       //   myhtml_tree_node_t* new_text_node = myhtml_node_create(node->tree, MyHTML_TAG__TEXT, MyHTML_NAMESPACE_HTML);
+-      //   mycore_string_t *string = myhtml_node_text_set(new_text_node, new_text, strlen(new_text), MyENCODING_UTF_8);
++      //   myhtml_node_text_set(new_text_node, new_text, strlen(new_text), MyENCODING_UTF_8);
+         
+       //   myhtml_node_insert_before(node, new_text_node);
+       //   myhtml_tree_node_t *detached = myhtml_node_remove(node);
+@@ -74,7 +74,7 @@ void wrap(myhtml_t *myhtml, myhtml_collection_t *collection, const char* new_htm
+ //   // if(node){
+ //   //   const char *new_text = new_html;
+ //   //   myhtml_tree_node_t* new_text_node = myhtml_node_create(node->tree, MyHTML_TAG__TEXT, MyHTML_NAMESPACE_HTML);
+-//   //   mycore_string_t *string = myhtml_node_text_set(new_text_node, new_text, strlen(new_text), MyENCODING_UTF_8);
++//   //   myhtml_node_text_set(new_text_node, new_text, strlen(new_text), MyENCODING_UTF_8);
+ 
+ //   //   myhtml_node_append_child(tree->node_body, node);
+ //   //   myhtml_node_append_child(node, new_text_node);
+diff --git a/target/modest_client/test/CMakeLists.txt b/target/modest_client/test/CMakeLists.txt
+index f8a83f8..23c1871 100644
+--- a/target/modest_client/test/CMakeLists.txt
++++ b/target/modest_client/test/CMakeLists.txt
+@@ -27,8 +27,6 @@ file(GLOB_RECURSE TESTS "*_test.c")
+ foreach(TEST ${TESTS})
+   message("TEST = ${TEST}")
+   get_filename_component(TEST_NAME ${TEST} NAME_WE)
+-  # add_executable(${TEST_NAME} ${TEST})
+-  # target_link_libraries(${TEST_NAME} libmodest_static.a)
+   string(REGEX REPLACE 
+         "_test" ".c"
+         TEST_SOUCRE
+@@ -36,15 +34,8 @@ foreach(TEST ${TESTS})
+   target_sources(${TEST_NAME} PUBLIC ../${TEST_SOUCRE} ../utils.c)
+ endforeach()
+ 
+-# target_sources(modest_find_test PUBLIC ../modest_find.c ../utils.c)
+-# target_sources(modest_serialize_test PUBLIC ../modest_serialize.c ../utils.c)
+-# target_sources(modest_attribute_test PUBLIC ../modest_attribute.c ../utils.c)
+-# target_sources(modest_text_test PUBLIC ../modest_text.c ../utils.c)
+-# target_sources(modest_remove_test PUBLIC ../modest_remove.c ../utils.c)
+-# target_sources(modest_append_test PUBLIC ../modest_append.c ../utils.c)
+-# target_sources(modest_prepend_test PUBLIC ../modest_prepend.c ../utils.c)
+-# target_sources(modest_insert_before_test PUBLIC ../modest_insert_before.c ../utils.c)
+-# target_sources(modest_insert_after_test PUBLIC ../modest_insert_after.c ../utils.c)
+-# target_sources(modest_replace_test PUBLIC ../modest_replace.c ../utils.c)
+-# target_sources(modest_slice_test PUBLIC ../modest_slice.c ../utils.c)
+-# target_sources(modest_position_test PUBLIC ../modest_position.c ../utils.c)
+\ No newline at end of file
++# file(GLOB_RECURSE HANDLERS "../handle_*.c")
++# target_sources("handlers_test" PUBLIC ../handlers.c ${HANDLERS})
++# file(GLOB_RECURSE MODESTS "../modest_*.c")
++# target_sources("handlers_test" PUBLIC ${MODESTS})
++# target_sources("handlers_test" PUBLIC ../handlers.c ../handle_text.c ../modest_text.c)
+\ No newline at end of file
+diff --git a/target/modest_client/test/modest/selectors_find_nodes_low_level.c b/target/modest_client/test/modest/selectors_find_nodes_low_level.c
+deleted file mode 100644
+index 216bb5b..0000000
+--- a/target/modest_client/test/modest/selectors_find_nodes_low_level.c
++++ /dev/null
+@@ -1,176 +0,0 @@
+-/*
+- Copyright (C) 2016 Alexander Borisov
+-
+- This library is free software; you can redistribute it and/or
+- modify it under the terms of the GNU Lesser General Public
+- License as published by the Free Software Foundation; either
+- version 2.1 of the License, or (at your option) any later version.
+-
+- This library is distributed in the hope that it will be useful,
+- but WITHOUT ANY WARRANTY; without even the implied warranty of
+- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+- Lesser General Public License for more details.
+-
+- You should have received a copy of the GNU Lesser General Public
+- License along with this library; if not, write to the Free Software
+- Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+-
+- Author: lex.borisov@gmail.com (Alexander Borisov)
+-*/
+-
+-#include <stdio.h>
+-#include <stdlib.h>
+-#include <string.h>
+-
+-#include <modest/finder/finder.h>
+-#include <myhtml/myhtml.h>
+-#include <myhtml/serialization.h>
+-#include <mycss/mycss.h>
+-#include <mycss/selectors/init.h>
+-#include <mycss/selectors/serialization.h>
+-
+-#define DIE(msg, ...) do { fprintf(stderr, msg, ##__VA_ARGS__); exit(EXIT_FAILURE); } while(0)
+-#define CHECK_STATUS(msg, ...) do {if(status) DIE(msg, ##__VA_ARGS__);} while(0)
+-
+-mystatus_t serialization_callback(const char* data, size_t len, void* ctx)
+-{
+-    printf("%.*s", (int)len, data);
+-    return MyCORE_STATUS_OK;
+-}
+-
+-mystatus_t serialization_bad_selectors(const char* buffer, size_t size, void* ctx)
+-{
+-    printf("%.*s", (int)size, buffer);
+-    return MyCORE_STATUS_OK;
+-}
+-
+-myhtml_tree_t * parse_html(const char* data, size_t data_size)
+-{
+-    myhtml_t* myhtml = myhtml_create();
+-    mystatus_t status = myhtml_init(myhtml, MyHTML_OPTIONS_DEFAULT, 1, 0);
+-
+-    CHECK_STATUS("Can't init MyHTML object\n");
+-
+-    myhtml_tree_t* tree = myhtml_tree_create();
+-    status = myhtml_tree_init(tree, myhtml);
+-
+-    CHECK_STATUS("Can't init MyHTML Tree object\n");
+-
+-    status = myhtml_parse(tree, MyENCODING_UTF_8, data, data_size);
+-    CHECK_STATUS("Can't parse HTML:\n%s\n", data);
+-
+-    return tree;
+-}
+-
+-mycss_entry_t * create_css_parser(void)
+-{
+-    // base init
+-    mycss_t *mycss = mycss_create();
+-    mystatus_t status = mycss_init(mycss);
+-
+-    CHECK_STATUS("Can't init MyCSS object\n");
+-
+-    // currenr entry work init
+-    mycss_entry_t *entry = mycss_entry_create();
+-    status = mycss_entry_init(mycss, entry);
+-
+-    CHECK_STATUS("Can't init MyCSS Entry object\n");
+-
+-    return entry;
+-}
+-
+-mycss_selectors_list_t * prepare_selector(mycss_entry_t *css_entry, const char* selector, size_t selector_size)
+-{
+-    mystatus_t out_status;
+-    mycss_selectors_list_t *list = mycss_selectors_parse(mycss_entry_selectors(css_entry),
+-                                                         MyENCODING_UTF_8,
+-                                                         selector, selector_size,
+-                                                         &out_status);
+-    /* check parsing errors */
+-    if(list == NULL || (list->flags & MyCSS_SELECTORS_FLAGS_SELECTOR_BAD)) {
+-        fprintf(stderr, "Bad CSS Selectors\n");
+-
+-        if(list) {
+-            mycss_selectors_serialization_list(mycss_entry_selectors(css_entry), list,
+-                                               serialization_bad_selectors, NULL);
+-            printf("\n");
+-        }
+-
+-        exit(EXIT_FAILURE);
+-    }
+-
+-    return list;
+-}
+-
+-void print_found_result(myhtml_tree_t* html_tree, myhtml_collection_t *collection)
+-{
+-    if(collection) {
+-        for(size_t i = 0; i < collection->length; i++) {
+-            printf("\n\t");
+-            myhtml_serialization_node_callback(collection->list[i], serialization_callback, NULL);
+-        }
+-
+-        printf("\n");
+-    }
+-    else {
+-        printf("empty\n");
+-    }
+-}
+-
+-int main(int argc, const char * argv[])
+-{
+-    const char *html = "<div><p id=p1><p id=p2><p id=p3><a>link</a><p id=p4><p id=p5><p id=p6></div>";
+-    const char *selector = "div > :nth-child(2n+1):not(:has(a))";
+-
+-    /* init MyHTML and parse HTML */
+-    myhtml_tree_t *html_tree = parse_html(html, strlen(html));
+-
+-    /* create css parser and finder for selectors */
+-    mycss_entry_t *css_entry = create_css_parser();
+-    modest_finder_t *finder = modest_finder_create_simple();
+-
+-    /* parse selectors */
+-    mycss_selectors_list_t *selectors_list = prepare_selector(css_entry, selector, strlen(selector));
+-
+-    /* find nodes by selector */
+-    myhtml_collection_t *collection = NULL;
+-    modest_finder_by_selectors_list(finder, html_tree->node_html, selectors_list, &collection);
+-
+-    /* print result */
+-    /* print selector */
+-    printf("Incoming selector:\n\t");
+-    mycss_selectors_serialization_list(mycss_entry_selectors(css_entry),
+-                                       selectors_list, serialization_callback, NULL);
+-    printf("\n\n");
+-
+-    /* print tree */
+-    printf("Incoming tree:\n\t");
+-    myhtml_serialization_tree_callback(html_tree->node_html, serialization_callback, NULL);
+-
+-    /* print found result */
+-    printf("\n\nFound nodes:");
+-    print_found_result(html_tree, collection);
+-
+-    /* destroy all */
+-    myhtml_collection_destroy(collection);
+-
+-    /* destroy selector list */
+-    mycss_selectors_list_destroy(mycss_entry_selectors(css_entry), selectors_list, true);
+-
+-    /* destroy Modest Finder */
+-    modest_finder_destroy(finder, true);
+-
+-    /* destroy MyCSS */
+-    mycss_t *mycss = css_entry->mycss;
+-    mycss_entry_destroy(css_entry, true);
+-    mycss_destroy(mycss, true);
+-
+-    /* destroy MyHTML */
+-    myhtml_t* myhtml = html_tree->myhtml;
+-    myhtml_tree_destroy(html_tree);
+-    myhtml_destroy(myhtml);
+-
+-    return 0;
+-}
+-
+-
+diff --git a/target/modest_client/utils.c b/target/modest_client/utils.c
+index 5340819..dc26f99 100644
+--- a/target/modest_client/utils.c
++++ b/target/modest_client/utils.c
+@@ -29,8 +29,8 @@
+ 
+ #include "utils.h"
+ 
+-#define DIE(msg, ...) do { fprintf(stderr, msg, ##__VA_ARGS__); exit(EXIT_FAILURE); } while(0)
+-#define CHECK_STATUS(msg, ...) do {if(status) DIE(msg, ##__VA_ARGS__);} while(0)
++// #define DIE(msg, ...) do { fprintf(stderr, msg, ##__VA_ARGS__); exit(EXIT_FAILURE); } while(0)
++// #define CHECK_STATUS(msg, ...) do {if(status) DIE(msg, ##__VA_ARGS__);} while(0)
+ 
+ mystatus_t serialization_bad_selectors(const char* buffer, size_t size, void* ctx)
+ {
+@@ -49,15 +49,15 @@ myhtml_tree_t * parse_html(const char* data, size_t data_size)
+   myhtml_t* myhtml = myhtml_create();
+   mystatus_t status = myhtml_init(myhtml, MyHTML_OPTIONS_DEFAULT, 1, 0);
+ 
+-  CHECK_STATUS("Can't init MyHTML object\n");
++  // CHECK_STATUS("Can't init MyHTML object\n");
+ 
+   myhtml_tree_t* tree = myhtml_tree_create();
+   status = myhtml_tree_init(tree, myhtml);
+ 
+-  CHECK_STATUS("Can't init MyHTML Tree object\n");
++  // CHECK_STATUS("Can't init MyHTML Tree object\n");
+ 
+   status = myhtml_parse(tree, MyENCODING_UTF_8, data, data_size);
+-  CHECK_STATUS("Can't parse HTML:\n%s\n", data);
++  // CHECK_STATUS("Can't parse HTML:\n%s\n", data);
+ 
+   return tree;
+ }
+@@ -68,13 +68,13 @@ mycss_entry_t * create_css_parser(void)
+   mycss_t *mycss = mycss_create();
+   mystatus_t status = mycss_init(mycss);
+ 
+-  CHECK_STATUS("Can't init MyCSS object\n");
++  // CHECK_STATUS("Can't init MyCSS object\n");
+ 
+   // currenr entry work init
+   mycss_entry_t *entry = mycss_entry_create();
+   status = mycss_entry_init(mycss, entry);
+ 
+-  CHECK_STATUS("Can't init MyCSS Entry object\n");
++  // CHECK_STATUS("Can't init MyCSS Entry object\n");
+ 
+   return entry;
+ }
+@@ -252,16 +252,16 @@ const char* get_scoped_selector(const char* selector, const char* scope){
+   return selector;
+ }
+ 
+-void removeSubstring(char *s, const char *toremove)
++void remove_substring(char *s, const char *toremove)
+ {
+   while( s=strstr(s, toremove) ){
+     memmove(s, s + strlen(toremove), 1 + strlen(s + strlen(toremove)));
+   }
+ }
+-const char* get_scoped_html(const char* html, const char* scope){
++char* get_scoped_html(char* html, const char* scope){
+   if(strcmp(scope, "body_children") == 0){
+-    removeSubstring(html, "<body>");
+-    removeSubstring(html, "</body>");
++    remove_substring(html, "<body>");
++    remove_substring(html, "</body>");
+   }
+   return html;
+ }
+\ No newline at end of file

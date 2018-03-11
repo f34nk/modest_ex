@@ -29,7 +29,6 @@ set(CMAKE_C_LINK_EXECUTABLE "${CMAKE_C_LINK_EXECUTABLE} -lerl_interface -lei -lp
 add_executable(
 	${PROJECT_NAME}
 	modest_client.c
-  handlers.c
   handle_find.c
   handle_serialize.c
   handle_attribute.c
@@ -43,6 +42,7 @@ add_executable(
   handle_slice.c
   handle_position.c
   handle_wrap.c
+  handlers.c
   utils.c
   modest_find.c
   modest_serialize.c

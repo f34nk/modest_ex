@@ -1,0 +1,13 @@
+
+// #include "handlers.h"
+int main(int argc, const char * argv[])
+{
+//   ETERM *response;
+//   ErlMessage* emsg;
+//   // state_t* state;
+
+//   response = handle_all(emsg, response);
+
+//   printf("ok\n");
+  return 0;
+}
