@@ -40,26 +40,37 @@ bool compare_position(myhtml_tree_node_t *node, myhtml_tree_node_t *another_node
   return false;
 }
 
+int get_position(myhtml_tree_node_t* node){
+  myhtml_tree_node_t* parent = myhtml_node_parent(node);
+  if(parent){
+    // check first child
+    myhtml_tree_node_t *next = myhtml_node_child(parent);
+    if(compare_position(node, next)) {
+      return 1;
+    }
+    else {
+      int position = 1;
+      while(next){
+        next = myhtml_node_next(next);
+        position += 1;
+        if(compare_position(node, next)){
+          return position;
+        }
+      }
+    }
+  }
+  return -1;
+}
+
 void collect_positions(myhtml_collection_t *collection, const char* delimiter, FILE *stream)
 {
   if(collection && collection->list && collection->length){
     for(size_t i = 0; i < collection->length; i++) {
-      myhtml_tree_node_t *target_node = collection->list[i];
-      if(target_node){
-        myhtml_tree_node_t* parent = myhtml_node_parent(target_node);
-        if(parent){
-          int position = -1;
-          myhtml_tree_node_t *next = myhtml_node_child(parent);
-          while(next && compare_position(target_node, next) == false) {
-            next = myhtml_node_next(next);
-            if(next){
-              if(position == -1) {
-                position = 1;
-              }
-              position += 1;
-            }
-          }
-          fprintf(stream, "%d", position);
+      myhtml_tree_node_t *node = collection->list[i];
+      if(node){
+        int pos = get_position(node);
+        if(pos != -1){
+          fprintf(stream, "%d", pos);
           if(i < collection->length - 1){
             fprintf(stream, delimiter);
           }

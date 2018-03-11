@@ -28,6 +28,15 @@ int main(int argc, const char * argv[])
     return 1;
   }
 
+  html = "<p>Hello</p><div></div><p>World</p>";
+  selector = "p";
+  result = modest_selected_position(html, selector, delimiter);
+  printf("4: %s\n", result);
+  if(strcmp(result, "1|3") != 0){
+    printf("Failed\n");
+    return 1;
+  }
+
   printf("ok\n");
   return 0;
 }

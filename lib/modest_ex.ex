@@ -277,4 +277,19 @@ defmodule ModestEx do
     ModestEx.Slice.slice(bin, selector, start_index, end_index)
   end
 
+  @doc """
+  Get position of selected nodes in in relation to its parent.
+  Returns list of positions.
+
+  ## Examples
+
+    iex> ModestEx.position("<p>Hello</p><div></div><p>World</p>", "p")
+    [1, 3]
+
+  """
+  @spec position(input(), String.t) :: success() | error()
+  def position(bin, selector) do
+    ModestEx.Position.position(bin, selector)
+  end
+
 end
