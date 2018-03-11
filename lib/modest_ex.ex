@@ -306,4 +306,18 @@ defmodule ModestEx do
   def wrap(bin, selector, new_bin) do
     ModestEx.Wrap.wrap(bin, selector, new_bin)
   end
+
+  @doc """
+  Pretty print html.
+
+  ## Examples
+    iex> ModestEx.pretty_print("<p>Hello World</p>")
+    "\\e[31m<\\e[0m\\e[31mp\\e[0m\\e[31m>\\e[0m\\e[0mHello World\\e[0m\\e[31m</\\e[0m\\e[31mp\\e[0m\\e[31m>\\e[0m\\n"
+
+  """
+  @spec pretty_print(input()) :: success() | error()
+  def pretty_print(bin) do
+    ModestEx.PrettyPrint.pretty_print(bin)
+  end
+  
 end
