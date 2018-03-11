@@ -1,0 +1,25 @@
+
+#include "modest_position.h"
+int main(int argc, const char * argv[])
+{
+  const char *html = "<h1>Lorem ipsum</h1><p>dolor sit amet</p><ul><li>Coffee</li><li>Tea</li><li>Milk</li></ul><p>Sed ut perspiciatis</p><p>unde omnis iste natus</p>";
+  const char *selector = "ul";
+  const char *delimiter = "|";
+  const char *result = modest_selected_position(html, selector, delimiter);
+  printf("1: %s\n", result);
+  if(strcmp(result, "3") != 0){
+    printf("Failed\n");
+    return 1;
+  }
+
+  selector = "p";
+  result = modest_selected_position(html, selector, delimiter);
+  printf("2: %s\n", result);
+  if(strcmp(result, "2|4|5") != 0){
+    printf("Failed\n");
+    return 1;
+  }
+
+  printf("ok\n");
+  return 0;
+}

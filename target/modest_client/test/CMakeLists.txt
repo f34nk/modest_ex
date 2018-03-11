@@ -34,3 +34,4 @@ target_sources(modest_insert_before_test PUBLIC ../modest_insert_before.c ../uti
 target_sources(modest_insert_after_test PUBLIC ../modest_insert_after.c ../utils.c)
 target_sources(modest_replace_test PUBLIC ../modest_replace.c ../utils.c)
 target_sources(modest_slice_test PUBLIC ../modest_slice.c ../utils.c)
+target_sources(modest_position_test PUBLIC ../modest_position.c ../utils.c)
