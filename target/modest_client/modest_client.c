@@ -12,7 +12,7 @@
 #include "erl_interface.h"
 #include "ei.h"
 
-#include "handlers.h"
+#include "handle_send.h"
 
 #define BUFFER_SIZE 1000
 

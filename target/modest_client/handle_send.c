@@ -1,18 +1,18 @@
-#include "handlers.h"
+#include "handle_send.h"
 
-ETERM* handle_text(ErlMessage* emsg, ETERM* response);
-ETERM* handle_serialize(ErlMessage* emsg, ETERM* response);
-ETERM* handle_remove(ErlMessage* emsg, ETERM* response);
-ETERM* handle_find(ErlMessage* emsg, ETERM* response);
-ETERM* handle_attribute(ErlMessage* emsg, ETERM* response);
-ETERM* handle_append(ErlMessage* emsg, ETERM* response);
-ETERM* handle_prepend(ErlMessage* emsg, ETERM* response);
-ETERM* handle_insert_before(ErlMessage* emsg, ETERM* response);
-ETERM* handle_insert_after(ErlMessage* emsg, ETERM* response);
-ETERM* handle_replace(ErlMessage* emsg, ETERM* response);
-ETERM* handle_slice(ErlMessage* emsg, ETERM* response);
-ETERM* handle_position(ErlMessage* emsg, ETERM* response);
-ETERM* handle_wrap(ErlMessage* emsg, ETERM* response);
+ETERM* handle_text(ErlMessage* emsg);
+ETERM* handle_serialize(ErlMessage* emsg);
+ETERM* handle_remove(ErlMessage* emsg);
+ETERM* handle_find(ErlMessage* emsg);
+ETERM* handle_attribute(ErlMessage* emsg);
+ETERM* handle_append(ErlMessage* emsg);
+ETERM* handle_prepend(ErlMessage* emsg);
+ETERM* handle_insert_before(ErlMessage* emsg);
+ETERM* handle_insert_after(ErlMessage* emsg);
+ETERM* handle_replace(ErlMessage* emsg);
+ETERM* handle_slice(ErlMessage* emsg);
+ETERM* handle_position(ErlMessage* emsg);
+ETERM* handle_wrap(ErlMessage* emsg);
 
 #define MAX_HANDLERS 13
 ETERM* (*HANDLERS[MAX_HANDLERS])() = {handle_text, handle_serialize, handle_remove, handle_find, handle_attribute, handle_append, handle_prepend, handle_insert_before, handle_insert_after, handle_replace, handle_slice, handle_position, handle_wrap};
@@ -49,9 +49,10 @@ void
 handle_send(state_t* state, ErlMessage* emsg)
 {
   ETERM *response = NULL;
-
-  for(int i = 0; i < MAX_HANDLERS; i++){
-    response = HANDLERS[i](emsg, response);
+  int i = 0;
+  while(i < MAX_HANDLERS && response == NULL){
+    response = HANDLERS[i](emsg);
+    i += 1;
   }
 
   if(response == NULL)

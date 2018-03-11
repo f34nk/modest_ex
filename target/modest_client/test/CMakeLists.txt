@@ -31,11 +31,5 @@ foreach(TEST ${TESTS})
         "_test" ".c"
         TEST_SOUCRE
         ${TEST_NAME})
-  target_sources(${TEST_NAME} PUBLIC ../${TEST_SOUCRE} ../utils.c)
+  target_sources(${TEST_NAME} PUBLIC ../features/${TEST_SOUCRE} ../utils.c)
 endforeach()
-
-# file(GLOB_RECURSE HANDLERS "../handle_*.c")
-# target_sources("handlers_test" PUBLIC ../handlers.c ${HANDLERS})
-# file(GLOB_RECURSE MODESTS "../modest_*.c")
-# target_sources("handlers_test" PUBLIC ${MODESTS})
-# target_sources("handlers_test" PUBLIC ../handlers.c ../handle_text.c ../modest_text.c)
