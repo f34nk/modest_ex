@@ -18,16 +18,6 @@ defmodule PipeTest do
     result = ModestEx.insert_after(result, "div.col-md-12 div", copy)
     |> ModestEx.set_attribute("div.col-md-6:first-of-type a", "href", "https://elixir-lang.org")
     |> ModestEx.set_attribute("div.col-md-6:last-of-type a", "href", "https://google.de")
-    
-    assert result == "<div class=\"col-md-12\"><div class=\"col-md-6\"><a href=\"https://elixir-lang.org\">Hello</a></div><div class=\"col-md-6\"><a href=\"https://google.de\">World</a></div></div>"
-  end
-
-  test "more complex transformation" do
-    result = "<div><div><a>Hello</a></div><div><a>World</a></div></div>"
-    |> ModestEx.set_attribute("body > div", "class", "col-md-12")
-    |> ModestEx.set_attribute("div.col-md-12 div", "class", "col-md-6")
-    |> ModestEx.set_attribute("div.col-md-6:first-of-type a", "href", "https://elixir-lang.org")
-    |> ModestEx.set_attribute("div.col-md-6:last-of-type a", "href", "https://google.de")
 
     assert result == "<div class=\"col-md-12\"><div class=\"col-md-6\"><a href=\"https://elixir-lang.org\">Hello</a></div><div class=\"col-md-6\"><a href=\"https://google.de\">World</a></div></div>"
   end

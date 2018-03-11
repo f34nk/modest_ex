@@ -28,9 +28,13 @@ defmodule ModestExFindTest do
                   assert reply == output
                 rescue
                   error in [ExUnit.AssertionError] ->
+                    reply = cond do
+                      is_list(reply) -> Enum.join(reply, "|")
+                      true -> reply
+                    end
                     raise ExUnit.AssertionError, error.message <> 
+                      "\n\t reply: " <> reply <>
                       "\n\t test:  " <> line
-                      # "\n\t reply: " <> Enum.join(reply, "|") <>
                 end
             end
           true -> ""
