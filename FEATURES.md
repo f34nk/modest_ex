@@ -142,3 +142,12 @@ Wrap an HTML structure around each element in the set of matched elements.
 iex> ModestEx.wrap("<p>Hello</p><p>World</p>", "p", "<div class=\"wrapper\">")
 "<div class=\"wrapper\"><p>Hello</p></div><div class=\"wrapper\"><p>World</p></div>"
 ```
+
+## pretty_print
+Pretty print html. Use `IO.puts` to pretty print the colors to `stdout`.
+Use this method in development to inspect the html tree.
+
+```elixir
+iex> ModestEx.pretty_print("<p>Hello World</p>")
+"\e[31m<\e[0m\e[31mp\e[0m\e[31m>\e[0m\e[0mHello World\e[0m\e[31m</\e[0m\e[31mp\e[0m\e[31m>\e[0m\n"
+```

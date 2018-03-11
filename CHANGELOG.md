@@ -1,5 +1,11 @@
 # ModestEx Changelog
 
+## 0.0.12-dev
+
+March 2018
+
+- Feature `ModestEx.pretty_print`
+
 ## 0.0.11-dev
 
 March 2018

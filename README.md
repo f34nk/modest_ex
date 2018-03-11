@@ -132,6 +132,7 @@ See [CHANGELOG](https://github.com/f34nk/modest_ex/blob/master/CHANGELOG.md).
   - [x] Slice html to a subset of nodes
   - [x] Get position of node in relation to its parent
   - [x] Wrap node with another node
+  - [x] Pretty print html
 - [x] Scope flag to control serialization
 - [x] List of supported CSS Selectors
 - [ ] Documentation
