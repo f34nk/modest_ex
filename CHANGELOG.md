@@ -1,5 +1,11 @@
 # ModestEx Changelog
 
+## 0.0.11-dev
+
+March 2018
+
+- Feature `ModestEx.wrap`
+
 ## 0.0.10-dev
 
 March 2018
