@@ -134,3 +134,11 @@ Can be used with `slice()`.
 iex> ModestEx.position("<p>Hello</p><div></div><p>World</p>", "p")
 [1, 3]
 ```
+
+## wrap
+Wrap an HTML structure around each element in the set of matched elements.
+
+```elixir
+iex> ModestEx.wrap("<p>Hello</p><p>World</p>", "p", "<div class=\"wrapper\">")
+"<div class=\"wrapper\"><p>Hello</p></div><div class=\"wrapper\"><p>World</p></div>"
+```

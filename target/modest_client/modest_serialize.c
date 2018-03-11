@@ -66,5 +66,6 @@ const char* modest_serialize(const char* html, const char* scope){
   myhtml_destroy(myhtml);
 
   // TODO: This is a leak. Implement proper memory handling.
-  return str_raw.data;
+  // return str_raw.data;
+  return get_scoped_html(str_raw.data, scope);
 }

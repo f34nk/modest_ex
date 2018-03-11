@@ -42,6 +42,7 @@ add_executable(
   handle_replace.c
   handle_slice.c
   handle_position.c
+  handle_wrap.c
   utils.c
   modest_find.c
   modest_serialize.c
@@ -55,6 +56,7 @@ add_executable(
   modest_replace.c
   modest_slice.c
   modest_position.c
+  modest_wrap.c
 )
 
 target_link_libraries(

@@ -222,7 +222,8 @@ myhtml_tree_node_t *get_scope_node(myhtml_tree_t* tree, const char* scope){
     return tree->node_body;
   }
   else if(strcmp(scope, "body_children") == 0){
-    return myhtml_node_child(tree->node_body);
+    // return myhtml_node_child(tree->node_body);
+    return tree->node_body;
   }
   else if(strcmp(scope, "form") == 0){
     return tree->node_form;
@@ -249,4 +250,18 @@ const char* get_scoped_selector(const char* selector, const char* scope){
   }
   // default
   return selector;
+}
+
+void removeSubstring(char *s, const char *toremove)
+{
+  while( s=strstr(s, toremove) ){
+    memmove(s, s + strlen(toremove), 1 + strlen(s + strlen(toremove)));
+  }
+}
+const char* get_scoped_html(const char* html, const char* scope){
+  if(strcmp(scope, "body_children") == 0){
+    removeSubstring(html, "<body>");
+    removeSubstring(html, "</body>");
+  }
+  return html;
 }

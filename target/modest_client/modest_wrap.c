@@ -28,38 +28,68 @@
 #include <mycss/selectors/serialization.h>
 
 #include "utils.h"
-#include "modest_insert_before.h"
 
-void insert_before(myhtml_t *myhtml, myhtml_collection_t *collection, const char* new_html)
+// void info(myhtml_tree_node_t *node) {
+//   if(node){
+//     myhtml_tag_id_t tag_id = myhtml_node_tag_id(node);
+//     const char *tag_name = myhtml_tag_name_by_id(node->tree, tag_id, NULL);
+//     printf("%s\n", tag_name);
+//   }
+// }
+
+void wrap(myhtml_t *myhtml, myhtml_collection_t *collection, const char* new_html)
 {
   if(collection && collection->list && collection->length) {
 
     for(size_t i = 0; i < collection->length; i++) {
       myhtml_tree_node_t *node = collection->list[i];
+
       // myhtml_tree_node_t *prev_node = (node) ? myhtml_node_prev(node) : NULL;
       myhtml_tree_node_t *new_node = get_root_node(myhtml, new_html);
 
+      // printf("%s, %s\n", (node)?"node":"no node", (new_node)?"new_node":"no new_node");
+
+      // info(node);
+      // info(new_node);
+
       if(node && new_node){
         myhtml_node_insert_before(node, new_node);
+        myhtml_tree_node_t *detached = myhtml_node_remove(node);
+        myhtml_node_append_child(new_node, detached);
       }
-      if(node && new_node == NULL){
-        const char *new_text = new_html;
-        myhtml_tree_node_t* new_text_node = myhtml_node_create(node->tree, MyHTML_TAG__TEXT, MyHTML_NAMESPACE_HTML);
-        mycore_string_t *string = myhtml_node_text_set(new_text_node, new_text, strlen(new_text), MyENCODING_UTF_8);
-        myhtml_node_insert_before(node, new_text_node);
-      }      
+      // if(node && new_node == NULL){
+      //   const char *new_text = new_html;
+      //   myhtml_tree_node_t* new_text_node = myhtml_node_create(node->tree, MyHTML_TAG__TEXT, MyHTML_NAMESPACE_HTML);
+      //   mycore_string_t *string = myhtml_node_text_set(new_text_node, new_text, strlen(new_text), MyENCODING_UTF_8);
+        
+      //   myhtml_node_insert_before(node, new_text_node);
+      //   myhtml_tree_node_t *detached = myhtml_node_remove(node);
+      // }      
     }
   }
 }
 
+// void add_wrapped_text_to_body(myhtml_tree_t *tree, const char* html, const char* new_html){
+//   // myhtml_tree_node_t *node = get_root_node(tree->myhtml, new_html);
+//   // if(node){
+//   //   const char *new_text = new_html;
+//   //   myhtml_tree_node_t* new_text_node = myhtml_node_create(node->tree, MyHTML_TAG__TEXT, MyHTML_NAMESPACE_HTML);
+//   //   mycore_string_t *string = myhtml_node_text_set(new_text_node, new_text, strlen(new_text), MyENCODING_UTF_8);
+
+//   //   myhtml_node_append_child(tree->node_body, node);
+//   //   myhtml_node_append_child(node, new_text_node);
+//   // }
+// }
+
 /**
- * Insert new html before selected node
- * @param  html      [a html string]
- * @param  selector  [a CSS selector]
- * @param  new_html  [a html string]
- * @return           [updated html string]
+ * Wrap an HTML structure around each element in the set of matched elements.
+ * @param  html     [a html string]
+ * @param  selector [a CSS selector]
+ * @param  new_html [a html string]
+ * @param  scope    [scope string]
+ * @return          [updated html string]
  */
-const char* modest_select_and_insert_before(const char* html, const char* selector, const char* new_html, const char* scope)
+const char* modest_select_and_wrap(const char* html, const char* selector, const char* new_html, const char* scope)
 {
   /* init MyHTML and parse HTML */
   myhtml_tree_t *tree = parse_html(html, strlen(html));
@@ -68,18 +98,33 @@ const char* modest_select_and_insert_before(const char* html, const char* select
   mycss_entry_t *css_entry = create_css_parser();
   modest_finder_t *finder = modest_finder_create_simple();
 
+  const char* new_selector = get_scoped_selector(selector, scope);
+  // printf("scoped_selector: %s\n", new_selector);
+  
   /* parse selectors */
-  mycss_selectors_list_t *selectors_list = prepare_selector(css_entry, selector, strlen(selector));
+  mycss_selectors_list_t *selectors_list = prepare_selector(css_entry, new_selector, strlen(new_selector));
 
   /* find nodes by selector */
   myhtml_collection_t *collection = NULL;
-  modest_finder_by_selectors_list(finder, tree->node_html/*get_scope_node(tree, scope)*/, selectors_list, &collection);
+  modest_finder_by_selectors_list(finder, 
+    /*tree->node_html*/
+    get_scope_node(tree, scope)
+    , 
+    selectors_list, &collection);
 
   if(collection == NULL || collection->length == 0) {
     // printf("missing collection\n");
   }
 
-  insert_before(tree->myhtml, collection, new_html);
+  wrap(tree->myhtml, collection, new_html);
+  // if(strlen(html) > 0 && collection != NULL && collection->length == 0){
+  //   // printf("has html, missing collection\n");
+  //   // not implemented yet
+  //   // add_wrapped_text_to_body(tree, html, new_html);
+  // }
+  // else {
+  //   wrap(tree->myhtml, collection, new_html);
+  // }
   
   FILE *stream;
   char *buf;

@@ -292,4 +292,18 @@ defmodule ModestEx do
     ModestEx.Position.position(bin, selector)
   end
 
+  @doc """
+  Wrap an HTML structure around each element in the set of matched elements.
+  Returns updated html string
+
+  ## Examples
+
+    iex> ModestEx.wrap("<p>Hello</p><p>World</p>", "p", "<div></div>")
+    "<div><p>Hello</p></div><div><p>World</p></div>"
+
+  """
+  @spec wrap(input(), String.t, String.t) :: success() | error()
+  def wrap(bin, selector, new_bin) do
+    ModestEx.Wrap.wrap(bin, selector, new_bin)
+  end
 end

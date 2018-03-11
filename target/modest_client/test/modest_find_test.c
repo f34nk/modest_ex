@@ -40,6 +40,15 @@ int main(int argc, const char * argv[])
     return 1;
   }
 
+  html = "<p>Hello</p><p>World</p>";
+  selector = "p";
+  result = modest_find(html, selector, "|", scope);
+  printf("%d:\nhtml = %s\nselector = %s\nscope = %s\nresult = %s\n", i+=1, html, selector, scope, result);
+  if(strcmp(result, "<p>Hello</p>|<p>World</p>") != 0){
+    printf("Failed\n");
+    return 1;
+  }
+
   html = "<div><input type=\"radio\"></div>";
   selector = "div input";
   result = modest_find(html, selector, "|", scope);
