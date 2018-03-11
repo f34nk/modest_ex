@@ -165,7 +165,7 @@ const char* modest_select_and_prepend(const char* html, const char* selector, co
   myhtml_destroy(myhtml);
 
   // TODO: This is a leak. Implement proper memory handling.
-  return buf;
+  return get_scoped_html(buf, scope);
 }
 
 

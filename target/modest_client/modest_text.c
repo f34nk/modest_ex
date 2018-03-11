@@ -244,5 +244,5 @@ const char* modest_select_and_set_text(const char* html, const char* selector, c
   myhtml_destroy(myhtml);
 
   // TODO: This is a leak. Implement proper memory handling.
-  return buf;
+  return get_scoped_html(buf, scope);
 }
