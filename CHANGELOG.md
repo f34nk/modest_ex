@@ -1,5 +1,11 @@
 # ModestEx Changelog
 
+## 0.0.10-dev
+
+March 2018
+
+- Feature `ModestEx.position`
+
 ## 0.0.9-dev
 
 March 2018

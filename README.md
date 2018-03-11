@@ -64,7 +64,7 @@ Available on [hex](https://hex.pm/packages/modest_ex).
 ```elixir
 def deps do
   [
-    {:modest_ex, "~> 0.0.9-dev"}
+    {:modest_ex, "~> 0.0.10-dev"}
   ]
 end
 ```
@@ -130,6 +130,7 @@ See [CHANGELOG](https://github.com/f34nk/modest_ex/blob/master/CHANGELOG.md).
   - [x] Insert node after another node
   - [x] Replace node with another node
   - [x] Slice html to a subset of nodes
+  - [x] Get position of node in relation to its parent
 - [x] Scope flag to control serialization
 - [x] List of supported CSS Selectors
 - [ ] Documentation
