@@ -12,12 +12,9 @@
 #include "erl_interface.h"
 #include "ei.h"
 
-#include "handlers.h"
+#include "handle_send.h"
 
 #define BUFFER_SIZE 1000
-
-ETERM*
-err_term(const char* error_atom);
 
 int main(int argc, char **argv) {
   if (argc != 5 || !strcmp(argv[1], "-h") || !strcmp(argv[1], "--help")) {
@@ -94,11 +91,5 @@ int main(int argc, char **argv) {
     }
   }
 
-}
-
-ETERM*
-err_term(const char* error_atom)
-{
-  return erl_format("{error, ~w}", erl_mk_atom(error_atom));
 }
 

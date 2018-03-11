@@ -20,48 +20,31 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -L${ERL_INTERFACE}/lib")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -I${CMAKE_CURRENT_SOURCE_DIR}/../Modest/include")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -L${CMAKE_CURRENT_SOURCE_DIR}/../Modest/lib")
 
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -I${CMAKE_CURRENT_SOURCE_DIR}/handlers")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -I${CMAKE_CURRENT_SOURCE_DIR}/features")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -I${CMAKE_CURRENT_SOURCE_DIR}")
+
 message("CMAKE_CURRENT_SOURCE_DIR = ${CMAKE_CURRENT_SOURCE_DIR}")
 
 # make sure that erlang and pthread gets linked as last
 # https://cmake.org/pipermail/cmake/2009-February/026779.html
 set(CMAKE_C_LINK_EXECUTABLE "${CMAKE_C_LINK_EXECUTABLE} -lerl_interface -lei -lpthread")
 
+file(GLOB_RECURSE HANDLERS "handlers/*.c")
+file(GLOB_RECURSE FEATURES "features/*.c")
+
 add_executable(
-	${PROJECT_NAME}
-	modest_client.c
-  handlers.c
-  handle_find.c
-  handle_serialize.c
-  handle_attribute.c
-  handle_text.c
-  handle_remove.c
-  handle_append.c
-  handle_prepend.c
-  handle_insert_before.c
-  handle_insert_after.c
-  handle_replace.c
-  handle_slice.c
-  handle_position.c
-  handle_wrap.c
+  ${PROJECT_NAME}
+  ${HANDLERS}
+  ${FEATURES}
+  modest_client.c
+  handle_send.c
   utils.c
-  modest_find.c
-  modest_serialize.c
-  modest_attribute.c
-  modest_text.c
-  modest_remove.c
-  modest_append.c
-  modest_prepend.c
-  modest_insert_before.c
-  modest_insert_after.c
-  modest_replace.c
-  modest_slice.c
-  modest_position.c
-  modest_wrap.c
 )
 
 target_link_libraries(
   ${PROJECT_NAME}
-  libmodest_static.a
+  modest_static.a
 )
 
 # add target tests
