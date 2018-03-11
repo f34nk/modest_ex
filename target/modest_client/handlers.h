@@ -7,7 +7,8 @@
 
 
 
-ETERM* handle_all(ErlMessage* emsg, ETERM* response);
+// ETERM* handle_all(ErlMessage* emsg, ETERM* response);
+
 // ETERM* handle_text(ErlMessage* emsg, ETERM* response);
 // ETERM* handle_serialize(ErlMessage* emsg, ETERM* response);
 // ETERM* handle_remove(ErlMessage* emsg, ETERM* response);
