@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0)
-project(modest_client)
+project(modest_worker)
 
 # resolve wildcard
 file(GLOB ERL_INTERFACE "${ERLANG_PATH}/../lib/erl_interface-*")
@@ -37,7 +37,7 @@ add_executable(
   ${PROJECT_NAME}
   ${HANDLERS}
   ${FEATURES}
-  modest_client.c
+  modest_worker.c
   handle_send.c
   utils.c
 )

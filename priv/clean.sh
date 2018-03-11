@@ -14,17 +14,17 @@ then
 	echo "done"
 fi
 
-check=`find priv -name modest_client`
+check=`find priv -name modest_worker`
 if [ ! -z "$check" ]
 then
-	echo "Clean modest_client..."
-	cd target/modest_client/build
+	echo "Clean modest_worker..."
+	cd target/modest_worker/build
 	make clean
 	rm -rf *
 	cd $current
-	echo "remove modest_client..."
+	echo "remove modest_worker..."
 	cd priv
-	rm modest_client
+	rm modest_worker
 	cd $current
 	echo "done"
 fi

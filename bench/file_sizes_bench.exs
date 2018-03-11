@@ -6,7 +6,7 @@ defmodule CnodeFileSizesBench do
   
   setup_all do
     Nodex.Distributed.up
-    {:ok, pid} = Cnode.start_link(%{exec_path: "priv/modest_client"})
+    {:ok, pid} = Cnode.start_link(%{exec_path: "priv/modest_worker"})
     contents = {
       pid,
       File.read!("bench/input/github_trending_js.html"),

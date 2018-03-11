@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0)
-project(modest_client_tests)
+project(modest_worker_tests)
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -O2 -std=c99") # c
 # set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -pedantic")

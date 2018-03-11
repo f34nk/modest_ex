@@ -19,7 +19,7 @@
 int main(int argc, char **argv) {
   if (argc != 5 || !strcmp(argv[1], "-h") || !strcmp(argv[1], "--help")) {
     printf("\n");
-    printf("Usage: modest_client <sname> <hostname> <cookie> <tname>\n\n");
+    printf("Usage: modest_worker <sname> <hostname> <cookie> <tname>\n\n");
     printf("    sname      the short name you want this c-node to connect as\n");
     printf("    hostname   the hostname\n");
     printf("    cookie     the authentication cookie\n");

@@ -16,22 +16,22 @@ echo "Test ModestEx target from $current"
 #   echo "done"
 # fi
 
-check=`find priv -name modest_client`
+check=`find priv -name modest_worker`
 if [ ! -z "$check" ]
 then
-  echo "Test modest_client..."
-  cd target/modest_client/build
+  echo "Test modest_worker..."
+  cd target/modest_worker/build
   make test
   cd $current
   echo "done"
 
-  logs=( `find target/modest_client -name LastTest.log` )
+  logs=( `find target/modest_worker -name LastTest.log` )
   for i in "${logs[@]}"
   do
     echo $current/$i
   done
 
-  logs=( `find target/modest_client -name LastTestsFailed.log` )
+  logs=( `find target/modest_worker -name LastTestsFailed.log` )
   for i in "${logs[@]}"
   do
     echo $current/$i

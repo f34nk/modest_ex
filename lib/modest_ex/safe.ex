@@ -10,7 +10,7 @@ defmodule ModestEx.Safe do
     unless Node.alive? do
       Nodex.Distributed.up
     end
-    modest_worker = Path.join(:code.priv_dir(unquote(app)), "modest_client")
+    modest_worker = Path.join(:code.priv_dir(unquote(app)), "modest_worker")
     children = [
       worker(Nodex.Cnode, [%{exec_path: modest_worker}, [name: ModestEx.Safe.Cnode]])
     ]

@@ -17,14 +17,14 @@
 #   test "can be started with an already started cnode" do
 #     cnode = :"foobar@127.0.0.1"
 #     {:ok, _state} = Cnode.spawn_cnode(%{
-#       exec_path: "priv/modest_client",
+#       exec_path: "priv/modest_worker",
 #       cnode: cnode,
 #       sname: "foobar",
 #       hostname: "127.0.0.1",
 #       ready_line: "foobar@127.0.0.1 ready"
 #     })
 #     {:ok, pid} = Cnode.start_link(%{
-#       exec_path: "priv/modest_client",
+#       exec_path: "priv/modest_worker",
 #       cnode: cnode
 #     })
 #     {:ok, _} = Cnode.call(pid, {:serialize, "<div>Hello<span>World"})
@@ -32,14 +32,14 @@
 
 #   test "fails when executable does not activate within spawn_inactive_timeout" do
 #     assert {:stop, :spawn_inactive_timeout} = Cnode.init(%{
-#       exec_path: "priv/modest_client",
+#       exec_path: "priv/modest_worker",
 #       spawn_inactive_timeout: 0
 #     })
 #   end
 
 #   test "fails when connection cannot be established" do
 #     assert {:stop, :unable_to_establish_connection} = Cnode.init(%{
-#       exec_path: "priv/modest_client",
+#       exec_path: "priv/modest_worker",
 #       sname: "unconnectable",
 #       ready_line: "initialising unconnectable@#{Nodex.host()}",
 #     })

@@ -4,7 +4,7 @@ mix_env=$1
 current=`pwd`
 echo "Compiling ModestEx target from $current $mix_env"
 
-modest_client="modest_client"
+modest_worker="modest_worker"
 
 check=`find target \( -name libmodest_static.a -o -name libmodest.so \)`
 if [ -z "$check" ]
@@ -18,16 +18,16 @@ then
 	echo "done"
 fi
 
-function compile_modest_client()
+function compile_modest_worker()
 {
-	echo "Compiling modest_client..."
-	rm priv/modest_client
-	mkdir -p target/$modest_client/build
-	cd target/$modest_client/build
+	echo "Compiling modest_worker..."
+	rm priv/modest_worker
+	mkdir -p target/$modest_worker/build
+	cd target/$modest_worker/build
 	rm -rf *
 	cmake -DERLANG_PATH=`erl -eval 'io:format("~s", [lists:concat([code:root_dir(), "/erts-", erlang:system_info(version)])]), halt()' -s init stop -noshell` ..
 	make
-	mv modest_client $current/priv
+	mv modest_worker $current/priv
 	cd $current
 	echo "done"
 }
@@ -35,11 +35,11 @@ function compile_modest_client()
 if [ "$mix_env" = "dev" ] || [ "$mix_env" = "test" ]
 then
 	echo $mix_env
-	compile_modest_client
+	compile_modest_worker
 else
-	check=`find priv -name modest_client`
+	check=`find priv -name modest_worker`
 	if [ -z "$check" ]
 	then
-		compile_modest_client
+		compile_modest_worker
 	fi
 fi
