@@ -26,6 +26,8 @@ ETERM *
 handle_replace(ErlMessage* emsg, ETERM *response);
 ETERM *
 handle_slice(ErlMessage* emsg, ETERM *response);
+ETERM *
+handle_position(ErlMessage* emsg, ETERM *response);
 
 typedef struct _state_t {
   int fd;
