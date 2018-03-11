@@ -29,8 +29,8 @@
 
 #include "utils.h"
 
-#define DIE(msg, ...) do { fprintf(stderr, msg, ##__VA_ARGS__); exit(EXIT_FAILURE); } while(0)
-#define CHECK_STATUS(msg, ...) do {if(status) DIE(msg, ##__VA_ARGS__);} while(0)
+// #define DIE(msg, ...) do { fprintf(stderr, msg, ##__VA_ARGS__); exit(EXIT_FAILURE); } while(0)
+// #define CHECK_STATUS(msg, ...) do {if(status) DIE(msg, ##__VA_ARGS__);} while(0)
 
 mystatus_t serialization_bad_selectors(const char* buffer, size_t size, void* ctx)
 {
@@ -49,15 +49,15 @@ myhtml_tree_t * parse_html(const char* data, size_t data_size)
   myhtml_t* myhtml = myhtml_create();
   mystatus_t status = myhtml_init(myhtml, MyHTML_OPTIONS_DEFAULT, 1, 0);
 
-  CHECK_STATUS("Can't init MyHTML object\n");
+  // CHECK_STATUS("Can't init MyHTML object\n");
 
   myhtml_tree_t* tree = myhtml_tree_create();
   status = myhtml_tree_init(tree, myhtml);
 
-  CHECK_STATUS("Can't init MyHTML Tree object\n");
+  // CHECK_STATUS("Can't init MyHTML Tree object\n");
 
   status = myhtml_parse(tree, MyENCODING_UTF_8, data, data_size);
-  CHECK_STATUS("Can't parse HTML:\n%s\n", data);
+  // CHECK_STATUS("Can't parse HTML:\n%s\n", data);
 
   return tree;
 }
@@ -68,13 +68,13 @@ mycss_entry_t * create_css_parser(void)
   mycss_t *mycss = mycss_create();
   mystatus_t status = mycss_init(mycss);
 
-  CHECK_STATUS("Can't init MyCSS object\n");
+  // CHECK_STATUS("Can't init MyCSS object\n");
 
   // currenr entry work init
   mycss_entry_t *entry = mycss_entry_create();
   status = mycss_entry_init(mycss, entry);
 
-  CHECK_STATUS("Can't init MyCSS Entry object\n");
+  // CHECK_STATUS("Can't init MyCSS Entry object\n");
 
   return entry;
 }
@@ -252,16 +252,16 @@ const char* get_scoped_selector(const char* selector, const char* scope){
   return selector;
 }
 
-void removeSubstring(char *s, const char *toremove)
+void remove_substring(char *s, const char *toremove)
 {
   while( s=strstr(s, toremove) ){
     memmove(s, s + strlen(toremove), 1 + strlen(s + strlen(toremove)));
   }
 }
-const char* get_scoped_html(const char* html, const char* scope){
+char* get_scoped_html(char* html, const char* scope){
   if(strcmp(scope, "body_children") == 0){
-    removeSubstring(html, "<body>");
-    removeSubstring(html, "</body>");
+    remove_substring(html, "<body>");
+    remove_substring(html, "</body>");
   }
   return html;
 }

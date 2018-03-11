@@ -46,7 +46,7 @@ void replace_node(myhtml_t *myhtml, myhtml_collection_t *collection, const char*
         const char *new_text = new_html;
         // create new text node from new_text
         myhtml_tree_node_t* new_text_node = myhtml_node_create(node->tree, MyHTML_TAG__TEXT, MyHTML_NAMESPACE_HTML);
-        mycore_string_t *string = myhtml_node_text_set(new_text_node, new_text, strlen(new_text), MyENCODING_UTF_8);
+        myhtml_node_text_set(new_text_node, new_text, strlen(new_text), MyENCODING_UTF_8);
         myhtml_node_insert_after(node, new_text_node);
         myhtml_node_delete_recursive(node);
       }
