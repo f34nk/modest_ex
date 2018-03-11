@@ -20,6 +20,14 @@ int main(int argc, const char * argv[])
     return 1;
   }
 
+  selector = "div";
+  result = modest_selected_position(html, selector, delimiter);
+  printf("3: %s\n", result);
+  if(strcmp(result, "") != 0){
+    printf("Failed\n");
+    return 1;
+  }
+
   printf("ok\n");
   return 0;
 }
