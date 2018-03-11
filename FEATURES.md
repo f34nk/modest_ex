@@ -125,3 +125,12 @@ Reduce the set of matched elements to a subset specified by a range of indices.
 iex> ModestEx.slice("<h1>Lorem ipsum</h1><p>dolor sit amet</p><ul><li>Coffee</li><li>Tea</li><li>Milk</li></ul><p>Sed ut perspiciatis</p><p>unde omnis iste natus</p>", "> *", 0, -1)
 ["<h1>Lorem ipsum</h1>", "<p>dolor sit amet</p>", "<ul><li>Coffee</li><li>Tea</li><li>Milk</li></ul>", "<p>Sed ut perspiciatis</p>", "<p>unde omnis iste natus</p>"]
 ```
+
+## position
+Return position of the selected node in relation to its parent.
+Can be used with `slice()`.
+
+```elixir
+iex> ModestEx.position("<p>Hello</p><div></div><p>World</p>", "p")
+[1, 3]
+```
