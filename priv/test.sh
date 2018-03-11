@@ -28,12 +28,20 @@ then
   logs=( `find target/modest_worker -name LastTest.log` )
   for i in "${logs[@]}"
   do
-    echo $current/$i
+    echo $i
+    if [ ! -z `which subl` ]
+    then
+      subl $i
+    fi
   done
 
   logs=( `find target/modest_worker -name LastTestsFailed.log` )
   for i in "${logs[@]}"
   do
-    echo $current/$i
+    echo $i
+    if [ ! -z `which subl` ]
+    then
+      subl $i
+    fi
   done
 fi
