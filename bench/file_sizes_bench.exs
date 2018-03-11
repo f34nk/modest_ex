@@ -2,6 +2,8 @@ defmodule CnodeFileSizesBench do
   use Benchfella
   alias Nodex.Cnode
 
+  @scope "html"
+  
   setup_all do
     Nodex.Distributed.up
     {:ok, pid} = Cnode.start_link(%{exec_path: "priv/modest_client"})
@@ -16,7 +18,7 @@ defmodule CnodeFileSizesBench do
 
   bench "github_trending_js.html 341k" do
     {pid, ref, _, _} = bench_context
-    case Cnode.call(pid, {:serialize, ref, "html"}) do
+    case Cnode.call(pid, {:serialize, ref, @scope}) do
       {:ok, {:serialize, serialized}} -> :ok
       _ -> :error
     end
@@ -24,7 +26,7 @@ defmodule CnodeFileSizesBench do
 
   bench "w3c_html5.html 131k" do
     {pid, _, ref, _} = bench_context
-    case Cnode.call(pid, {:serialize, ref, "html"}) do
+    case Cnode.call(pid, {:serialize, ref, @scope}) do
       {:ok, {:serialize, serialized}} -> :ok
       _ -> :error
     end
@@ -32,7 +34,7 @@ defmodule CnodeFileSizesBench do
 
   bench "wikipedia_hyperlink.html 97k" do
     {pid, _, _, ref} = bench_context
-    case Cnode.call(pid, {:serialize, ref, "html"}) do
+    case Cnode.call(pid, {:serialize, ref, @scope}) do
       {:ok, {:serialize, serialized}} -> :ok
       _ -> :error
     end
