@@ -144,8 +144,7 @@ iex> ModestEx.wrap("<p>Hello</p><p>World</p>", "p", "<div class=\"wrapper\">")
 ```
 
 ## pretty_print
-Pretty print html. Use `IO.puts` to pretty print the colors to `stdout`.
-Use this method in development to inspect the html tree.
+Use `IO.puts` to pretty print html tree to `stdout`.
 
 ```elixir
 iex> ModestEx.pretty_print("<p>Hello World</p>")
