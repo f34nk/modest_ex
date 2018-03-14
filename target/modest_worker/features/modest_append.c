@@ -55,7 +55,7 @@ void append_node(myhtml_t *myhtml, myhtml_collection_t *collection, const char* 
           // append new_html as a text to the text of the first child
           const char *text = myhtml_node_text(last_child, NULL);
           // char *new_text = strcat(new_html, text);
-          char *new_text = get_concat_string(text, new_html);
+          char *new_text = concat_string(text, new_html);
 
           // remove old text node
           myhtml_node_delete(last_child);

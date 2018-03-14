@@ -192,7 +192,8 @@ myhtml_tree_node_t *get_root_node(myhtml_t *myhtml, const char* new_html){
   return root_node;
 }
 
-char *get_concat_string( const char *str1, const char *str2 ) 
+// concat str1 and str2
+char *concat_string( const char *str1, const char *str2 ) 
 {
     char *finalString = NULL;
     size_t n = 0;
@@ -234,19 +235,19 @@ myhtml_tree_node_t *get_scope_node(myhtml_tree_t* tree, const char* scope){
 
 const char* get_scoped_selector(const char* selector, const char* scope){
   if(strcmp(scope, "html") == 0){
-    return get_concat_string("html, html ", selector);
+    return concat_string("html, html ", selector);
   }
   else if(strcmp(scope, "head") == 0){
-    return get_concat_string("head, head ", selector);
+    return concat_string("head, head ", selector);
   }
   else if(strcmp(scope, "body") == 0){
-    return get_concat_string("body, html ", get_concat_string(selector, " :not(head)"));
+    return concat_string("body, html ", concat_string(selector, " :not(head)"));
   }
   else if(strcmp(scope, "body_children") == 0){
-    return get_concat_string("body ", selector);
+    return concat_string("body ", selector);
   }
   else if(strcmp(scope, "form") == 0){
-    return get_concat_string("form, ", selector);
+    return concat_string("form, ", selector);
   }
   // default
   return selector;
