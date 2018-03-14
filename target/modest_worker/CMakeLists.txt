@@ -33,13 +33,12 @@ set(CMAKE_C_LINK_EXECUTABLE "${CMAKE_C_LINK_EXECUTABLE} -lerl_interface -lei -lp
 
 file(GLOB_RECURSE HANDLERS "handlers/*.c")
 file(GLOB_RECURSE FEATURES "features/*.c")
-file(GLOB_RECURSE VEC "vec/src/*.c")
 
 add_executable(
   ${PROJECT_NAME}
   ${HANDLERS}
   ${FEATURES}
-  ${VEC}
+  vec/src/vec.c
   modest_worker.c
   handle_send.c
   utils.c
