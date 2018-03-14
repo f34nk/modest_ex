@@ -5,29 +5,31 @@
 March 2018
 
 - Feature `ModestEx.pretty_print`
+- Feature `ModestEx.compare`
+- Feature `ModestEx.transform`
 
 ## 0.0.11-dev
 
-March 2018
+March 11, 2018
 
 - Feature `ModestEx.wrap`
 
 ## 0.0.10-dev
 
-March 2018
+March 11, 2018
 
 - Feature `ModestEx.position`
 
 ## 0.0.9-dev
 
-March 2018
+March 7, 2018
 
 - Fixed bug in `ModestEx.find` proper use of scope
 - Feature `ModestEx.slice`
 
 ## 0.0.8-dev
 
-March 2018
+March 7, 2018
 
 - Added `:scope` flag to applications config. The scope controls the way html is serialized. Default scope is now `:body_children`, which handles fragmented html as fragments. This behaviour is much closer to the common use case.
 - Added custom scope to `ModestEx.serialize`, since this function can be used to build a complete html document from an empty string (see [test](https://github.com/f34nk/modest_ex/blob/master/test/modest_ex_serialize_test.exs#L5-L8) for example).
@@ -35,7 +37,7 @@ March 2018
 
 ## 0.0.7-dev
 
-March 2018
+March 6, 2018
 
 - Feature `ModestEx.insert_before`
 - Feature `ModestEx.insert_after`
@@ -43,32 +45,32 @@ March 2018
 
 ## 0.0.6-dev
 
-March 2018
+March 6, 2018
 
 - Feature `ModestEx.prepend`
 
 ## 0.0.5-dev
 
-March 2018
+March 4, 2018
 
 - Feature `ModestEx.append`
 
 ## 0.0.4-dev
 
-March 2018
+March 4, 2018
 
 - Feature `ModestEx.remove`
 
 ## 0.0.3-dev
 
-March 2018
+March 4, 2018
 
 - Feature `ModestEx.get_text`
 - Feature `ModestEx.set_text`
 
 ## 0.0.2-dev
 
-March 2018
+March 2, 2018
 
 - Features can now be piped together `ModestEx.Find(..) |> ModestEx.get_attribute(...)`
 - Added hexpm badge for version and counter
@@ -80,7 +82,7 @@ March 2018
 
 ## 0.0.1-dev
 
-February 2018
+February 28, 2018
 
 - List of ModestEx features
 - Feature `ModestEx.serialize`
