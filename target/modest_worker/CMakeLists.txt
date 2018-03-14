@@ -22,6 +22,7 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -L${CMAKE_CURRENT_SOURCE_DIR}/../Modest/lib"
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -I${CMAKE_CURRENT_SOURCE_DIR}/handlers")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -I${CMAKE_CURRENT_SOURCE_DIR}/features")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -I${CMAKE_CURRENT_SOURCE_DIR}/vec/src")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -I${CMAKE_CURRENT_SOURCE_DIR}")
 
 message("CMAKE_CURRENT_SOURCE_DIR = ${CMAKE_CURRENT_SOURCE_DIR}")
@@ -32,11 +33,13 @@ set(CMAKE_C_LINK_EXECUTABLE "${CMAKE_C_LINK_EXECUTABLE} -lerl_interface -lei -lp
 
 file(GLOB_RECURSE HANDLERS "handlers/*.c")
 file(GLOB_RECURSE FEATURES "features/*.c")
+file(GLOB_RECURSE VEC "vec/src/*.c")
 
 add_executable(
   ${PROJECT_NAME}
   ${HANDLERS}
   ${FEATURES}
+  ${VEC}
   modest_worker.c
   handle_send.c
   utils.c

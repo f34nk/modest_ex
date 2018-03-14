@@ -28,32 +28,53 @@
 #include <mycss/selectors/serialization.h>
 
 #include "utils.h"
+#include "vec.h"
 
-
-const char* get_selector(myhtml_tree_t* tree, myhtml_tree_node_t* node, const char* selectors)
+void get_selector(myhtml_tree_t* tree, myhtml_tree_node_t* node, vec_str_t v)
 {
   const char *tag_name = NULL;
   if(node){
     tag_name = myhtml_tag_name_by_id(tree, myhtml_node_tag_id(node), NULL);
     if(strcmp(tag_name, "-undef") == 0){
+      // printf("\n");
+
+      int i; char *val;
+      vec_foreach_rev(&v, val, i) {
+        printf("%s ", val);
+      }
+      // vec_foreach_ptr(&v, val, i) {
+      //   printf("%s ", val);
+      // }
       printf("\n");
-      return "";
+
+      return;
     }
-    printf("%s", tag_name);
+    // printf("%s", tag_name);
+    vec_push(&v, concat_string(tag_name, "\0"));
+    // printf("%d ", v.length);
 
     myhtml_tree_node_t* parent_node = myhtml_node_parent(node);
     if(parent_node){
-      printf(" ");
-      get_selector(tree, parent_node, "");
+      // printf(" ");
+      get_selector(tree, parent_node, v);
     }
     else {
-      printf("\n");
+      // printf("\n");
     }
   }
   else {
-    printf("\n");
+    // printf("\n");
   }
-  return "";
+}
+
+void print_selector(vec_str_t v)
+{
+  // printf("%d\n", v.length);
+  // int i; char* val;
+  // vec_foreach(&v, val, i) {
+  //   printf("%s ", val);
+  // }
+  // printf("\n");
 }
 
 void compare_nodes(myhtml_tree_t* tree1, myhtml_tree_t* tree2, myhtml_tree_node_t* node1, myhtml_tree_node_t* node2, myhtml_tree_node_t* parent_node1, myhtml_tree_node_t* parent_node2, /*myhtml_tree_node_t* prev_node1, myhtml_tree_node_t* prev_node2,*/ int indent)
@@ -84,7 +105,11 @@ void compare_nodes(myhtml_tree_t* tree1, myhtml_tree_t* tree2, myhtml_tree_node_
     // append to html1
     const char *parent_tag_name2 = myhtml_tag_name_by_id(tree2, myhtml_node_tag_id(parent_node2), NULL);
     printf("append '%s' to '%s' in html1\n", tag_name2, parent_tag_name2);
-    get_selector(tree2, node2, "");
+
+    vec_str_t v;
+    vec_init(&v);
+    get_selector(tree2, node2, v);
+    vec_deinit(&v);
     return;
   }
   else if(tag_name1 && parent_node1 && !tag_name2) {
@@ -92,7 +117,11 @@ void compare_nodes(myhtml_tree_t* tree1, myhtml_tree_t* tree2, myhtml_tree_node_
     // remove from html1
     const char *parent_tag_name1 = myhtml_tag_name_by_id(tree1, myhtml_node_tag_id(parent_node1), NULL);
     printf("remove '%s' from '%s' in html1\n", tag_name1, parent_tag_name1);
-    get_selector(tree1, node1, "");
+
+    vec_str_t v;
+    vec_init(&v);
+    get_selector(tree1, node1, v);
+    vec_deinit(&v);
     return;
   }
   else if(!tag_name1 && !tag_name2){
@@ -165,7 +194,7 @@ const char* modest_compare(const char* html1, const char* html2, const char* sco
 
   myhtml_tree_node_t *node1 = get_scope_node(tree1, scope);
   myhtml_tree_node_t *node2 = get_scope_node(tree2, scope);
-  
+
   compare_trees(tree1, tree2, node1, node2, 0);
 
   return "";

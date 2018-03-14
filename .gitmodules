@@ -1,3 +1,6 @@
 [submodule "target/Modest"]
 	path = target/Modest
 	url = https://github.com/lexborisov/Modest.git
+[submodule "target/modest_worker/vec"]
+	path = target/modest_worker/vec
+	url = https://github.com/rxi/vec.git
