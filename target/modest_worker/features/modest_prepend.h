@@ -2,7 +2,7 @@
 #define MODEST_PREPEND_H
 
 /*
- Copyright (C) 2019 Frank Eickhoff
+ Copyright (C) 2018 Frank Eickhoff
  
  This library is free software; you can redistribute it and/or
  modify it under the terms of the GNU Lesser General Public
