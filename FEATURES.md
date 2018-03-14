@@ -25,7 +25,6 @@ iex> ModestEx.serialize("", :html)
 ``` 
 
 ## get_attribute
-
 Get the value of an attribute for all elements in the set of matched elements.
 
 ```elixir
@@ -37,7 +36,6 @@ iex> ModestEx.get_attribute("<p><a href=\"https://elixir-lang.org\">Hello</a></p
 ```
 
 ## set_attribute
-
 Set one or more attributes for every matched element.
 
 ```elixir
@@ -152,6 +150,7 @@ iex> ModestEx.pretty_print("<p>Hello World</p>")
 ```
 
 ## compare
+Compare two html strings. Returns a list of tuples. Each tuple represents a transformation action.
 
 ```elixir
 iex> ModestEx.compare("<div>Hello</div>", "<div>Hello<span>World</span></div>")
@@ -165,6 +164,7 @@ iex> ModestEx.compare("<div>Hello</div>", "<div class=\"greeting\">Hello<span>Wo
 ```
 
 ## transform
+Transform a html string by a list of transformation actions. See `compare`. 
 
 *in prgress...*
 
