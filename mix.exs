@@ -98,13 +98,13 @@ defmodule Mix.Tasks.Compile.ModestExCompile do
       IO.warn "Windows is not supported yet."
       exit(1)
     else
-      Shell.exec("priv/compile.sh", [to_string(Mix.env)])
+      Shell.exec("priv/compile.sh", [])
     end
     :ok
   end
 
   def clean() do
-    Shell.exec("priv/clean.sh", [to_string(Mix.env)])
+    Shell.exec("priv/clean.sh", [])
     :ok
   end
 end
@@ -115,7 +115,7 @@ defmodule Mix.Tasks.Test.Target do
       IO.warn "Windows is not supported yet."
       exit(1)
     else
-      Shell.exec("priv/test.sh", [to_string(Mix.env)])
+      Shell.exec("priv/test.sh", [])
     end
     :ok
   end
