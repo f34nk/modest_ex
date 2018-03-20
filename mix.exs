@@ -13,7 +13,7 @@ defmodule ModestEx.MixProject do
       description: """
         ModestEx - A library to do pipeable transformations on html strings with CSS selectors, e.g. find(), prepend(), append(), replace() etc.
         Erlang/Elixir binding to Alexander Borisov's Modest.
-        Implemented as a C-Node based on the excellent example of Lukas Rieser's cnodex.
+        Implemented as a C-Node based on the excellent example of Lukas Rieder's cnodex.
       """,
       docs: docs(),
       deps: deps(),
@@ -35,7 +35,8 @@ defmodule ModestEx.MixProject do
         "Github" => "https://github.com/f34nk/modest_ex",
         "Issues" => "https://github.com/f34nk/modest_ex/issues",
         "Modest" => "https://github.com/lexborisov/Modest",
-        "cnodex" => "https://github.com/Overbryd/nodex"
+        "cnodex" => "https://github.com/Overbryd/nodex",
+        "jason" => "https://github.com/michalmuskala/jason"
       },
       files: [
         "lib",
