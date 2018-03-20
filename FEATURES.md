@@ -166,7 +166,7 @@ iex> ModestEx.compare("<div>Hello</div>", "<div class=\"greeting\">Hello<span>Wo
 ## transform
 Transform a html string by a list of transformation instructions. See `compare`. 
 
-*in prgress...*
+*in progress...*
 
 ```elixir
 iex> ModestEx.transform("<div>Hello</div>", [{:set_attribute, "div", "class", "greeting"}, {:append, "div", "<span>World</span>"}])

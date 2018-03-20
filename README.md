@@ -133,7 +133,7 @@ See [CHANGELOG](https://github.com/f34nk/modest_ex/blob/master/CHANGELOG.md).
   - [x] Get position of node in relation to its parent
   - [x] Wrap node with another node
   - [x] Pretty print html
-  - [ ] Compare two html strings
+  - [x] Compare two html strings
   - [ ] Transform html string by list of actions
 - [x] Scope flag to control serialization
 - [x] List of supported CSS Selectors
