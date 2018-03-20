@@ -26,7 +26,7 @@ The binding is implemented as a **C-Node** following the excellent example in Ov
 
 ## Example
 
-Total **15** features implemented. See [**complete feature list**](https://github.com/f34nk/modest_ex/blob/master/FEATURES.md).
+Total **17** features implemented. See [**complete feature list**](https://github.com/f34nk/modest_ex/blob/master/FEATURES.md).
 
 Build transformation pipelines...
 
@@ -64,7 +64,7 @@ Available on [hex](https://hex.pm/packages/modest_ex).
 ```elixir
 def deps do
   [
-    {:modest_ex, "~> 0.0.11-dev"}
+    {:modest_ex, "~> 0.0.12-dev"}
   ]
 end
 ```
