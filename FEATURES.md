@@ -150,7 +150,7 @@ iex> ModestEx.pretty_print("<p>Hello World</p>")
 ```
 
 ## compare
-Compare two html strings. Returns a list of tuples. Each tuple represents a transformation action.
+Compare two html strings. Returns a list of tuples. Each tuple represents a transformation instruction.
 
 ```elixir
 iex> ModestEx.compare("<div>Hello</div>", "<div>Hello<span>World</span></div>")
@@ -164,7 +164,7 @@ iex> ModestEx.compare("<div>Hello</div>", "<div class=\"greeting\">Hello<span>Wo
 ```
 
 ## transform
-Transform a html string by a list of transformation actions. See `compare`. 
+Transform a html string by a list of transformation instructions. See `compare`. 
 
 *in prgress...*
 

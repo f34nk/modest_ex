@@ -28,6 +28,7 @@
 #include <mycss/selectors/serialization.h>
 
 #include "utils.h"
+#include "vec.h"
 
 // #define DIE(msg, ...) do { fprintf(stderr, msg, ##__VA_ARGS__); exit(EXIT_FAILURE); } while(0)
 // #define CHECK_STATUS(msg, ...) do {if(status) DIE(msg, ##__VA_ARGS__);} while(0)
@@ -125,6 +126,66 @@ void print_found_result(myhtml_tree_t* html_tree, myhtml_collection_t *collectio
   else {
     fprintf(stream, "");
   }
+}
+
+// user must call free(buf);
+char* serialize_node(myhtml_tree_node_t* node) 
+{
+  if(node){
+
+    FILE *stream;
+    char *buf;
+    size_t len;
+    stream = open_memstream(&buf, &len);
+
+    myhtml_serialization_tree_callback(node, serialization_callback, stream);
+
+    fclose(stream);
+    return buf;
+  }
+  return NULL;
+}
+
+char* do_serialize_selector(myhtml_tree_node_t* node, vec_str_t v)
+{
+  const char *tag_name = NULL;
+  if(node){
+    tag_name = myhtml_tag_name_by_id(node->tree, myhtml_node_tag_id(node), NULL);
+    if(strcmp(tag_name, "-undef") == 0){
+      
+      FILE *stream;
+      char *buf;
+      size_t len;
+      stream = open_memstream(&buf, &len);
+
+      int i; char* val;
+      vec_foreach_rev(&v, val, i) {
+        fprintf(stream, "%s", val);
+        if(i > 0 && i < v.length){
+          fprintf(stream, " ");
+        }
+      }
+
+      fclose(stream);
+      return buf;
+    }
+    vec_push(&v, concat_string(tag_name, "\0"));
+
+    myhtml_tree_node_t* parent_node = myhtml_node_parent(node);
+    if(parent_node){
+      return do_serialize_selector(parent_node, v);
+    }
+  }
+  return NULL;
+}
+
+char* serialize_selector(myhtml_tree_node_t* node)
+{
+  vec_str_t v;
+  vec_init(&v);
+  char *buf = do_serialize_selector(node, v);
+  vec_deinit(&v);
+  return buf;
 }
 
 /**
@@ -253,12 +314,13 @@ const char* get_scoped_selector(const char* selector, const char* scope){
   return selector;
 }
 
-void remove_substring(char *s, const char *toremove)
+void remove_substring(char *string, const char *substring)
 {
-  while( s=strstr(s, toremove) ){
-    memmove(s, s + strlen(toremove), 1 + strlen(s + strlen(toremove)));
+  while(string = strstr(string, substring) ){
+    memmove(string, string + strlen(substring), 1 + strlen(string + strlen(substring)));
   }
 }
+
 char* get_scoped_html(char* html, const char* scope){
   if(strcmp(scope, "body_children") == 0){
     remove_substring(html, "<body>");
@@ -266,3 +328,11 @@ char* get_scoped_html(char* html, const char* scope){
   }
   return html;
 }
+
+// char* remove_scope_from_selector(char* selector, const char* scope){
+//   if(strcmp(scope, "body_children") == 0){
+//     remove_substring(selector, "html ");
+//     remove_substring(selector, "body ");
+//   }
+//   return selector;
+// }

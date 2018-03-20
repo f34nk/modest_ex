@@ -10,3 +10,7 @@ https://lexborisov.github.io/Modest/
 ## vec
 A type-safe dynamic array implementation for C 
 https://github.com/rxi/vec
+
+## cJSON
+Ultralightweight JSON parser in ANSI C
+https://github.com/DaveGamble/cJSON
