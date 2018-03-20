@@ -195,7 +195,7 @@ void compare_trees(myhtml_tree_node_t* node1, myhtml_tree_node_t* node2, int ind
  * @param  scope [scope string]
  * @return       [comparison]
  */
-const char* modest_compare(const char* html1, const char* html2, const char* delimiter, const char* scope)
+const char* modest_compare(const char* html1, const char* html2, const char* scope)
 {
   cJSON* result = NULL;
   result = cJSON_CreateArray();

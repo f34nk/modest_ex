@@ -23,10 +23,9 @@
  * Compare two html strings.
  * @param  html1 [a html string]
  * @param  html2 [a html string]
- * @param  delimiter [a string]
  * @param  scope [scope string]
  * @return       [comparison]
  */
-const char* modest_compare(const char* html1, const char* html2, const char* delimiter, const char* scope);
+const char* modest_compare(const char* html1, const char* html2, const char* scope);
 
 #endif
