@@ -39,6 +39,51 @@ int main(int argc, const char * argv[])
     return 1;
   }
   
+  html1 = "<div>Hello</div>";
+  html2 = "<div>World</div>";
+  result = modest_compare(html1, html2, scope);
+  printf("5: %s\n", result);
+  if(strcmp(result, "[[\"set_text\", \"div\", \"World\"]]") != 0){
+    printf("Failed\n");
+    return 1;
+  }
+
+  html1 = "<div class=\"first\">Hello</div><div class=\"second\">World</div>";
+  html2 = "<div class=\"first\">Hello</div><div class=\"other\">World</div>";
+  result = modest_compare(html1, html2, scope);
+  printf("6: %s\n", result);
+  if(strcmp(result, "[[\"set_attribute\", \"div\", \"class\", \"other\"]]") != 0){
+    printf("Failed\n");
+    return 1;
+  }
+
+  html1 = "<div class=\"other\">Hello</div>";
+  html2 = "<div>Hello</div>";
+  result = modest_compare(html1, html2, scope);
+  printf("7: %s\n", result);
+  if(strcmp(result, "[[\"set_attribute\", \"div\", \"class\", \"\"]]") != 0){
+    printf("Failed\n");
+    return 1;
+  }
+
+  html1 = "<div>Hello</div>";
+  html2 = "<div class=\"other\">Hello</div>";
+  result = modest_compare(html1, html2, scope);
+  printf("8: %s\n", result);
+  if(strcmp(result, "[[\"set_attribute\", \"div\", \"class\", \"other\"]]") != 0){
+    printf("Failed\n");
+    return 1;
+  }
+
+  html1 = "<div>Hello</div>";
+  html2 = "<span>World</span>";
+  result = modest_compare(html1, html2, scope);
+  printf("9: %s\n", result);
+  if(strcmp(result, "[[\"set_tag\", \"div\", \"span\"], [\"set_text\", \"span\", \"World\"]]") != 0){
+    printf("Failed\n");
+    return 1;
+  }
+
   printf("ok\n");
   return 0;
 }
