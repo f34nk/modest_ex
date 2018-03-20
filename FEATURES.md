@@ -25,7 +25,6 @@ iex> ModestEx.serialize("", :html)
 ``` 
 
 ## get_attribute
-
 Get the value of an attribute for all elements in the set of matched elements.
 
 ```elixir
@@ -37,7 +36,6 @@ iex> ModestEx.get_attribute("<p><a href=\"https://elixir-lang.org\">Hello</a></p
 ```
 
 ## set_attribute
-
 Set one or more attributes for every matched element.
 
 ```elixir
@@ -149,4 +147,28 @@ Use `IO.puts` to pretty print html tree to `stdout`.
 ```elixir
 iex> ModestEx.pretty_print("<p>Hello World</p>")
 "\e[31m<\e[0m\e[31mp\e[0m\e[31m>\e[0m\e[0mHello World\e[0m\e[31m</\e[0m\e[31mp\e[0m\e[31m>\e[0m\n"
+```
+
+## compare
+Compare two html strings. Returns a list of tuples. Each tuple represents a transformation instruction.
+
+```elixir
+iex> ModestEx.compare("<div>Hello</div>", "<div>Hello<span>World</span></div>")
+[{:append, "div", "<span>World</span>"}]
+
+iex> ModestEx.compare("<div>Hello</div>", "<div class=\"greeting\">Hello</div>")
+[{:set_attribute, "div", "class", "greeting"}]
+
+iex> ModestEx.compare("<div>Hello</div>", "<div class=\"greeting\">Hello<span>World</span></div>")
+[{:set_attribute, "div", "class", "greeting"}, {:append, "div", "<span>World</span>"}]
+```
+
+## transform
+Transform a html string by a list of transformation instructions. See `compare`. 
+
+*in progress...*
+
+```elixir
+iex> ModestEx.transform("<div>Hello</div>", [{:set_attribute, "div", "class", "greeting"}, {:append, "div", "<span>World</span>"}])
+"<div class=\"greeting\">Hello<span>World</span></div>"
 ```

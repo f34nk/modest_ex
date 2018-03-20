@@ -34,9 +34,17 @@ myhtml_tree_t * parse_html(const char* data, size_t data_size);
 mycss_entry_t * create_css_parser(void);
 mycss_selectors_list_t * prepare_selector(mycss_entry_t *css_entry, const char* selector, size_t selector_size);
 void print_found_result(myhtml_tree_t* html_tree, myhtml_collection_t *collection, const char* delimiter, FILE *stream);
+
+char* serialize_node(myhtml_tree_node_t* node);
+char* serialize_selector(myhtml_tree_node_t* node);
+
 mystatus_t write_output(const char* data, size_t len, void* ctx);
 myhtml_tree_node_t *get_root_node(myhtml_t *myhtml, const char* new_html);
-char *get_concat_string( const char *str1, const char *str2 );
+
+// concat str1 and str2
+char *concat_string( const char *str1, const char *str2 );
+void remove_substring(char *string, const char *substring);
+char** split_string(char* string, const char delimiter);
 
 /**
  * [get_scope_node description]
@@ -46,5 +54,6 @@ char *get_concat_string( const char *str1, const char *str2 );
  */
 myhtml_tree_node_t *get_scope_node(myhtml_tree_t* tree, const char* scope);
 const char* get_scoped_selector(const char* selector, const char* scope);
+
 
 #endif

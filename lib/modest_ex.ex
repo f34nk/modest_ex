@@ -319,5 +319,18 @@ defmodule ModestEx do
   def pretty_print(bin) do
     ModestEx.PrettyPrint.pretty_print(bin)
   end
+
+  @doc """
+  Compare two html strings. Returns a list of tuples. Each tuple represents a transformation instruction.
+
+  ## Examples
+    iex> ModestEx.compare("<div>Hello</div>", "<div>Hello<span>World</span></div>")
+    [{:append, "div", "<span>World</span>"}]
+
+  """
+  @spec compare(String.t, String.t) :: success() | error()
+  def compare(bin1, bin2) do
+    ModestEx.Compare.compare(bin1, bin2)
+  end
   
 end

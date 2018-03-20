@@ -54,7 +54,7 @@ void prepend_node(myhtml_t *myhtml, myhtml_collection_t *collection, const char*
           // prepend new_html as a text to the text of the first child
           const char *text = myhtml_node_text(first_child, NULL);
           // char *new_text = strcat(text, new_html);
-          char *new_text = get_concat_string(new_html, text);
+          char *new_text = concat_string(new_html, text);
 
           // remove old text node
           myhtml_node_delete(first_child);

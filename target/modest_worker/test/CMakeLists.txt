@@ -31,5 +31,5 @@ foreach(TEST ${TESTS})
         "_test" ".c"
         TEST_SOUCRE
         ${TEST_NAME})
-  target_sources(${TEST_NAME} PUBLIC ../features/${TEST_SOUCRE} ../utils.c)
+  target_sources(${TEST_NAME} PUBLIC ../features/${TEST_SOUCRE} ../vec/src/vec.c ../cJSON/cJSON.c ../cJSON/cJSON_Utils.c ../utils.c)
 endforeach()

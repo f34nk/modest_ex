@@ -28,6 +28,7 @@
 #include <mycss/selectors/serialization.h>
 
 #include "utils.h"
+#include "vec.h"
 
 // #define DIE(msg, ...) do { fprintf(stderr, msg, ##__VA_ARGS__); exit(EXIT_FAILURE); } while(0)
 // #define CHECK_STATUS(msg, ...) do {if(status) DIE(msg, ##__VA_ARGS__);} while(0)
@@ -127,6 +128,66 @@ void print_found_result(myhtml_tree_t* html_tree, myhtml_collection_t *collectio
   }
 }
 
+// user must call free(buf);
+char* serialize_node(myhtml_tree_node_t* node) 
+{
+  if(node){
+
+    FILE *stream;
+    char *buf;
+    size_t len;
+    stream = open_memstream(&buf, &len);
+
+    myhtml_serialization_tree_callback(node, serialization_callback, stream);
+
+    fclose(stream);
+    return buf;
+  }
+  return NULL;
+}
+
+char* do_serialize_selector(myhtml_tree_node_t* node, vec_str_t v)
+{
+  const char *tag_name = NULL;
+  if(node){
+    tag_name = myhtml_tag_name_by_id(node->tree, myhtml_node_tag_id(node), NULL);
+    if(strcmp(tag_name, "-undef") == 0){
+      
+      FILE *stream;
+      char *buf;
+      size_t len;
+      stream = open_memstream(&buf, &len);
+
+      int i; char* val;
+      vec_foreach_rev(&v, val, i) {
+        fprintf(stream, "%s", val);
+        if(i > 0 && i < v.length){
+          fprintf(stream, " ");
+        }
+      }
+
+      fclose(stream);
+      return buf;
+    }
+    vec_push(&v, concat_string(tag_name, "\0"));
+
+    myhtml_tree_node_t* parent_node = myhtml_node_parent(node);
+    if(parent_node){
+      return do_serialize_selector(parent_node, v);
+    }
+  }
+  return NULL;
+}
+
+char* serialize_selector(myhtml_tree_node_t* node)
+{
+  vec_str_t v;
+  vec_init(&v);
+  char *buf = do_serialize_selector(node, v);
+  vec_deinit(&v);
+  return buf;
+}
+
 /**
  *  Write output
  *  @param  buffer
@@ -192,7 +253,8 @@ myhtml_tree_node_t *get_root_node(myhtml_t *myhtml, const char* new_html){
   return root_node;
 }
 
-char *get_concat_string( const char *str1, const char *str2 ) 
+// concat str1 and str2
+char *concat_string(const char *str1, const char *str2)
 {
     char *finalString = NULL;
     size_t n = 0;
@@ -234,34 +296,97 @@ myhtml_tree_node_t *get_scope_node(myhtml_tree_t* tree, const char* scope){
 
 const char* get_scoped_selector(const char* selector, const char* scope){
   if(strcmp(scope, "html") == 0){
-    return get_concat_string("html, html ", selector);
+    return concat_string("html, html ", selector);
   }
   else if(strcmp(scope, "head") == 0){
-    return get_concat_string("head, head ", selector);
+    return concat_string("head, head ", selector);
   }
   else if(strcmp(scope, "body") == 0){
-    return get_concat_string("body, html ", get_concat_string(selector, " :not(head)"));
+    return concat_string("body, html ", concat_string(selector, " :not(head)"));
   }
   else if(strcmp(scope, "body_children") == 0){
-    return get_concat_string("body ", selector);
+    return concat_string("body ", selector);
   }
   else if(strcmp(scope, "form") == 0){
-    return get_concat_string("form, ", selector);
+    return concat_string("form, ", selector);
   }
   // default
   return selector;
 }
 
-void remove_substring(char *s, const char *toremove)
+void remove_substring(char *string, const char *substring)
 {
-  while( s=strstr(s, toremove) ){
-    memmove(s, s + strlen(toremove), 1 + strlen(s + strlen(toremove)));
+  while(string = strstr(string, substring) ){
+    memmove(string, string + strlen(substring), 1 + strlen(string + strlen(substring)));
   }
 }
+
 char* get_scoped_html(char* html, const char* scope){
   if(strcmp(scope, "body_children") == 0){
     remove_substring(html, "<body>");
     remove_substring(html, "</body>");
   }
   return html;
+}
+
+// char* remove_scope_from_selector(char* selector, const char* scope){
+//   if(strcmp(scope, "body_children") == 0){
+//     remove_substring(selector, "html ");
+//     remove_substring(selector, "body ");
+//   }
+//   return selector;
+// }
+
+/**
+ * https://stackoverflow.com/a/9210560
+ * @param  string   [description]
+ * @param  delimiter [description]
+ * @return         [description]
+ */
+char** split_string(char* string, const char delimiter)
+{
+  char** result    = 0;
+  size_t count     = 0;
+  char* tmp        = string;
+  char* last_comma = 0;
+  char delim[2];
+  delim[0] = delimiter;
+  delim[1] = 0;
+
+  /* Count how many elements will be extracted. */
+  while (*tmp)
+  {
+    if (delimiter == *tmp)
+    {
+      count++;
+      last_comma = tmp;
+    }
+    tmp++;
+  }
+
+  /* Add space for trailing token. */
+  count += last_comma < (string + strlen(string) - 1);
+
+  /* Add space for terminating null string so caller
+     knows where the list of returned strings ends. */
+  count++;
+
+  result = malloc(sizeof(char*) * count);
+
+  if (result)
+  {
+    size_t idx  = 0;
+    char* token = strtok(string, delim);
+
+    while (token)
+    {
+      // assert(idx < count);
+      *(result + idx++) = strdup(token);
+      token = strtok(0, delim);
+    }
+    // assert(idx == count - 1);
+    *(result + idx) = 0;
+  }
+
+  return result;
 }
