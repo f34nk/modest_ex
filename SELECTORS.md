@@ -19,7 +19,7 @@ The W3C CSS specification contains the [complete set of rules regarding valid CS
 | :checked        | yes | Matches all elements that are checked or selected. |
 | parent > child | yes | Selects all direct child elements specified by "child" of elements specified by "parent". |
 | .class | yes | Selects all elements with the given class. |
-| :contains(text) | [**not yet**](https://github.com/lexborisov/Modest/issues/36) | Select all elements that contain the specified text. The current W3C CSS specification [left this section intentionally blank](https://www.w3.org/TR/selectors-3/#content-selectors). However, some information can be found [in an old spec from 2001](https://www.w3.org/TR/2001/CR-css3-selectors-20011113/#content-selectors). |
+| :contains(text) | [**not yet**](https://github.com/lexborisov/Modest/pull/42) | Select all elements that contain the specified text. The current W3C CSS specification [left this section intentionally blank](https://www.w3.org/TR/selectors-3/#content-selectors). However, some information can be found [in an old spec from 2001](https://www.w3.org/TR/2001/CR-css3-selectors-20011113/#content-selectors). jQuery also [supports this selector](https://api.jquery.com/contains-selector/). |
 | ancestor descendant | yes  | Selects all elements that are descendants of a given ancestor. |
 | :disabled | yes  | Selects all elements that are disabled. |
 | :empty | yes  | Select all elements that have no children (including text nodes). |
@@ -67,3 +67,5 @@ same element name. |
 | :target |     | Selects the target element indicated by the fragment identifier of the document’s URI. |
 | :text | **no**     | Selects all input elements of type text. |
 | :visible | **no**     | Selects all elements that are visible. |
+| :dir() |       | Select an element based on its directionality as determined by the document language. [See](https://developer.mozilla.org/de/docs/Web/CSS/:dir) |
+| :matches() |       | Takes a selector list as its argument, and selects any element that can be selected by one of the selectors in that list. This is useful for writing large selectors in a more compact form. [See](https://developer.mozilla.org/en-US/docs/Web/CSS/:matches) |

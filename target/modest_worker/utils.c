@@ -256,22 +256,23 @@ myhtml_tree_node_t *get_root_node(myhtml_t *myhtml, const char* new_html){
 // concat str1 and str2
 char *concat_string(const char *str1, const char *str2)
 {
-    char *finalString = NULL;
-    size_t n = 0;
+  char *result = NULL;
+  size_t n = 0;
 
-    if ( str1 ) n += strlen( str1 );
-    if ( str2 ) n += strlen( str2 );
+  if(str1) n += strlen(str1);
+  if(str2) n += strlen(str2);
 
-    if ( ( str1 || str2 ) && ( finalString = malloc( n + 1 ) ) != NULL )
-    {
-        *finalString = '\0';
+  if((str1 || str2) && (result = malloc(n + 1)) != NULL)
+  {
+    *result = '\0';
 
-        if ( str1 ) strcpy( finalString, str1 );
-        if ( str2 ) strcat( finalString, str2 );
-    }
+    if(str1) strcpy(result, str1);
+    if(str2) strcat(result, str2);
+  }
 
-    return finalString;
+  return result;
 }
+
 
 myhtml_tree_node_t *get_scope_node(myhtml_tree_t* tree, const char* scope){
   if(strcmp(scope, "html") == 0){
