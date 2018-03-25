@@ -24,12 +24,12 @@ defmodule ModestExCompareTest do
 
   test "compare empty with string" do
     result = ModestEx.compare("", "<p>Hello</p>")
-    assert result == []
+    assert result == [{:append, "body", "<p>Hello</p>"}]
   end
 
   test "compare string with empty" do
     result = ModestEx.compare("<p>Hello</p>", "")
-    assert result == []
+    assert result == [{:remove, "p"}]
   end
 
   test "compare two text nodes" do

@@ -31,7 +31,7 @@
 #include "vec.h"
 #include "utils.h"
 
-#define DEBUG false
+#define DEBUG true
 
 void add_append_instruction(cJSON *result, const char* selector, const char* html)
 {
@@ -323,12 +323,34 @@ void compare_trees(myhtml_tree_node_t* node1, myhtml_tree_node_t* node2, int ind
   compare_nodes(node1, node2, indent, scope, result);
 
   if(child_node1 && child_node2) {
+  // if(child_node1 || child_node2) {
     compare_trees(child_node1, child_node2, indent + 1, scope, result);
   }
 
   if(next_node1 || next_node2){
     compare_trees(next_node1, next_node2, indent, scope, result);
   }
+}
+
+myhtml_tree_node_t *get_compare_scope_node(myhtml_tree_t* tree, const char* scope){
+  if(strcmp(scope, "html") == 0){
+    return tree->node_html;
+  }
+  else if(strcmp(scope, "head") == 0){
+    return tree->node_head;
+  }
+  else if(strcmp(scope, "body") == 0){
+    return tree->node_body;
+  }
+  else if(strcmp(scope, "body_children") == 0){
+    return myhtml_node_child(tree->node_body);
+    // return tree->node_body;
+  }
+  else if(strcmp(scope, "form") == 0){
+    return tree->node_form;
+  }
+  // default
+  return tree->node_html;
 }
 
 /**
@@ -348,8 +370,8 @@ const char* modest_compare(const char* html1, const char* html2, const char* sco
   myhtml_tree_t *tree1 = parse_html(html1, strlen(html1));
   myhtml_tree_t *tree2 = parse_html(html2, strlen(html2));
 
-  myhtml_tree_node_t *node1 = get_scope_node(tree1, scope);
-  myhtml_tree_node_t *node2 = get_scope_node(tree2, scope);
+  myhtml_tree_node_t *node1 = get_compare_scope_node(tree1, scope);
+  myhtml_tree_node_t *node2 = get_compare_scope_node(tree2, scope);
 
   compare_trees(node1, node2, 0, scope, result);
 

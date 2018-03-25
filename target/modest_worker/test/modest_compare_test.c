@@ -84,6 +84,24 @@ int main(int argc, const char * argv[])
     return 1;
   }
 
+  html1 = "<div>Hello</div>";
+  html2 = "";
+  result = modest_compare(html1, html2, scope);
+  printf("10: %s\n", result);
+  if(strcmp(result, "[[\"remove\", \"div\"]]") != 0){
+    printf("Failed\n");
+    return 1;
+  }
+
+  html1 = "";
+  html2 = "<div>Hello</div>";
+  result = modest_compare(html1, html2, scope);
+  printf("10: %s\n", result);
+  if(strcmp(result, "[[\"append\", \"body\", \"<div>Hello</div>\"]]") != 0){
+    printf("Failed\n");
+    return 1;
+  }
+
   printf("ok\n");
   return 0;
 }
