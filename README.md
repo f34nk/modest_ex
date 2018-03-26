@@ -54,7 +54,7 @@ end
 
 ## Supported CSS Selectors
 
-All common CSS Selectors are supported. Total **36** selector patterns implemented.
+All common CSS Selectors are supported. Total **38** selector patterns implemented.
 See [**complete list of supported CSS selectors**](https://github.com/f34nk/modest_ex/blob/master/SELECTORS.md).
 
 ## Installation
