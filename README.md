@@ -135,7 +135,7 @@ See [CHANGELOG](https://github.com/f34nk/modest_ex/blob/master/CHANGELOG.md).
   - [x] Pretty print html
   - [x] Compare two html strings
   - [ ] Transform html string by list of actions
-- [ ] Custom CSS selector for pseudo class ":contains(text)" implemented in [Modest](https://github.com/lexborisov/Modest/pull/42)
+- [x] Custom CSS selector for pseudo class ":contains(text)" implemented in [Modest](https://github.com/lexborisov/Modest/pull/42)
 - [x] Scope flag to control serialization
 - [x] List of supported CSS Selectors
 - [ ] Documentation
