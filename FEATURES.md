@@ -28,7 +28,7 @@ iex> ModestEx.serialize("", :html)
 Get the value of an attribute for all elements in the set of matched elements.
 
 ```elixir
-iex> ModestEx.get_attribute("<a href=\"https://elixir-lang.org\">Hello</a>", href")
+iex> ModestEx.get_attribute("<a href=\"https://elixir-lang.org\">Hello</a>", "href")
 "https://elixir-lang.org"
 
 iex> ModestEx.get_attribute("<p><a href=\"https://elixir-lang.org\">Hello</a></p>", "p a", "href")
@@ -39,7 +39,7 @@ iex> ModestEx.get_attribute("<p><a href=\"https://elixir-lang.org\">Hello</a></p
 Set one or more attributes for every matched element.
 
 ```elixir
-iex> ModestEx.set_attribute("<a href=\"\">Hello</a>", href, "https://elixir-lang.org")
+iex> ModestEx.set_attribute("<a href=\"\">Hello</a>", "href", "https://elixir-lang.org")
 "<a href=\"https://elixir-lang.org\">Hello</a>"
 
 iex> ModestEx.set_attribute("<p><a href=\"\">Hello</a></p>", "p a", "href", "https://elixir-lang.org")
