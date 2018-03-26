@@ -68,4 +68,4 @@ same element name. |
 | :text | **no**     | Selects all input elements of type text. |
 | :visible | **no**     | Selects all elements that are visible. |
 | :dir() |       | Select an element based on its directionality as determined by the document language. [See](https://developer.mozilla.org/de/docs/Web/CSS/:dir) |
-| :matches() |       | Takes a selector list as its argument, and selects any element that can be selected by one of the selectors in that list. This is useful for writing large selectors in a more compact form. [See](https://developer.mozilla.org/en-US/docs/Web/CSS/:matches) |
+| :matches() |  yes  | Takes a selector list as its argument, and selects any element that can be selected by one of the selectors in that list. This is useful for writing large selectors in a more compact form. [See](https://developer.mozilla.org/en-US/docs/Web/CSS/:matches) |
