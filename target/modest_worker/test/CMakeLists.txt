@@ -21,9 +21,10 @@ foreach(TEST ${TESTS})
   get_filename_component(TEST_NAME ${TEST} NAME_WE)
   add_executable(${TEST_NAME} ${TEST})
   target_link_libraries(${TEST_NAME} libmodest_static.a)
+  target_sources(${TEST_NAME} PUBLIC ../utils.c ../vec/src/vec.c ../cJSON/cJSON.c ../cJSON/cJSON_Utils.c)
 endforeach()
 
-file(GLOB_RECURSE TESTS "*_test.c")
+file(GLOB_RECURSE TESTS "modest_*_test.c")
 foreach(TEST ${TESTS})
   message("TEST = ${TEST}")
   get_filename_component(TEST_NAME ${TEST} NAME_WE)
@@ -31,5 +32,5 @@ foreach(TEST ${TESTS})
         "_test" ".c"
         TEST_SOUCRE
         ${TEST_NAME})
-  target_sources(${TEST_NAME} PUBLIC ../features/${TEST_SOUCRE} ../vec/src/vec.c ../cJSON/cJSON.c ../cJSON/cJSON_Utils.c ../utils.c)
+  target_sources(${TEST_NAME} PUBLIC ../features/${TEST_SOUCRE})
 endforeach()
