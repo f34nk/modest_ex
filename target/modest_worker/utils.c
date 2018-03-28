@@ -141,6 +141,7 @@ char* serialize_node(myhtml_tree_node_t* node)
     myhtml_serialization_tree_callback(node, serialization_callback, stream);
 
     fclose(stream);
+    // TODO: This is a leak. Implement proper memory handling.
     return buf;
   }
   return NULL;
@@ -167,6 +168,7 @@ char* do_serialize_selector(myhtml_tree_node_t* node, vec_str_t v)
       }
 
       fclose(stream);
+      // TODO: This is a leak. Implement proper memory handling.
       return buf;
     }
     vec_push(&v, concat_string(tag_name, "\0"));
@@ -185,6 +187,7 @@ char* serialize_selector(myhtml_tree_node_t* node)
   vec_init(&v);
   char *buf = do_serialize_selector(node, v);
   vec_deinit(&v);
+  // TODO: This is a leak. Implement proper memory handling.
   return buf;
 }
 
