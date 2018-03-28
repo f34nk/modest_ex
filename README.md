@@ -64,7 +64,7 @@ Available on [hex](https://hex.pm/packages/modest_ex).
 ```elixir
 def deps do
   [
-    {:modest_ex, "~> 0.0.12-dev"}
+    {:modest_ex, "~> 0.0.13-dev"}
   ]
 end
 ```
