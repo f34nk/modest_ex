@@ -26,7 +26,7 @@ The binding is implemented as a **C-Node** following the excellent example in Ov
 
 ## Example
 
-Total **17** features implemented. See [**complete feature list**](https://github.com/f34nk/modest_ex/blob/master/FEATURES.md).
+Total **18** features implemented. See [**complete feature list**](https://github.com/f34nk/modest_ex/blob/master/FEATURES.md).
 
 Build transformation pipelines...
 
@@ -134,7 +134,7 @@ See [CHANGELOG](https://github.com/f34nk/modest_ex/blob/master/CHANGELOG.md).
   - [x] Wrap node with another node
   - [x] Pretty print html
   - [x] Compare two html strings
-  - [ ] Transform html string by list of actions
+  - [x] Transform html string by list of actions
 - [x] Custom CSS selector for pseudo class ":contains(text)" implemented in [Modest](https://github.com/lexborisov/Modest/pull/42)
 - [x] Scope flag to control serialization
 - [x] List of supported CSS Selectors

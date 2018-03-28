@@ -294,7 +294,7 @@ defmodule ModestEx do
 
   @doc """
   Wrap an HTML structure around each element in the set of matched elements.
-  Returns updated html string
+  Returns updated html string.
 
   ## Examples
 
@@ -332,5 +332,19 @@ defmodule ModestEx do
   def compare(bin1, bin2) do
     ModestEx.Compare.compare(bin1, bin2)
   end
-  
+
+  @doc """
+  Transform a html string by a list of transformation instructions.
+  Returns updated html string.
+
+  ## Examples
+    iex> ModestEx.transform("<div>Hello</div>", [{:set_attribute, "div", "class", "greeting"}, {:append, "div", "<span>World</span>"}])
+    "<div class=\\"greeting\\">Hello<span>World</span></div>"
+
+  """
+  @spec transform(String.t, List.t) :: success() | error()
+  def transform(bin, instructions) do
+    ModestEx.Transform.transform(bin, instructions)
+  end
+
 end
