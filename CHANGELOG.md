@@ -2,7 +2,7 @@
 
 ## 0.0.13-dev
 
-March 2018
+March 28, 2018
 
 - Feature `ModestEx.transform`
 
