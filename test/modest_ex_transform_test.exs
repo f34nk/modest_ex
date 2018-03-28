@@ -1,4 +1,4 @@
-defmodule ModestExAppendTest do
+defmodule ModestExTransformTest do
   use ExUnit.Case
   doctest ModestEx
 
