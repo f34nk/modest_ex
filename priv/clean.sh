@@ -4,11 +4,11 @@ current=`pwd`
 
 echo "Clean ModestEx target from $current"
 
-check=`find target \( -name libmodest_static.a -o -name libmodest.so \)`
+check=`find target \( -name libmodest_html.a \)`
 if [ ! -z "$check" ]
 then
-	echo "Clean Modest..."
-	cd target/Modest
+	echo "Clean modest_html..."
+	cd target/modest_html/build
 	make clean
 	cd $current
 	echo "done"

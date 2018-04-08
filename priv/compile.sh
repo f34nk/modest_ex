@@ -6,14 +6,13 @@ echo "Compiling ModestEx target from $current $mix_env"
 
 modest_worker="modest_worker"
 
-check=`find target \( -name libmodest_static.a -o -name libmodest.so \)`
+check=`find target \( -name libmodest_html.a \)`
 if [ -z "$check" ]
 then
-	echo "Compiling Modest..."
-	# Modest
-	# https://github.com/lexborisov/Modest/blob/master/INSTALL.md
-	cd target/Modest
-	make library
+	echo "Compiling modest_html..."
+	
+	cd target/modest_html
+	./configure && cd build && make
 	cd $current
 	echo "done"
 fi
