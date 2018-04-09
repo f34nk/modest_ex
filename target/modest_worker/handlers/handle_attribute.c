@@ -3,40 +3,40 @@
 
 #include "modest_html.h"
 
-char *select_and_get_attribute(html_workspace_t *w, const char *html, const char *selector, const char *key, const char *delimiter)
+char* select_and_get_attribute(html_workspace_t* w, const char* html, const char* selector, const char* key, const char* delimiter)
 {
 
 }
 
-char *get_attribute(html_workspace_t *w, const char *html, const char *key, const char *delimiter)
+char* get_attribute(html_workspace_t* w, const char* html, const char* key, const char* delimiter)
 {
 
 }
 
-char *select_and_set_attribute(html_workspace_t *w, const char *html, const char *selector, const char *key, const char *value, const char *scope_name)
+char* select_and_set_attribute(html_workspace_t* w, const char* html, const char* selector, const char* key, const char* value, const char* scope_name)
 {
 
 }
 
-ETERM *handle_attribute(ErlMessage* emsg){
-  ETERM *response = NULL;
-  ETERM *get_attribute_pattern = erl_format("{get_attribute, Html, Key, Delimiter}");
-  ETERM *get_selected_attribute_pattern = erl_format("{get_attribute, Html, Selector, Key, Delimiter}");
+ETERM* handle_attribute(ErlMessage* emsg)
+{
+  ETERM* response = NULL;
+  ETERM* get_attribute_pattern = erl_format("{get_attribute, Html, Key, Delimiter}");
+  ETERM* get_selected_attribute_pattern = erl_format("{get_attribute, Html, Selector, Key, Delimiter}");
   // ETERM *set_attribute_pattern = erl_format("{set_attribute, Html, Key, Value}");
-  ETERM *set_selected_attribute_pattern = erl_format("{set_attribute, Html, Selector, Key, Value, Scope}");
+  ETERM* set_selected_attribute_pattern = erl_format("{set_attribute, Html, Selector, Key, Value, Scope}");
 
-  if (erl_match(get_selected_attribute_pattern, emsg->msg))
-  {
-    ETERM *html = erl_var_content(get_selected_attribute_pattern, "Html");
-    ETERM *selector = erl_var_content(get_selected_attribute_pattern, "Selector");
-    ETERM *key = erl_var_content(get_selected_attribute_pattern, "Key");
-    ETERM *delimiter = erl_var_content(get_selected_attribute_pattern, "Delimiter");
+  if (erl_match(get_selected_attribute_pattern, emsg->msg)) {
+    ETERM* html = erl_var_content(get_selected_attribute_pattern, "Html");
+    ETERM* selector = erl_var_content(get_selected_attribute_pattern, "Selector");
+    ETERM* key = erl_var_content(get_selected_attribute_pattern, "Key");
+    ETERM* delimiter = erl_var_content(get_selected_attribute_pattern, "Delimiter");
     char* html_string = (char*)ERL_BIN_PTR(html);
     char* selector_string = (char*)ERL_BIN_PTR(selector);
     char* key_string = (char*)ERL_BIN_PTR(key);
     char* delimiter_string = (char*)ERL_BIN_PTR(delimiter);
 
-    html_workspace_t *workspace = html_init();
+    html_workspace_t* workspace = html_init();
     char* result_string = select_and_get_attribute(workspace, html_string, selector_string, key_string, delimiter_string);
     ETERM* result_bin = erl_mk_binary(result_string, strlen(result_string));
     response = erl_format("{get_attribute, ~w}", result_bin);
@@ -49,16 +49,15 @@ ETERM *handle_attribute(ErlMessage* emsg){
     erl_free_term(key);
     erl_free_term(delimiter);
   }
-  else if (erl_match(get_attribute_pattern, emsg->msg))
-  {
-    ETERM *html = erl_var_content(get_attribute_pattern, "Html");
-    ETERM *key = erl_var_content(get_attribute_pattern, "Key");
-    ETERM *delimiter = erl_var_content(get_attribute_pattern, "Delimiter");
+  else if (erl_match(get_attribute_pattern, emsg->msg)) {
+    ETERM* html = erl_var_content(get_attribute_pattern, "Html");
+    ETERM* key = erl_var_content(get_attribute_pattern, "Key");
+    ETERM* delimiter = erl_var_content(get_attribute_pattern, "Delimiter");
     char* html_string = (char*)ERL_BIN_PTR(html);
     char* key_string = (char*)ERL_BIN_PTR(key);
     char* delimiter_string = (char*)ERL_BIN_PTR(delimiter);
 
-    html_workspace_t *workspace = html_init();
+    html_workspace_t* workspace = html_init();
     char* result_string = get_attribute(workspace, html_string, key_string, delimiter_string);
     ETERM* result_bin = erl_mk_binary(result_string, strlen(result_string));
     response = erl_format("{get_attribute, ~w}", result_bin);
@@ -70,20 +69,19 @@ ETERM *handle_attribute(ErlMessage* emsg){
     erl_free_term(key);
     erl_free_term(delimiter);
   }
-  else if (erl_match(set_selected_attribute_pattern, emsg->msg))
-  {
-    ETERM *html = erl_var_content(set_selected_attribute_pattern, "Html");
-    ETERM *selector = erl_var_content(set_selected_attribute_pattern, "Selector");
-    ETERM *key = erl_var_content(set_selected_attribute_pattern, "Key");
-    ETERM *value = erl_var_content(set_selected_attribute_pattern, "Value");
-    ETERM *scope = erl_var_content(set_selected_attribute_pattern, "Scope");
+  else if (erl_match(set_selected_attribute_pattern, emsg->msg)) {
+    ETERM* html = erl_var_content(set_selected_attribute_pattern, "Html");
+    ETERM* selector = erl_var_content(set_selected_attribute_pattern, "Selector");
+    ETERM* key = erl_var_content(set_selected_attribute_pattern, "Key");
+    ETERM* value = erl_var_content(set_selected_attribute_pattern, "Value");
+    ETERM* scope = erl_var_content(set_selected_attribute_pattern, "Scope");
     char* html_string = (char*)ERL_BIN_PTR(html);
     char* selector_string = (char*)ERL_BIN_PTR(selector);
     char* key_string = (char*)ERL_BIN_PTR(key);
     char* value_string = (char*)ERL_BIN_PTR(value);
     char* scope_string = (char*)ERL_BIN_PTR(scope);
 
-    html_workspace_t *workspace = html_init();
+    html_workspace_t* workspace = html_init();
     char* result_string = select_and_set_attribute(workspace, html_string, selector_string, key_string, value_string, scope_string);
     ETERM* result_bin = erl_mk_binary(result_string, strlen(result_string));
     response = erl_format("{set_attribute, ~w}", result_bin);

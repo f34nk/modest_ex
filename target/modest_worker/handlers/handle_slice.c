@@ -6,23 +6,23 @@
 
 #include "modest_html.h"
 
-char *slice_selected(html_workspace_t *w, const char *html, const char *selector, int start, int end, const char *delimiter, const char *scope_name)
+char* slice_selected(html_workspace_t* w, const char* html, const char* selector, int start, int end, const char* delimiter, const char* scope_name)
 {
 
 }
 
-ETERM *handle_slice(ErlMessage* emsg){
-  ETERM *response = NULL;
-  ETERM *pattern = erl_format("{slice, Html, Selector, StartIndex, EndIndex, Delimiter, Scope}");
-  
-  if (erl_match(pattern, emsg->msg))
-  {
-    ETERM *html = erl_var_content(pattern, "Html");
-    ETERM *selector = erl_var_content(pattern, "Selector");
-    ETERM *start = erl_var_content(pattern, "StartIndex");
-    ETERM *end = erl_var_content(pattern, "EndIndex");
-    ETERM *delimiter = erl_var_content(pattern, "Delimiter");
-    ETERM *scope = erl_var_content(pattern, "Scope");
+ETERM* handle_slice(ErlMessage* emsg)
+{
+  ETERM* response = NULL;
+  ETERM* pattern = erl_format("{slice, Html, Selector, StartIndex, EndIndex, Delimiter, Scope}");
+
+  if (erl_match(pattern, emsg->msg)) {
+    ETERM* html = erl_var_content(pattern, "Html");
+    ETERM* selector = erl_var_content(pattern, "Selector");
+    ETERM* start = erl_var_content(pattern, "StartIndex");
+    ETERM* end = erl_var_content(pattern, "EndIndex");
+    ETERM* delimiter = erl_var_content(pattern, "Delimiter");
+    ETERM* scope = erl_var_content(pattern, "Scope");
     char* html_string = (char*)ERL_BIN_PTR(html);
     char* selector_string = (char*)ERL_BIN_PTR(selector);
     char* start_string = (char*)ERL_BIN_PTR(start);
@@ -30,7 +30,7 @@ ETERM *handle_slice(ErlMessage* emsg){
     char* delimiter_string = (char*)ERL_BIN_PTR(delimiter);
     char* scope_string = (char*)ERL_BIN_PTR(scope);
 
-    html_workspace_t *workspace = html_init();
+    html_workspace_t* workspace = html_init();
     char* result_string = slice_selected(workspace, html_string, selector_string, atoi(start_string), atoi(end_string), delimiter_string, scope_string);
     ETERM* result_bin = erl_mk_binary(result_string, strlen(result_string));
     response = erl_format("{slice, ~w}", result_bin);

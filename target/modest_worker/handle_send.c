@@ -28,17 +28,16 @@ err_term(const char* error_atom)
 void
 handle_emsg(state_t* state, ErlMessage* emsg)
 {
-  switch(emsg->type)
-  {
-    case ERL_REG_SEND:
-    case ERL_SEND:
-      handle_send(state, emsg);
-      break;
-    case ERL_LINK:
-    case ERL_UNLINK:
-      break;
-    case ERL_EXIT:
-      break;
+  switch(emsg->type) {
+  case ERL_REG_SEND:
+  case ERL_SEND:
+    handle_send(state, emsg);
+    break;
+  case ERL_LINK:
+  case ERL_UNLINK:
+    break;
+  case ERL_EXIT:
+    break;
   }
 
   // its our responsibility to free these pointers
@@ -50,15 +49,14 @@ handle_emsg(state_t* state, ErlMessage* emsg)
 void
 handle_send(state_t* state, ErlMessage* emsg)
 {
-  ETERM *response = NULL;
+  ETERM* response = NULL;
   int i = 0;
-  while(i < MAX_HANDLERS && response == NULL){
+  while(i < MAX_HANDLERS && response == NULL) {
     response = HANDLERS[i](emsg);
     i += 1;
   }
 
-  if(response == NULL)
-  {
+  if(response == NULL) {
     response = err_term("unknown_call");
     return;
   }
