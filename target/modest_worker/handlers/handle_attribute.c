@@ -1,7 +1,22 @@
 #include "erl_interface.h"
 #include "ei.h"
 
-#include "modest_attribute.h"
+#include "modest_html.h"
+
+char *select_and_get_attribute(html_workspace_t *w, const char *html, const char *selector, const char *key, const char *delimiter)
+{
+
+}
+
+char *get_attribute(html_workspace_t *w, const char *html, const char *key, const char *delimiter)
+{
+
+}
+
+char *select_and_set_attribute(html_workspace_t *w, const char *html, const char *selector, const char *key, const char *value, const char *scope_name)
+{
+
+}
 
 ETERM *handle_attribute(ErlMessage* emsg){
   ETERM *response = NULL;
@@ -9,7 +24,7 @@ ETERM *handle_attribute(ErlMessage* emsg){
   ETERM *get_selected_attribute_pattern = erl_format("{get_attribute, Html, Selector, Key, Delimiter}");
   // ETERM *set_attribute_pattern = erl_format("{set_attribute, Html, Key, Value}");
   ETERM *set_selected_attribute_pattern = erl_format("{set_attribute, Html, Selector, Key, Value, Scope}");
-  
+
   if (erl_match(get_selected_attribute_pattern, emsg->msg))
   {
     ETERM *html = erl_var_content(get_selected_attribute_pattern, "Html");
@@ -21,11 +36,14 @@ ETERM *handle_attribute(ErlMessage* emsg){
     char* key_string = (char*)ERL_BIN_PTR(key);
     char* delimiter_string = (char*)ERL_BIN_PTR(delimiter);
 
-    const char* result_string = modest_select_and_get_attribute(html_string, selector_string, key_string, delimiter_string);
+    html_workspace_t *workspace = html_init();
+    char* result_string = select_and_get_attribute(workspace, html_string, selector_string, key_string, delimiter_string);
     ETERM* result_bin = erl_mk_binary(result_string, strlen(result_string));
     response = erl_format("{get_attribute, ~w}", result_bin);
 
     // free allocated resources
+    html_free(result_string);
+    html_destroy(workspace);
     erl_free_term(html);
     erl_free_term(selector);
     erl_free_term(key);
@@ -40,11 +58,14 @@ ETERM *handle_attribute(ErlMessage* emsg){
     char* key_string = (char*)ERL_BIN_PTR(key);
     char* delimiter_string = (char*)ERL_BIN_PTR(delimiter);
 
-    const char* result_string = modest_get_attribute(html_string, key_string, delimiter_string);
+    html_workspace_t *workspace = html_init();
+    char* result_string = get_attribute(workspace, html_string, key_string, delimiter_string);
     ETERM* result_bin = erl_mk_binary(result_string, strlen(result_string));
     response = erl_format("{get_attribute, ~w}", result_bin);
 
     // free allocated resources
+    html_free(result_string);
+    html_destroy(workspace);
     erl_free_term(html);
     erl_free_term(key);
     erl_free_term(delimiter);
@@ -62,11 +83,14 @@ ETERM *handle_attribute(ErlMessage* emsg){
     char* value_string = (char*)ERL_BIN_PTR(value);
     char* scope_string = (char*)ERL_BIN_PTR(scope);
 
-    const char* result_string = modest_select_and_set_attribute(html_string, selector_string, key_string, value_string, scope_string);
+    html_workspace_t *workspace = html_init();
+    char* result_string = select_and_set_attribute(workspace, html_string, selector_string, key_string, value_string, scope_string);
     ETERM* result_bin = erl_mk_binary(result_string, strlen(result_string));
     response = erl_format("{set_attribute, ~w}", result_bin);
 
     // free allocated resources
+    html_free(result_string);
+    html_destroy(workspace);
     erl_free_term(html);
     erl_free_term(selector);
     erl_free_term(key);

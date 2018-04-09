@@ -1,7 +1,22 @@
 #include "erl_interface.h"
 #include "ei.h"
 
-#include "modest_text.h"
+#include "modest_html.h"
+
+char *select_and_get_text(html_workspace_t *w, const char *html, const char *selector, const char *delimiter)
+{
+  
+}
+
+char *get_text(html_workspace_t *w, const char *html, const char *delimiter)
+{
+
+}
+
+char *select_and_set_text(html_workspace_t *w, const char *html, const char *selector, const char *text, const char *scope_name)
+{
+
+}
 
 ETERM *handle_text(ErlMessage* emsg){
   ETERM *response = NULL;
@@ -19,11 +34,14 @@ ETERM *handle_text(ErlMessage* emsg){
     char* selector_string = (char*)ERL_BIN_PTR(selector);
     char* delimiter_string = (char*)ERL_BIN_PTR(delimiter);
 
-    const char* result_string = modest_select_and_get_text(html_string, selector_string, delimiter_string);
+    html_workspace_t *workspace = html_init();
+    char* result_string = select_and_get_text(workspace, html_string, selector_string, delimiter_string);
     ETERM* result_bin = erl_mk_binary(result_string, strlen(result_string));
     response = erl_format("{get_text, ~w}", result_bin);
 
     // free allocated resources
+    html_free(result_string);
+    html_destroy(workspace);
     erl_free_term(html);
     erl_free_term(selector);
     erl_free_term(delimiter);
@@ -35,11 +53,14 @@ ETERM *handle_text(ErlMessage* emsg){
     char* html_string = (char*)ERL_BIN_PTR(html);
     char* delimiter_string = (char*)ERL_BIN_PTR(delimiter);
 
-    const char* result_string = modest_get_text(html_string, delimiter_string);
+    html_workspace_t *workspace = html_init();
+    char* result_string = get_text(workspace, html_string, delimiter_string);
     ETERM* result_bin = erl_mk_binary(result_string, strlen(result_string));
     response = erl_format("{get_text, ~w}", result_bin);
 
     // free allocated resources
+    html_free(result_string);
+    html_destroy(workspace);
     erl_free_term(html);
     erl_free_term(delimiter);
   }
@@ -54,11 +75,14 @@ ETERM *handle_text(ErlMessage* emsg){
     char* text_string = (char*)ERL_BIN_PTR(text);
     char* scope_string = (char*)ERL_BIN_PTR(scope);
 
-    const char* result_string = modest_select_and_set_text(html_string, selector_string, text_string, scope_string);
+    html_workspace_t *workspace = html_init();
+    char* result_string = select_and_set_text(workspace, html_string, selector_string, text_string, scope_string);
     ETERM* result_bin = erl_mk_binary(result_string, strlen(result_string));
     response = erl_format("{set_text, ~w}", result_bin);
 
     // free allocated resources
+    html_free(result_string);
+    html_destroy(workspace);
     erl_free_term(html);
     erl_free_term(selector);
     erl_free_term(text);

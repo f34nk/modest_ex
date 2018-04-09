@@ -4,7 +4,12 @@
 #include "erl_interface.h"
 #include "ei.h"
 
-#include "modest_slice.h"
+#include "modest_html.h"
+
+char *slice_selected(html_workspace_t *w, const char *html, const char *selector, int start, int end, const char *delimiter, const char *scope_name)
+{
+
+}
 
 ETERM *handle_slice(ErlMessage* emsg){
   ETERM *response = NULL;
@@ -25,11 +30,14 @@ ETERM *handle_slice(ErlMessage* emsg){
     char* delimiter_string = (char*)ERL_BIN_PTR(delimiter);
     char* scope_string = (char*)ERL_BIN_PTR(scope);
 
-    const char* result_string = modest_slice_selected(html_string, selector_string, atoi(start_string), atoi(end_string), delimiter_string, scope_string);
+    html_workspace_t *workspace = html_init();
+    char* result_string = slice_selected(workspace, html_string, selector_string, atoi(start_string), atoi(end_string), delimiter_string, scope_string);
     ETERM* result_bin = erl_mk_binary(result_string, strlen(result_string));
     response = erl_format("{slice, ~w}", result_bin);
 
     // free allocated resources
+    html_free(result_string);
+    html_destroy(workspace);
     erl_free_term(html);
     erl_free_term(selector);
     erl_free_term(start);

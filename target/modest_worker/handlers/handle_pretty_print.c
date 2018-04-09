@@ -1,7 +1,12 @@
 #include "erl_interface.h"
 #include "ei.h"
 
-#include "modest_pretty_print.h"
+#include "modest_html.h"
+
+char *pretty_print(html_workspace_t *w, const char *html)
+{
+
+}
 
 ETERM *handle_pretty_print(ErlMessage* emsg){
   ETERM *response = NULL;
@@ -12,11 +17,14 @@ ETERM *handle_pretty_print(ErlMessage* emsg){
     ETERM *html = erl_var_content(pattern, "Html");
     char* html_string = (char*)ERL_BIN_PTR(html);
 
-    const char* result_string = modest_pretty_print(html_string);
+    html_workspace_t *workspace = html_init();
+    char* result_string = pretty_print(workspace, html_string);
     ETERM* result_bin = erl_mk_binary(result_string, strlen(result_string));
     response = erl_format("{pretty_print, ~w}", result_bin);
 
     // free allocated resources
+    html_free(result_string);
+    html_destroy(workspace);
     erl_free_term(html);
   }
 

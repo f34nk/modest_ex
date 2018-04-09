@@ -1,23 +1,23 @@
 #include "handle_send.h"
 
-// ETERM* handle_text(ErlMessage* emsg);
-// ETERM* handle_serialize(ErlMessage* emsg);
-// ETERM* handle_remove(ErlMessage* emsg);
-// ETERM* handle_find(ErlMessage* emsg);
-// ETERM* handle_attribute(ErlMessage* emsg);
-// ETERM* handle_append(ErlMessage* emsg);
-// ETERM* handle_prepend(ErlMessage* emsg);
-// ETERM* handle_insert_before(ErlMessage* emsg);
-// ETERM* handle_insert_after(ErlMessage* emsg);
-// ETERM* handle_replace(ErlMessage* emsg);
-// ETERM* handle_slice(ErlMessage* emsg);
-// ETERM* handle_position(ErlMessage* emsg);
-// ETERM* handle_wrap(ErlMessage* emsg);
-// ETERM* handle_pretty_print(ErlMessage* emsg);
-// ETERM* handle_compare(ErlMessage* emsg);
+ETERM* handle_text(ErlMessage* emsg);
+ETERM* handle_serialize(ErlMessage* emsg);
+ETERM* handle_remove(ErlMessage* emsg);
+ETERM* handle_find(ErlMessage* emsg);
+ETERM* handle_attribute(ErlMessage* emsg);
+ETERM* handle_append(ErlMessage* emsg);
+ETERM* handle_prepend(ErlMessage* emsg);
+ETERM* handle_insert_before(ErlMessage* emsg);
+ETERM* handle_insert_after(ErlMessage* emsg);
+ETERM* handle_replace(ErlMessage* emsg);
+ETERM* handle_slice(ErlMessage* emsg);
+ETERM* handle_position(ErlMessage* emsg);
+ETERM* handle_wrap(ErlMessage* emsg);
+ETERM* handle_pretty_print(ErlMessage* emsg);
+ETERM* handle_compare(ErlMessage* emsg);
 
-// #define MAX_HANDLERS 15
-// ETERM* (*HANDLERS[MAX_HANDLERS])() = {handle_text, handle_serialize, handle_remove, handle_find, handle_attribute, handle_append, handle_prepend, handle_insert_before, handle_insert_after, handle_replace, handle_slice, handle_position, handle_wrap, handle_pretty_print, handle_compare};
+#define MAX_HANDLERS 15
+ETERM* (*HANDLERS[MAX_HANDLERS])() = {handle_text, handle_serialize, handle_remove, handle_find, handle_attribute, handle_append, handle_prepend, handle_insert_before, handle_insert_after, handle_replace, handle_slice, handle_position, handle_wrap, handle_pretty_print, handle_compare};
 
 ETERM*
 err_term(const char* error_atom)
@@ -52,10 +52,10 @@ handle_send(state_t* state, ErlMessage* emsg)
 {
   ETERM *response = NULL;
   int i = 0;
-  // while(i < MAX_HANDLERS && response == NULL){
-  //   response = HANDLERS[i](emsg);
-  //   i += 1;
-  // }
+  while(i < MAX_HANDLERS && response == NULL){
+    response = HANDLERS[i](emsg);
+    i += 1;
+  }
 
   if(response == NULL)
   {
