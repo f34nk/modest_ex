@@ -5,7 +5,15 @@
 
 char* find(html_workspace_t* w, const char* html, const char* selector, const char* delimiter, const char* scope_name)
 {
+  int tree_index = html_parse_tree(w, html, strlen(html));
+  int selector_index = html_prepare_selector(w, selector, strlen(selector));
+  int collection_index  = html_select(w, tree_index, scope_name, selector_index);
 
+  int buffer_index = html_serialize_collection(w, collection_index);
+  html_vec_str_t* buffer = html_get_buffer(w, buffer_index);
+  char* result = html_vec_join(buffer, delimiter);
+
+  return result;
 }
 
 ETERM* handle_find(ErlMessage* emsg)
@@ -14,27 +22,27 @@ ETERM* handle_find(ErlMessage* emsg)
   ETERM* find_pattern = erl_format("{find, Html, Selector, Delimiter, Scope}");
 
   if (erl_match(find_pattern, emsg->msg)) {
-    ETERM* html = erl_var_content(find_pattern, "Html");
-    ETERM* selector = erl_var_content(find_pattern, "Selector");
-    ETERM* delimiter = erl_var_content(find_pattern, "Delimiter");
-    ETERM* scope = erl_var_content(find_pattern, "Scope");
-    char* html_string = (char*)ERL_BIN_PTR(html);
-    char* selector_string = (char*)ERL_BIN_PTR(selector);
-    char* delimiter_string = (char*)ERL_BIN_PTR(delimiter);
-    char* scope_string = (char*)ERL_BIN_PTR(scope);
+    ETERM* html_term = erl_var_content(find_pattern, "Html");
+    ETERM* selector_term = erl_var_content(find_pattern, "Selector");
+    ETERM* delimiter_term = erl_var_content(find_pattern, "Delimiter");
+    ETERM* scope_term = erl_var_content(find_pattern, "Scope");
+    char* html = (char*)ERL_BIN_PTR(html_term);
+    char* selector = (char*)ERL_BIN_PTR(selector_term);
+    char* delimiter = (char*)ERL_BIN_PTR(delimiter_term);
+    char* scope = (char*)ERL_BIN_PTR(scope_term);
 
     html_workspace_t* workspace = html_init();
-    char* result_string = find(workspace, html_string, selector_string, delimiter_string, scope_string);
-    ETERM* result_bin = erl_mk_binary(result_string, strlen(result_string));
+    char* result = find(workspace, html, selector, delimiter, scope);
+    ETERM* result_bin = erl_mk_binary(result, strlen(result));
     response = erl_format("{find, ~w}", result_bin);
 
     // free allocated resources
-    html_free(result_string);
+    html_free(result);
     html_destroy(workspace);
-    erl_free_term(html);
-    erl_free_term(selector);
-    erl_free_term(delimiter);
-    erl_free_term(scope);
+    erl_free_term(html_term);
+    erl_free_term(selector_term);
+    erl_free_term(delimiter_term);
+    erl_free_term(scope_term);
   }
 
   erl_free_term(find_pattern);

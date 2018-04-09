@@ -10,6 +10,7 @@ then
 	echo "Clean modest_html..."
 	cd target/modest_html/build
 	make clean
+	rm libmodest_html.a
 	cd $current
 	echo "done"
 fi

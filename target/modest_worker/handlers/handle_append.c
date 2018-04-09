@@ -9,7 +9,6 @@ char* select_and_append(html_workspace_t* w, const char* html, const char* selec
   int selector_index = html_prepare_selector(w, selector, strlen(selector));
   int collection_index  = html_select(w, tree_index, scope_name, selector_index);
 
-  const char* new_html = "<span>Append</span><span>Me</span>";
   int new_tree_index = html_parse_tree(w, new_html, strlen(new_html));
   const char* new_scope_name = "body_children";
   int new_collection_index  = html_select_scope(w, new_tree_index, new_scope_name);
@@ -29,29 +28,29 @@ ETERM* handle_append(ErlMessage* emsg)
   ETERM* pattern = erl_format("{append, Html, Selector, NewHtml, Scope}");;
 
   if (erl_match(pattern, emsg->msg)) {
-    ETERM* html = erl_var_content(pattern, "Html");
-    ETERM* selector = erl_var_content(pattern, "Selector");
-    ETERM* new_html = erl_var_content(pattern, "NewHtml");
-    ETERM* scope = erl_var_content(pattern, "Scope");
+    ETERM* html_term = erl_var_content(pattern, "Html");
+    ETERM* selector_term = erl_var_content(pattern, "Selector");
+    ETERM* new_html_term = erl_var_content(pattern, "NewHtml");
+    ETERM* scope_term = erl_var_content(pattern, "Scope");
 
-    char* html_string = (char*)ERL_BIN_PTR(html);
-    char* selector_string = (char*)ERL_BIN_PTR(selector);
-    char* new_html_string = (char*)ERL_BIN_PTR(new_html);
-    char* scope_string = (char*)ERL_BIN_PTR(scope);
+    char* html = (char*)ERL_BIN_PTR(html_term);
+    char* selector = (char*)ERL_BIN_PTR(selector_term);
+    char* new_html = (char*)ERL_BIN_PTR(new_html_term);
+    char* scope = (char*)ERL_BIN_PTR(scope_term);
 
     html_workspace_t* workspace = html_init();
-    char* result_string = select_and_append(workspace, html_string, selector_string, new_html_string, scope_string);
+    char* result = select_and_append(workspace, html, selector, new_html, scope);
 
-    ETERM* result_bin = erl_mk_binary(result_string, strlen(result_string));
+    ETERM* result_bin = erl_mk_binary(result, strlen(result));
     response = erl_format("{append, ~w}", result_bin);
 
     // free allocated resources
-    html_free(result_string);
+    html_free(result);
     html_destroy(workspace);
-    erl_free_term(html);
-    erl_free_term(selector);
-    erl_free_term(new_html);
-    erl_free_term(scope);
+    erl_free_term(html_term);
+    erl_free_term(selector_term);
+    erl_free_term(new_html_term);
+    erl_free_term(scope_term);
   }
 
   erl_free_term(pattern);

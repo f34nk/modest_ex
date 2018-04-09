@@ -22,10 +22,12 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -I${CMAKE_CURRENT_SOURCE_DIR}/../modest_html
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -I${CMAKE_CURRENT_SOURCE_DIR}/../modest_html/libs/vec/src")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -I${CMAKE_CURRENT_SOURCE_DIR}/../modest_html/libs/map/src")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -I${CMAKE_CURRENT_SOURCE_DIR}/../modest_html/libs/dmt/src")
+
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -L${CMAKE_CURRENT_SOURCE_DIR}/../modest_html/libs/Modest/lib")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -L${CMAKE_CURRENT_SOURCE_DIR}/../modest_html/build")
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -I${CMAKE_CURRENT_SOURCE_DIR}/handlers")
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -I${CMAKE_CURRENT_SOURCE_DIR}/features")
+# set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -I${CMAKE_CURRENT_SOURCE_DIR}/features")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -I${CMAKE_CURRENT_SOURCE_DIR}")
 
 message("CMAKE_CURRENT_SOURCE_DIR = ${CMAKE_CURRENT_SOURCE_DIR}")
@@ -33,30 +35,30 @@ message("CMAKE_CURRENT_SOURCE_DIR = ${CMAKE_CURRENT_SOURCE_DIR}")
 # make sure that erlang and pthread gets linked as last
 # https://cmake.org/pipermail/cmake/2009-February/026779.html
 set(CMAKE_C_LINK_EXECUTABLE "${CMAKE_C_LINK_EXECUTABLE} -lerl_interface -lei -lpthread")
+set(CMAKE_C_LINK_EXECUTABLE "${CMAKE_C_LINK_EXECUTABLE} -lmodest_html -lmodest_static")
+
 
 file(GLOB_RECURSE HANDLERS "handlers/*.c")
-file(GLOB_RECURSE FEATURES "features/*.c")
 
 add_executable(
   ${PROJECT_NAME}
-#   # ${HANDLERS}
-#   # ${FEATURES}
+  ${HANDLERS}
   modest_worker.c
   handle_send.c
-#   # utils.c
 )
 
-target_link_libraries(
-  ${PROJECT_NAME}
-  libmodest_html.a
-)
+# target_link_libraries(
+#   ${PROJECT_NAME}
+#   libmodest_static.a
+#   libmodest_html.a
+# )
 
 # add target tests
 
-# add_subdirectory(test)
-# enable_testing()
-# file(GLOB_RECURSE TESTS "${CMAKE_CURRENT_SOURCE_DIR}/test/*.c")
-# foreach(TEST ${TESTS})
-#   get_filename_component(TEST ${TEST} NAME_WE)
-#   add_test(NAME ${TEST} COMMAND ${TEST})
-# endforeach()
+add_subdirectory(test)
+enable_testing()
+file(GLOB_RECURSE TESTS "${CMAKE_CURRENT_SOURCE_DIR}/test/*.c")
+foreach(TEST ${TESTS})
+  get_filename_component(TEST ${TEST} NAME_WE)
+  add_test(NAME ${TEST} COMMAND ${TEST})
+endforeach()

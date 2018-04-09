@@ -8,7 +8,17 @@
 
 char* slice_selected(html_workspace_t* w, const char* html, const char* selector, int start, int end, const char* delimiter, const char* scope_name)
 {
+  int tree_index = html_parse_tree(w, html, strlen(html));
+  int selector_index = html_prepare_selector(w, selector, strlen(selector));
+  int collection_index  = html_select(w, tree_index, scope_name, selector_index);
 
+  collection_index = html_slice(w, collection_index, start, end);
+
+  int buffer_index = html_serialize_collection(w, collection_index);
+  html_vec_str_t* buffer = html_get_buffer(w, buffer_index);
+  char* result = html_vec_join(buffer, delimiter);
+
+  return result;
 }
 
 ETERM* handle_slice(ErlMessage* emsg)
@@ -17,33 +27,33 @@ ETERM* handle_slice(ErlMessage* emsg)
   ETERM* pattern = erl_format("{slice, Html, Selector, StartIndex, EndIndex, Delimiter, Scope}");
 
   if (erl_match(pattern, emsg->msg)) {
-    ETERM* html = erl_var_content(pattern, "Html");
-    ETERM* selector = erl_var_content(pattern, "Selector");
-    ETERM* start = erl_var_content(pattern, "StartIndex");
-    ETERM* end = erl_var_content(pattern, "EndIndex");
-    ETERM* delimiter = erl_var_content(pattern, "Delimiter");
-    ETERM* scope = erl_var_content(pattern, "Scope");
-    char* html_string = (char*)ERL_BIN_PTR(html);
-    char* selector_string = (char*)ERL_BIN_PTR(selector);
-    char* start_string = (char*)ERL_BIN_PTR(start);
-    char* end_string = (char*)ERL_BIN_PTR(end);
-    char* delimiter_string = (char*)ERL_BIN_PTR(delimiter);
-    char* scope_string = (char*)ERL_BIN_PTR(scope);
+    ETERM* html_term = erl_var_content(pattern, "Html");
+    ETERM* selector_term = erl_var_content(pattern, "Selector");
+    ETERM* start_term = erl_var_content(pattern, "StartIndex");
+    ETERM* end_term = erl_var_content(pattern, "EndIndex");
+    ETERM* delimiter_term = erl_var_content(pattern, "Delimiter");
+    ETERM* scope_term = erl_var_content(pattern, "Scope");
+    char* html = (char*)ERL_BIN_PTR(html_term);
+    char* selector = (char*)ERL_BIN_PTR(selector_term);
+    char* start = (char*)ERL_BIN_PTR(start_term);
+    char* end = (char*)ERL_BIN_PTR(end_term);
+    char* delimiter = (char*)ERL_BIN_PTR(delimiter_term);
+    char* scope = (char*)ERL_BIN_PTR(scope_term);
 
     html_workspace_t* workspace = html_init();
-    char* result_string = slice_selected(workspace, html_string, selector_string, atoi(start_string), atoi(end_string), delimiter_string, scope_string);
-    ETERM* result_bin = erl_mk_binary(result_string, strlen(result_string));
+    char* result = slice_selected(workspace, html, selector, atoi(start), atoi(end), delimiter, scope);
+    ETERM* result_bin = erl_mk_binary(result, strlen(result));
     response = erl_format("{slice, ~w}", result_bin);
 
     // free allocated resources
-    html_free(result_string);
+    html_free(result);
     html_destroy(workspace);
-    erl_free_term(html);
-    erl_free_term(selector);
-    erl_free_term(start);
-    erl_free_term(end);
-    erl_free_term(delimiter);
-    erl_free_term(scope);
+    erl_free_term(html_term);
+    erl_free_term(selector_term);
+    erl_free_term(start_term);
+    erl_free_term(end_term);
+    erl_free_term(delimiter_term);
+    erl_free_term(scope_term);
   }
 
   erl_free_term(pattern);
