@@ -6,7 +6,7 @@ int main(int argc, const char * argv[])
 
   const char *html = "<div>Hello <p>World</p></div>";
   char* result = get_text(w, html, "|");
-  printf("%s\n", result);
+  printf("-> %s\n", result);
   if(strcmp(result, "Hello |World") != 0){
     printf("Failed\n");
     html_free(result);
@@ -18,7 +18,7 @@ int main(int argc, const char * argv[])
 
   html = "<div><p>Hello World</p></div>";
   result = select_and_get_text(w, html, "div p", "|");
-  printf("%s\n", result);
+  printf("-> %s\n", result);
   if(strcmp(result, "Hello World") != 0){
     printf("Failed\n");
     html_free(result);
@@ -31,7 +31,7 @@ int main(int argc, const char * argv[])
   html = "<div><p></p></div>";
   const char *scope = "body_children";
   result = select_and_set_text(w, html, "div p", "Hello World", scope);
-  printf("%s\n", result);
+  printf("-> %s\n", result);
   if(strcmp(result, "<div><p>Hello World</p></div>") != 0){
     printf("Failed\n");
     html_free(result);

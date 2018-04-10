@@ -7,13 +7,14 @@ char* selected_position(html_workspace_t* w, const char* html, const char* selec
 {
   int tree_index = html_parse_tree(w, html, strlen(html));
   int selector_index = html_prepare_selector(w, selector, strlen(selector));
-  const char* scope_name = "html";
+  const char* scope_name = "body_children";
   int collection_index  = html_select(w, tree_index, scope_name, selector_index);
-
+  if(collection_index == -1) {
+    return NULL;
+  }
   int buffer_index = html_position(w, collection_index);
   html_vec_str_t* buffer = html_get_buffer(w, buffer_index);
   char* result = html_vec_join(buffer, delimiter);
-
   return result;
 }
 

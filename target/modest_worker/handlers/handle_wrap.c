@@ -15,7 +15,7 @@ char* select_and_wrap(html_workspace_t* w, const char* html, const char* selecto
 
   html_wrap(w, collection_index, new_collection_index);
 
-  int buffer_index = html_serialize_collection(w, collection_index);
+  int buffer_index = html_serialize_tree(w, collection_index, scope_name);
   html_vec_str_t* buffer = html_get_buffer(w, buffer_index);
   char* result = html_vec_join(buffer, "");
 

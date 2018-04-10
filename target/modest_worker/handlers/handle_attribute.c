@@ -42,9 +42,9 @@ char* select_and_set_attribute(html_workspace_t* w, const char* html, const char
 
   int attributes_index = html_set_attribute(w, collection_index, key, value);
 
-  html_vec_str_t* attributes = html_get_buffer(w, attributes_index);
-  const char* delimiter = "";
-  char* result = html_vec_join(attributes, delimiter);
+  int buffer_index = html_serialize_tree(w, tree_index, scope_name);
+  html_vec_str_t* buffer = html_get_buffer(w, buffer_index);
+  char* result = html_vec_join(buffer, "");
 
   return result;
 }
