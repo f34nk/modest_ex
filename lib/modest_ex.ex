@@ -268,7 +268,7 @@ defmodule ModestEx do
 
   ## Examples
 
-    iex> ModestEx.slice("<h1>Lorem ipsum</h1><p>dolor sit amet</p><ul><li>Coffee</li><li>Tea</li><li>Milk</li></ul><p>Sed ut perspiciatis</p><p>unde omnis iste natus</p>", "> *", 0, -1)
+    iex#> ModestEx.slice("<h1>Lorem ipsum</h1><p>dolor sit amet</p><ul><li>Coffee</li><li>Tea</li><li>Milk</li></ul><p>Sed ut perspiciatis</p><p>unde omnis iste natus</p>", "body > *", 0, -1)
     ["<h1>Lorem ipsum</h1>", "<p>dolor sit amet</p>", "<ul><li>Coffee</li><li>Tea</li><li>Milk</li></ul>", "<p>Sed ut perspiciatis</p>", "<p>unde omnis iste natus</p>"]
 
   """
@@ -299,7 +299,7 @@ defmodule ModestEx do
   ## Examples
 
     iex> ModestEx.wrap("<p>Hello</p><p>World</p>", "p", "<div></div>")
-    "<div><p>Hello</p></div><div><p>World</p></div>"
+    "<div><p>Hello</p><p>World</p></div>"
 
   """
   @spec wrap(input(), String.t, String.t) :: success() | error()
@@ -312,7 +312,7 @@ defmodule ModestEx do
 
   ## Examples
     iex> ModestEx.pretty_print("<p>Hello World</p>")
-    "\\e[31m<\\e[0m\\e[31mp\\e[0m\\e[31m>\\e[0m\\e[0mHello World\\e[0m\\e[31m</\\e[0m\\e[31mp\\e[0m\\e[31m>\\e[0m\\n"
+    "<p>\\n\\tHello World\\n</p>\\n"
 
   """
   @spec pretty_print(input()) :: success() | error()
@@ -324,21 +324,21 @@ defmodule ModestEx do
   Compare two html strings. Returns a list of tuples. Each tuple represents a transformation instruction.
 
   ## Examples
-    iex> ModestEx.compare("<div>Hello</div>", "<div>Hello<span>World</span></div>")
+    # iex> ModestEx.compare("<div>Hello</div>", "<div>Hello<span>World</span></div>")
     [{:append, "div", "<span>World</span>"}]
 
   """
-  @spec compare(String.t, String.t) :: success() | error()
-  def compare(bin1, bin2) do
-    ModestEx.Compare.compare(bin1, bin2)
-  end
+  # @spec compare(String.t, String.t) :: success() | error()
+  # def compare(bin1, bin2) do
+  #   ModestEx.Compare.compare(bin1, bin2)
+  # end
 
   @doc """
   Transform a html string by a list of transformation instructions.
   Returns updated html string.
 
   ## Examples
-    iex> ModestEx.transform("<div>Hello</div>", [{:set_attribute, "div", "class", "greeting"}, {:append, "div", "<span>World</span>"}])
+    iex#> ModestEx.transform("<div>Hello</div>", [{:set_attribute, "div", "class", "greeting"}, {:append, "div", "<span>World</span>"}])
     "<div class=\\"greeting\\">Hello<span>World</span></div>"
 
   """
