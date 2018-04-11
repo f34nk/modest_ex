@@ -7,19 +7,19 @@ defmodule ModestExCompareTest do
     assert result == [{:append, "html body div", "<span>World</span>"}]
   end
 
-  # test "compare returns set_attribute" do
-  #   result = ModestEx.compare("<div>Hello</div>", "<div class=\"greeting\">Hello</div>")
-  #   assert result == [{:set_attribute, "div", "class", "greeting"}]
-  # end
+  test "compare returns set_attribute" do
+    result = ModestEx.compare("<div>Hello</div>", "<div class=\"greeting\">Hello</div>")
+    assert result == [{:set_attribute, "html body div", "class", "greeting"}]
+  end
 
-  # test "compare returns mixed instructions" do
-  #   result = ModestEx.compare("<div>Hello</div>", "<div class=\"greeting\">Hello<span>World</span></div>")
-  #   assert result == [{:set_attribute, "div", "class", "greeting"}, {:append, "div", "<span>World</span>"}]
-  # end
+  test "compare returns mixed instructions" do
+    result = ModestEx.compare("<div>Hello</div>", "<div class=\"greeting\">Hello<span>World</span></div>")
+    assert result == [{:set_attribute, "html body div", "class", "greeting"}, {:append, "html body div", "<span>World</span>"}]
+  end
 
   # test "compare complex strings" do
   #   result = ModestEx.compare("<p>Another</p>", "<div id=\"hello\">Hello<ul><li>World</li></ul></div><span>Other</span>")
-  #   assert result == [{:set_tag, "p", "div"}, {:set_text, "div", "Hello"}, {:append, "div", "<ul><li>World</li></ul>"}, {:append, "body", "<span>Other</span>"}]
+  #   assert result == [{:set_tag, "html body p", "div"}, {:set_text, "html body div", "Hello"}, {:append, "html body div", "<ul><li>World</li></ul>"}, {:append, "html body", "<span>Other</span>"}]
   # end
 
   # test "compare empty with string" do
