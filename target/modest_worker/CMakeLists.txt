@@ -27,7 +27,7 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -L${CMAKE_CURRENT_SOURCE_DIR}/../modest_html
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -L${CMAKE_CURRENT_SOURCE_DIR}/../modest_html/build")
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -I${CMAKE_CURRENT_SOURCE_DIR}/handlers")
-# set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -I${CMAKE_CURRENT_SOURCE_DIR}/features")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -I${CMAKE_CURRENT_SOURCE_DIR}/utils")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -I${CMAKE_CURRENT_SOURCE_DIR}")
 
 message("CMAKE_CURRENT_SOURCE_DIR = ${CMAKE_CURRENT_SOURCE_DIR}")
@@ -39,9 +39,11 @@ set(CMAKE_C_LINK_EXECUTABLE "${CMAKE_C_LINK_EXECUTABLE} -lmodest_html -lmodest_s
 
 
 file(GLOB_RECURSE HANDLERS "handlers/*.c")
+file(GLOB_RECURSE UTILS "utils/*.c")
 
 add_executable(
   ${PROJECT_NAME}
+  ${UTILS}
   ${HANDLERS}
   modest_worker.c
   handle_send.c

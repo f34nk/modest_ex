@@ -2,12 +2,14 @@
 #include "ei.h"
 
 #include "modest_html.h"
+#include "eterm_array.h"
 
-char* compare(html_workspace_t* w, const char* html, const char* new_html, const char* scope_name)
+void compare(html_workspace_t* w, const char* html, const char* new_html, const char* scope_name, eterm_array_t* result_array)
 {
-  const char* selector = "html";
+  const char* selector = "body > *";
   int tree_index = html_parse_tree(w, html, strlen(html));
   int selector_index = html_prepare_selector(w, selector, strlen(selector));
+  scope_name = "html";
   int collection_index  = html_select(w, tree_index, scope_name, selector_index);
 
   const char* new_selector = selector;
@@ -18,21 +20,17 @@ char* compare(html_workspace_t* w, const char* html, const char* new_html, const
 
   html_vec_int_t buffer_indices;
   html_vec_init(&buffer_indices);
-
   html_compare(w, collection_index, new_collection_index, &buffer_indices);
 
   int i; int val;
   html_vec_foreach(&buffer_indices, val, i) {
     int buffer_index = val;
     html_vec_str_t* buffer = html_get_buffer(w, buffer_index);
-    char* result = html_vec_join(buffer, "|");
-    printf("%d: %s\n", i, result);
-    html_free(result);
+    char* string = html_vec_join(buffer, "|");
+    eterm_array_push(result_array, erl_mk_binary(string, strlen(string)));
+    html_free(string);
   }
-
   html_vec_deinit(&buffer_indices);
-  
-  return NULL;
 }
 
 ETERM* handle_compare(ErlMessage* emsg)
@@ -50,12 +48,16 @@ ETERM* handle_compare(ErlMessage* emsg)
     char* scope = (char*)ERL_BIN_PTR(scope_term);
 
     html_workspace_t* workspace = html_init();
-    char* result = compare(workspace, html1, html2, scope);
-    ETERM* result_bin = erl_mk_binary(result, strlen(result));
-    response = erl_format("{compare, ~w}", result_bin);
+  
+    eterm_array_t* result = eterm_array_init();
+    compare(workspace, html1, html2, scope, result);
 
+    ETERM* list_term = eterm_array_to_list(result);
+    response = erl_format("{compare, ~w}", list_term);
+  
     // free allocated resources
-    html_free(result);
+    eterm_array_destroy(result);
+    erl_free_term(list_term);
     html_destroy(workspace);
     erl_free_term(html1_term);
     erl_free_term(html2_term);

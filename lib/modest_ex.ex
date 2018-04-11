@@ -324,14 +324,14 @@ defmodule ModestEx do
   Compare two html strings. Returns a list of tuples. Each tuple represents a transformation instruction.
 
   ## Examples
-    # iex> ModestEx.compare("<div>Hello</div>", "<div>Hello<span>World</span></div>")
-    [{:append, "div", "<span>World</span>"}]
+    iex> ModestEx.compare("<div>Hello</div>", "<div>Hello<span>World</span></div>")
+    [{:append, "html body div", "<span>World</span>"}]
 
   """
-  # @spec compare(String.t, String.t) :: success() | error()
-  # def compare(bin1, bin2) do
-  #   ModestEx.Compare.compare(bin1, bin2)
-  # end
+  @spec compare(String.t, String.t) :: success() | error()
+  def compare(bin1, bin2) do
+    ModestEx.Compare.compare(bin1, bin2)
+  end
 
   @doc """
   Transform a html string by a list of transformation instructions.
