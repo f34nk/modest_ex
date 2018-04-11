@@ -27,7 +27,9 @@ void compare(html_workspace_t* w, const char* html, const char* new_html, const 
     int buffer_index = val;
     html_vec_str_t* buffer = html_get_buffer(w, buffer_index);
     char* string = html_vec_join(buffer, "|");
-    eterm_array_push(result_array, erl_mk_binary(string, strlen(string)));
+    if(result_array != NULL) {
+      eterm_array_push(result_array, erl_mk_binary(string, strlen(string)));
+    }
     html_free(string);
   }
   html_vec_deinit(&buffer_indices);

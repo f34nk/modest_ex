@@ -35,5 +35,6 @@ bool eterm_array_copy(eterm_array_t* array, const ETERM** data, int length);
 void eterm_array_destroy(eterm_array_t* array);
 void eterm_array_dump(eterm_array_t* array, FILE* stream);
 #define eterm_array_to_list(a) erl_mk_list(a->data, a->size)
+char* eterm_array_join(eterm_array_t* array, const char* delimiter);
 
 #endif

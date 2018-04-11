@@ -80,3 +80,42 @@ void eterm_array_dump(eterm_array_t* array, FILE* stream)
   }
 }
 
+char* eterm_array_join(eterm_array_t* array, const char* delimiter)
+{
+  FILE *stream;
+  char *buf;
+  size_t len;
+  stream = open_memstream(&buf, &len);
+
+  for (int i = 0; i < array->size; ++i) {
+    ETERM* term = array->data[i];
+
+#if 0
+    long size = erl_term_len(term);
+    // printf("size %d\n", size);
+    // int size = 255;
+    unsigned char *bufp = erl_malloc(size + 1 * sizeof(char));
+    *bufp = '\0';
+    erl_encode(term, bufp);
+    fprintf(stream, bufp);
+#endif
+
+#if 1
+    erl_print_term(stream, term);
+#endif
+
+#if 0
+    ETERM* formatted = erl_format("~w", term);
+    erl_print_term(stream, formatted);
+    erl_free_term(formatted);
+#endif
+
+    if(i < array->size - 1){
+      fprintf(stream, "%s", delimiter);
+    }
+  }
+
+  fclose(stream);
+  // needs to be free'd
+  return buf;
+}
