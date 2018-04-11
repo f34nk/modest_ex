@@ -1,5 +1,15 @@
 # ModestEx Changelog
 
+## 1.0.0
+
+April ?, 2018
+
+- Removed submodules `Modest`, `cJSON`, `vec`
+- Removed dependency to `jason`
+- Added submodule `modest_html`
+- Implemented all `Modest` related code with `modest_html` library
+- Implemented new target tests for hanlder functions
+
 ## 0.0.13-dev
 
 March 28, 2018
