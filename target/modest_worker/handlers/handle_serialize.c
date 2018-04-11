@@ -28,11 +28,16 @@ ETERM* handle_serialize(ErlMessage* emsg)
 
     html_workspace_t* workspace = html_init();
     char* result = serialize(workspace, html, scope);
-    ETERM* result_bin = erl_mk_binary(result, strlen(result));
-    response = erl_format("{serialize, ~w}", result_bin);
+    if(result != NULL) {
+      ETERM* result_bin = erl_mk_binary(result, strlen(result));
+      response = erl_format("{serialize, ~w}", result_bin);
+      html_free(result);
+    }
+    else {
+      response = erl_format("{error, ~w}", erl_mk_atom("Failed to serialize node"));
+    }
 
     // free allocated resources
-    html_free(result);
     html_destroy(workspace);
     erl_free_term(html_term);
     erl_free_term(scope_term);

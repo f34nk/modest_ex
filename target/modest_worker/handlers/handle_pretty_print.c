@@ -31,11 +31,16 @@ ETERM* handle_pretty_print(ErlMessage* emsg)
 
     html_workspace_t* workspace = html_init();
     char* result = pretty_print(workspace, html);
-    ETERM* result_bin = erl_mk_binary(result, strlen(result));
-    response = erl_format("{pretty_print, ~w}", result_bin);
+    if(result != NULL) {
+      ETERM* result_bin = erl_mk_binary(result, strlen(result));
+      response = erl_format("{pretty_print, ~w}", result_bin);
+      html_free(result);
+    }
+    else {
+      response = erl_format("{error, ~w}", erl_mk_atom("Failed to pretty print html"));
+    }
 
     // free allocated resources
-    html_free(result);
     html_destroy(workspace);
     erl_free_term(html_term);
   }

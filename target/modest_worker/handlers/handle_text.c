@@ -67,11 +67,16 @@ ETERM* handle_text(ErlMessage* emsg)
 
     html_workspace_t* workspace = html_init();
     char* result = select_and_get_text(workspace, html, selector, delimiter);
-    ETERM* result_bin = erl_mk_binary(result, strlen(result));
-    response = erl_format("{get_text, ~w}", result_bin);
+    if(result != NULL) {
+      ETERM* result_bin = erl_mk_binary(result, strlen(result));
+      response = erl_format("{get_text, ~w}", result_bin);
+      html_free(result);
+    }
+    else {
+      response = erl_format("{error, ~w}", erl_mk_atom("Failed to get text"));
+    }
 
     // free allocated resources
-    html_free(result);
     html_destroy(workspace);
     erl_free_term(html_term);
     erl_free_term(selector_term);
@@ -85,11 +90,16 @@ ETERM* handle_text(ErlMessage* emsg)
 
     html_workspace_t* workspace = html_init();
     char* result = get_text(workspace, html, delimiter);
-    ETERM* result_bin = erl_mk_binary(result, strlen(result));
-    response = erl_format("{get_text, ~w}", result_bin);
+    if(result != NULL) {
+      ETERM* result_bin = erl_mk_binary(result, strlen(result));
+      response = erl_format("{get_text, ~w}", result_bin);
+      html_free(result);
+    }
+    else {
+      response = erl_format("{error, ~w}", erl_mk_atom("Failed to get text"));
+    }
 
     // free allocated resources
-    html_free(result);
     html_destroy(workspace);
     erl_free_term(html_term);
     erl_free_term(delimiter_term);
@@ -106,11 +116,16 @@ ETERM* handle_text(ErlMessage* emsg)
 
     html_workspace_t* workspace = html_init();
     char* result = select_and_set_text(workspace, html, selector, text, scope);
-    ETERM* result_bin = erl_mk_binary(result, strlen(result));
-    response = erl_format("{set_text, ~w}", result_bin);
+    if(result != NULL) {
+      ETERM* result_bin = erl_mk_binary(result, strlen(result));
+      response = erl_format("{set_text, ~w}", result_bin);
+      html_free(result);
+    }
+    else {
+      response = erl_format("{error, ~w}", erl_mk_atom("Failed to set text"));
+    }
 
     // free allocated resources
-    html_free(result);
     html_destroy(workspace);
     erl_free_term(html_term);
     erl_free_term(selector_term);

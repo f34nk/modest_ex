@@ -9,9 +9,6 @@ char* selected_position(html_workspace_t* w, const char* html, const char* selec
   int selector_index = html_prepare_selector(w, selector, strlen(selector));
   const char* scope_name = "html";
   int collection_index  = html_select(w, tree_index, scope_name, selector_index);
-  if(collection_index == -1) {
-    return NULL;
-  }
   int buffer_index = html_position(w, collection_index);
   html_vec_str_t* buffer = html_get_buffer(w, buffer_index);
   char* result = html_vec_join(buffer, delimiter);
@@ -33,11 +30,16 @@ ETERM* handle_position(ErlMessage* emsg)
 
     html_workspace_t* workspace = html_init();
     char* result = selected_position(workspace, html, selector, delimiter);
-    ETERM* result_bin = erl_mk_binary(result, strlen(result));
-    response = erl_format("{position, ~w}", result_bin);
+    if(result != NULL) {
+      ETERM* result_bin = erl_mk_binary(result, strlen(result));
+      response = erl_format("{position, ~w}", result_bin);
+      html_free(result);
+    }
+    else {
+      response = erl_format("{error, ~w}", erl_mk_atom("Failed to get position"));
+    }
 
     // free allocated resources
-    html_free(result);
     html_destroy(workspace);
     erl_free_term(html_term);
     erl_free_term(selector_term);
