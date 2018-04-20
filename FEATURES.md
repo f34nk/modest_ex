@@ -149,20 +149,6 @@ iex> ModestEx.pretty_print("<p>Hello World</p>")
 "\e[31m<\e[0m\e[31mp\e[0m\e[31m>\e[0m\e[0mHello World\e[0m\e[31m</\e[0m\e[31mp\e[0m\e[31m>\e[0m\n"
 ```
 
-## compare
-Compare two html strings. Returns a list of tuples. Each tuple represents a transformation instruction.
-
-```elixir
-iex> ModestEx.compare("<div>Hello</div>", "<div>Hello<span>World</span></div>")
-[{:append, "div", "<span>World</span>"}]
-
-iex> ModestEx.compare("<div>Hello</div>", "<div class=\"greeting\">Hello</div>")
-[{:set_attribute, "div", "class", "greeting"}]
-
-iex> ModestEx.compare("<div>Hello</div>", "<div class=\"greeting\">Hello<span>World</span></div>")
-[{:set_attribute, "div", "class", "greeting"}, {:append, "div", "<span>World</span>"}]
-```
-
 ## transform
 Transform a html string by a list of transformation instructions. See `compare`. 
 

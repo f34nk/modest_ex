@@ -8,7 +8,9 @@ April ?, 2018
 - Removed dependency to `jason`
 - Added submodule `modest_html`
 - Implemented all `Modest` related code with `modest_html` library
-- Implemented new target tests for hanlder functions
+- Implemented new target tests for handler functions
+- Removed feature 'compare'. 
+
 
 ## 0.0.13-dev
 

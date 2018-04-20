@@ -133,7 +133,7 @@ See [CHANGELOG](https://github.com/f34nk/modest_ex/blob/master/CHANGELOG.md).
   - [x] Get position of node in relation to its parent
   - [x] Wrap node with another node
   - [x] Pretty print html
-  - [x] Compare two html strings
+  - [ ] Compare two html strings
   - [x] Transform html string by list of actions
 - [x] Custom CSS selector for pseudo class ":contains(text)" implemented in [Modest](https://github.com/lexborisov/Modest/pull/42)
 - [x] Scope flag to control serialization
