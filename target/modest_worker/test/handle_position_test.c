@@ -2,6 +2,9 @@
 #include "test_includes.h"
 int main(int argc, const char * argv[])
 {
+  // initialize all of Erl_Interface
+  erl_init(NULL, 0);
+  
   html_workspace_t* w = html_init();
 
   const char *html = "<h1>Lorem ipsum</h1><p>dolor sit amet</p><ul><li>Coffee</li><li>Tea</li><li>Milk</li></ul><p>Sed ut perspiciatis</p><p>unde omnis iste natus</p>";

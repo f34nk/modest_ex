@@ -1,9 +1,10 @@
 #include "erl_interface.h"
 #include "ei.h"
+#include "eterm_array.h"
 
 #include "modest_html.h"
 
-char* find(html_workspace_t* w, const char* html, const char* selector, const char* delimiter, const char* scope_name)
+void find(html_workspace_t* w, const char* html, const char* selector, const char* delimiter, const char* scope_name, eterm_array_t* term_array)
 {
   int tree_index = html_parse_tree(w, html, strlen(html));
   int selector_index = html_prepare_selector(w, selector, strlen(selector));
@@ -12,8 +13,10 @@ char* find(html_workspace_t* w, const char* html, const char* selector, const ch
   int buffer_index = html_serialize_collection(w, collection_index);
   html_vec_str_t* buffer = html_get_buffer(w, buffer_index);
   char* result = html_vec_join(buffer, delimiter);
-
-  return result;
+  if(term_array != NULL) {
+    eterm_array_push(term_array, erl_mk_binary(result, strlen(result)));
+  }
+  html_free(result);
 }
 
 ETERM* handle_find(ErlMessage* emsg)
@@ -32,17 +35,14 @@ ETERM* handle_find(ErlMessage* emsg)
     char* scope = (char*)ERL_BIN_PTR(scope_term);
 
     html_workspace_t* workspace = html_init();
-    char* result = find(workspace, html, selector, delimiter, scope);
-    if(result != NULL) {
-      ETERM* result_bin = erl_mk_binary(result, strlen(result));
-      response = erl_format("{find, ~w}", result_bin);
-      html_free(result);
-    }
-    else {
-      response = erl_format("{error, ~w}", erl_mk_atom("Failed to find node"));
-    }
+    eterm_array_t* term_array = eterm_array_init();
+    find(workspace, html, selector, delimiter, scope, term_array);
+    ETERM* term_list = eterm_array_to_list(term_array);
+    response = erl_format("{find, ~w}", term_list);
 
     // free allocated resources
+    eterm_array_destroy(term_array);
+    erl_free_term(term_list);
     html_destroy(workspace);
     erl_free_term(html_term);
     erl_free_term(selector_term);

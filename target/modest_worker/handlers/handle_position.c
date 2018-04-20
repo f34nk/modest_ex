@@ -1,5 +1,6 @@
 #include "erl_interface.h"
 #include "ei.h"
+#include "eterm_array.h"
 
 #include "modest_html.h"
 
