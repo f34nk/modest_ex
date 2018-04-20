@@ -10,16 +10,19 @@ int main(int argc, const char * argv[])
   const char *html = "<div><p>Hello World</p>World</div>";
   const char *selector = "div p";
   const char *scope = "html";
-  char* result = select_and_remove(w, html, selector, scope);
+  eterm_array_t* term_array = eterm_array_init();
+  select_and_remove(w, html, selector, scope, term_array);
+  char* result = eterm_array_join(term_array, "|");
   printf("-> %s\n", result);
   if(strcmp(result, "<html><head></head><body><div>World</div></body></html>") != 0){
-    printf("Failed\n");
-    html_free(result);
+    eterm_array_destroy(term_array);
+    free(result);
     html_destroy(w);
     TEST_ERROR
     return 1;
   }
-  html_free(result);
+  eterm_array_destroy(term_array);
+  free(result);
 
   html_destroy(w);
   printf("ok\n");
