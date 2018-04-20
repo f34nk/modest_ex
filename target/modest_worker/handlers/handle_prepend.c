@@ -4,7 +4,7 @@
 
 #include "modest_html.h"
 
-char* select_and_prepend(html_workspace_t* w, const char* html, const char* selector, const char* new_html, const char* scope_name)
+void select_and_prepend(html_workspace_t* w, const char* html, const char* selector, const char* new_html, const char* scope_name, eterm_array_t* term_array)
 {
   int tree_index = html_parse_tree(w, html, strlen(html));
 
@@ -23,8 +23,10 @@ char* select_and_prepend(html_workspace_t* w, const char* html, const char* sele
   int buffer_index = html_serialize_tree(w, collection_index, scope_name);
   html_vec_str_t* buffer = html_get_buffer(w, buffer_index);
   char* result = html_vec_join(buffer, "");
-
-  return result;
+  if(term_array != NULL) {
+    eterm_array_push(term_array, erl_mk_binary(result, strlen(result)));
+  }
+  html_free(result);
 }
 
 ETERM* handle_prepend(ErlMessage* emsg)
@@ -43,17 +45,14 @@ ETERM* handle_prepend(ErlMessage* emsg)
     char* scope = (char*)ERL_BIN_PTR(scope_term);
 
     html_workspace_t* workspace = html_init();
-    char* result = select_and_prepend(workspace, html, selector, new_html, scope);
-    if(result != NULL) {
-      ETERM* result_bin = erl_mk_binary(result, strlen(result));
-      response = erl_format("{prepend, ~w}", result_bin);
-      html_free(result);
-    }
-    else {
-      response = erl_format("{error, ~w}", erl_mk_atom("Failed to prepend html"));
-    }
+    eterm_array_t* term_array = eterm_array_init();
+    select_and_prepend(workspace, html, selector, new_html, scope, term_array);
+    ETERM* term_list = eterm_array_to_list(term_array);
+    response = erl_format("{prepend, ~w}", term_list);
 
     // free allocated resources
+    eterm_array_destroy(term_array);
+    erl_free_term(term_list);
     html_destroy(workspace);
     erl_free_term(html_term);
     erl_free_term(selector_term);
