@@ -4,7 +4,7 @@
 
 #include "modest_html.h"
 
-char* pretty_print(html_workspace_t* w, const char* html)
+void pretty_print(html_workspace_t* w, const char* html, eterm_array_t* term_array)
 {
   int tree_index = html_parse_tree(w, html, strlen(html));
   
@@ -17,8 +17,10 @@ char* pretty_print(html_workspace_t* w, const char* html)
 
   bool colorize = false;
   char* result = html_pretty_print(w, collection_index, colorize);
-
-  return result;
+  if(term_array != NULL) {
+    eterm_array_push(term_array, erl_mk_binary(result, strlen(result)));
+  }
+  html_free(result);
 }
 
 ETERM* handle_pretty_print(ErlMessage* emsg)
@@ -31,17 +33,14 @@ ETERM* handle_pretty_print(ErlMessage* emsg)
     char* html = (char*)ERL_BIN_PTR(html_term);
 
     html_workspace_t* workspace = html_init();
-    char* result = pretty_print(workspace, html);
-    if(result != NULL) {
-      ETERM* result_bin = erl_mk_binary(result, strlen(result));
-      response = erl_format("{pretty_print, ~w}", result_bin);
-      html_free(result);
-    }
-    else {
-      response = erl_format("{error, ~w}", erl_mk_atom("Failed to pretty print html"));
-    }
+    eterm_array_t* term_array = eterm_array_init();
+    pretty_print(workspace, html, term_array);
+    ETERM* term_list = eterm_array_to_list(term_array);
+    response = erl_format("{pretty_print, ~w}", term_list);
 
     // free allocated resources
+    eterm_array_destroy(term_array);
+    erl_free_term(term_list);
     html_destroy(workspace);
     erl_free_term(html_term);
   }
