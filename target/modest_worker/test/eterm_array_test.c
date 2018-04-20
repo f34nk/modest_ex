@@ -16,7 +16,7 @@ int main(int argc, const char * argv[])
 
   char *result = eterm_array_join(a, "|");
   printf("-> %s\n", result);
-  if(strcmp(result, "#Bin<hello>|#Bin<world>") != 0){
+  if(strcmp(result, "hello|world") != 0){
     printf("Failed\n");
     eterm_array_destroy(a);
     free(result);

@@ -1,9 +1,10 @@
 #include "erl_interface.h"
 #include "ei.h"
+#include "eterm_array.h"
 
 #include "modest_html.h"
 
-char* select_and_append(html_workspace_t* w, const char* html, const char* selector, const char* new_html, const char* scope_name)
+void select_and_append(html_workspace_t* w, const char* html, const char* selector, const char* new_html, const char* scope_name, eterm_array_t* term_array)
 {
   int tree_index = html_parse_tree(w, html, strlen(html));
   int selector_index = html_prepare_selector(w, selector, strlen(selector));
@@ -11,7 +12,7 @@ char* select_and_append(html_workspace_t* w, const char* html, const char* selec
   if(collection_index == -1 && strcmp(scope_name, "body_children") == 0) {
     collection_index  = html_select(w, tree_index, "body", selector_index);
   }
-  
+
   int new_tree_index = html_parse_tree(w, new_html, strlen(new_html));
   const char* new_scope_name = "body_children";
   int new_collection_index  = html_select_scope(w, new_tree_index, new_scope_name);
@@ -20,9 +21,12 @@ char* select_and_append(html_workspace_t* w, const char* html, const char* selec
 
   int buffer_index = html_serialize_tree(w, collection_index, scope_name);
   html_vec_str_t* buffer = html_get_buffer(w, buffer_index);
-  char* result = html_vec_join(buffer, "");
-
-  return result;
+  
+  char* string = html_vec_join(buffer, "");
+  if(term_array != NULL) {
+    eterm_array_push(term_array, erl_mk_binary(string, strlen(string)));
+  }
+  html_free(string);
 }
 
 ETERM* handle_append(ErlMessage* emsg)
@@ -42,17 +46,16 @@ ETERM* handle_append(ErlMessage* emsg)
     char* scope = (char*)ERL_BIN_PTR(scope_term);
 
     html_workspace_t* workspace = html_init();
-    char* result = select_and_append(workspace, html, selector, new_html, scope);
-    if(result != NULL) {
-      ETERM* result_bin = erl_mk_binary(result, strlen(result));
-      response = erl_format("{append, ~w}", result_bin);
-      html_free(result);
-    }
-    else {
-      response = erl_format("{error, ~w}", erl_mk_atom("Failed to append html"));
-    }
-    
+
+    eterm_array_t* term_array = eterm_array_init();
+    select_and_append(workspace, html, selector, new_html, scope, term_array);
+
+    ETERM* term_list = eterm_array_to_list(term_array);
+    response = erl_format("{append, ~w}", term_list);
+
     // free allocated resources
+    eterm_array_destroy(term_array);
+    erl_free_term(term_list);
     html_destroy(workspace);
     erl_free_term(html_term);
     erl_free_term(selector_term);

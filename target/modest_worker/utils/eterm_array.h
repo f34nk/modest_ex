@@ -21,6 +21,7 @@
 
 #include "erl_interface.h"
 #include "ei.h"
+#include <stdbool.h>
 
 struct eterm_array
 {

@@ -100,7 +100,7 @@ char* eterm_array_join(eterm_array_t* array, const char* delimiter)
     fprintf(stream, bufp);
 #endif
 
-#if 1
+#if 0
     erl_print_term(stream, term);
 #endif
 
@@ -110,7 +110,23 @@ char* eterm_array_join(eterm_array_t* array, const char* delimiter)
     erl_free_term(formatted);
 #endif
 
-    if(i < array->size - 1){
+#if 0
+    long size = erl_term_len(term);
+    char *data = malloc(size + 1 * sizeof(char));
+    *data = '\0';
+    strncpy(data, (char*)ERL_BIN_PTR(term), size - 1);
+    fprintf(stream, "%.*s", (int)size, (char*)data);
+    free(data);
+#endif
+
+#if 1
+    char* data = erl_iolist_to_string(term);
+    fprintf(stream, "%.*s", (int)strlen(data), (char*)data);
+    erl_free(data);
+#endif
+
+
+    if(i < array->size - 1 && strlen(delimiter) > 0){
       fprintf(stream, "%s", delimiter);
     }
   }
