@@ -2,7 +2,7 @@
 #include "test_includes.h"
 #include "eterm_array.h"
 
-int main(int argc, const char * argv[])
+int main(int argc, const char* argv[])
 {
   // initialize all of Erl_Interface
   erl_init(NULL, 0);
@@ -14,9 +14,9 @@ int main(int argc, const char * argv[])
   eterm_array_push(a, erl_mk_binary("world", strlen("world")));
   // eterm_array_dump(a, stdout);
 
-  char *result = eterm_array_join(a, "|");
+  char* result = eterm_array_join(a, "|");
   printf("-> %s\n", result);
-  if(strcmp(result, "hello|world") != 0){
+  if(strcmp(result, "hello|world") != 0) {
     printf("Failed\n");
     eterm_array_destroy(a);
     free(result);

@@ -1,6 +1,6 @@
 
 #include "test_includes.h"
-int main(int argc, const char * argv[])
+int main(int argc, const char* argv[])
 {
   // initialize all of Erl_Interface
   erl_init(NULL, 0);
@@ -8,15 +8,15 @@ int main(int argc, const char * argv[])
   html_workspace_t* w = html_init();
 
   int i = 0;
-  const char *html = "<div><p id=p1><p id=p2><p id=p3><a>link</a><p id=p4><p id=p5><p id=p6></div>";
-  const char *selector = "div > :nth-child(2n+1):not(:has(a))";
-  const char *delimiter = "|";
-  const char *scope_name = "html";
+  const char* html = "<div><p id=p1><p id=p2><p id=p3><a>link</a><p id=p4><p id=p5><p id=p6></div>";
+  const char* selector = "div > :nth-child(2n+1):not(:has(a))";
+  const char* delimiter = "|";
+  const char* scope_name = "html";
   eterm_array_t* term_array = eterm_array_init();
   find(w, html, selector, delimiter, scope_name, term_array);
-  char *result = eterm_array_join(term_array, "|");
+  char* result = eterm_array_join(term_array, "|");
   printf("-> %s\n", result);
-  if(strcmp(result, "<p id=\"p1\"></p>|<p id=\"p5\"></p>") != 0){
+  if(strcmp(result, "<p id=\"p1\"></p>|<p id=\"p5\"></p>") != 0) {
     eterm_array_destroy(term_array);
     free(result);
     html_destroy(w);
@@ -50,7 +50,7 @@ int main(int argc, const char * argv[])
   find(w, html, selector, delimiter, scope_name, term_array);
   result = eterm_array_join(term_array, "|");
   printf("-> %s\n", result);
-  if(strcmp(result, "<a>some link</a>") != 0){
+  if(strcmp(result, "<a>some link</a>") != 0) {
     eterm_array_destroy(term_array);
     free(result);
     html_destroy(w);
@@ -66,7 +66,7 @@ int main(int argc, const char * argv[])
   find(w, html, selector, delimiter, scope_name, term_array);
   result = eterm_array_join(term_array, "|");
   printf("-> %s\n", result);
-  if(strcmp(result, "<p>Hello</p>|<p>World</p>") != 0){
+  if(strcmp(result, "<p>Hello</p>|<p>World</p>") != 0) {
     eterm_array_destroy(term_array);
     free(result);
     html_destroy(w);
@@ -82,7 +82,7 @@ int main(int argc, const char * argv[])
   find(w, html, selector, delimiter, scope_name, term_array);
   result = eterm_array_join(term_array, "|");
   printf("-> %s\n", result);
-  if(strcmp(result, "<input type=\"radio\"></input>") != 0){
+  if(strcmp(result, "<input type=\"radio\"></input>") != 0) {
     eterm_array_destroy(term_array);
     free(result);
     html_destroy(w);
@@ -98,7 +98,7 @@ int main(int argc, const char * argv[])
   find(w, html, selector, delimiter, scope_name, term_array);
   result = eterm_array_join(term_array, "|");
   printf("-> %s\n", result);
-  if(strcmp(result, "<html><head></head><body><h1>Hello</h1><p>World</p></body></html>|<head></head>|<body><h1>Hello</h1><p>World</p></body>|<h1>Hello</h1>|<p>World</p>") != 0){
+  if(strcmp(result, "<html><head></head><body><h1>Hello</h1><p>World</p></body></html>|<head></head>|<body><h1>Hello</h1><p>World</p></body>|<h1>Hello</h1>|<p>World</p>") != 0) {
     eterm_array_destroy(term_array);
     free(result);
     html_destroy(w);
@@ -115,7 +115,7 @@ int main(int argc, const char * argv[])
   find(w, html, selector, delimiter, scope_name, term_array);
   result = eterm_array_join(term_array, "|");
   printf("-> %s\n", result);
-  if(strcmp(result, "<p>Hello</p>") != 0){
+  if(strcmp(result, "<p>Hello</p>") != 0) {
     eterm_array_destroy(term_array);
     free(result);
     html_destroy(w);
