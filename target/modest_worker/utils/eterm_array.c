@@ -82,56 +82,60 @@ void eterm_array_dump(eterm_array_t* array, FILE* stream)
 
 char* eterm_array_join(eterm_array_t* array, const char* delimiter)
 {
-  FILE *stream;
-  char *buf;
-  size_t len;
-  stream = open_memstream(&buf, &len);
+  char* buf = NULL;
 
-  for (int i = 0; i < array->size; ++i) {
-    ETERM* term = array->data[i];
+  if(array->size > 0) {
+    size_t len;
+    FILE* stream;
+    stream = open_memstream(&buf, &len);
+
+    for (int i = 0; i < array->size; ++i) {
+      ETERM* term = array->data[i];
 
 #if 0
-    long size = erl_term_len(term);
-    // printf("size %d\n", size);
-    // int size = 255;
-    unsigned char *bufp = erl_malloc(size + 1 * sizeof(char));
-    *bufp = '\0';
-    erl_encode(term, bufp);
-    fprintf(stream, bufp);
+      long size = erl_term_len(term);
+      // printf("size %d\n", size);
+      // int size = 255;
+      unsigned char* bufp = erl_malloc(size + 1 * sizeof(char));
+      *bufp = '\0';
+      erl_encode(term, bufp);
+      fprintf(stream, bufp);
 #endif
 
 #if 0
-    erl_print_term(stream, term);
+      erl_print_term(stream, term);
 #endif
 
 #if 0
-    ETERM* formatted = erl_format("~w", term);
-    erl_print_term(stream, formatted);
-    erl_free_term(formatted);
+      ETERM* formatted = erl_format("~w", term);
+      erl_print_term(stream, formatted);
+      erl_free_term(formatted);
 #endif
 
 #if 0
-    long size = erl_term_len(term);
-    char *data = malloc(size + 1 * sizeof(char));
-    *data = '\0';
-    strncpy(data, (char*)ERL_BIN_PTR(term), size - 1);
-    fprintf(stream, "%.*s", (int)size, (char*)data);
-    free(data);
+      long size = erl_term_len(term);
+      char* data = malloc(size + 1 * sizeof(char));
+      *data = '\0';
+      strncpy(data, (char*)ERL_BIN_PTR(term), size - 1);
+      fprintf(stream, "%.*s", (int)size, (char*)data);
+      free(data);
 #endif
 
 #if 1
-    char* data = erl_iolist_to_string(term);
-    fprintf(stream, "%.*s", (int)strlen(data), (char*)data);
-    erl_free(data);
+      char* data = erl_iolist_to_string(term);
+      fprintf(stream, "%.*s", (int)strlen(data), (char*)data);
+      erl_free(data);
 #endif
 
 
-    if(i < array->size - 1 && strlen(delimiter) > 0){
-      fprintf(stream, "%s", delimiter);
+      if(i < array->size - 1 && strlen(delimiter) > 0) {
+        fprintf(stream, "%s", delimiter);
+      }
     }
+
+    fclose(stream);
   }
 
-  fclose(stream);
   // needs to be free'd
   return buf;
 }
