@@ -4,7 +4,7 @@
 
 #include "modest_html.h"
 
-char* select_and_get_text(html_workspace_t* w, const char* html, const char* selector, const char* delimiter)
+void select_and_get_text(html_workspace_t* w, const char* html, const char* selector, const char* delimiter, eterm_array_t* term_array)
 {
   int tree_index = html_parse_tree(w, html, strlen(html));
   int selector_index = html_prepare_selector(w, selector, strlen(selector));
@@ -15,11 +15,13 @@ char* select_and_get_text(html_workspace_t* w, const char* html, const char* sel
 
   html_vec_str_t* text = html_get_buffer(w, text_index);
   char* result = html_vec_join(text, delimiter);
-
-  return result;
+  if(term_array != NULL) {
+    eterm_array_push(term_array, erl_mk_binary(result, strlen(result)));
+  }
+  html_free(result);
 }
 
-char* get_text(html_workspace_t* w, const char* html, const char* delimiter)
+void get_text(html_workspace_t* w, const char* html, const char* delimiter, eterm_array_t* term_array)
 {
   int tree_index = html_parse_tree(w, html, strlen(html));
   const char* selector = "*";
@@ -31,11 +33,13 @@ char* get_text(html_workspace_t* w, const char* html, const char* delimiter)
 
   html_vec_str_t* text = html_get_buffer(w, text_index);
   char* result = html_vec_join(text, delimiter);
-
-  return result;
+  if(term_array != NULL) {
+    eterm_array_push(term_array, erl_mk_binary(result, strlen(result)));
+  }
+  html_free(result);
 }
 
-char* select_and_set_text(html_workspace_t* w, const char* html, const char* selector, const char* text, const char* scope_name)
+void select_and_set_text(html_workspace_t* w, const char* html, const char* selector, const char* text, const char* scope_name, eterm_array_t* term_array)
 {
   int tree_index = html_parse_tree(w, html, strlen(html));
   int selector_index = html_prepare_selector(w, selector, strlen(selector));
@@ -46,8 +50,10 @@ char* select_and_set_text(html_workspace_t* w, const char* html, const char* sel
   int buffer_index = html_serialize_tree(w, tree_index, scope_name);
   html_vec_str_t* buffer = html_get_buffer(w, buffer_index);
   char* result = html_vec_join(buffer, "");
-
-  return result;
+  if(term_array != NULL) {
+    eterm_array_push(term_array, erl_mk_binary(result, strlen(result)));
+  }
+  html_free(result);
 }
 
 ETERM* handle_text(ErlMessage* emsg)
@@ -67,17 +73,14 @@ ETERM* handle_text(ErlMessage* emsg)
     char* delimiter = (char*)ERL_BIN_PTR(delimiter_term);
 
     html_workspace_t* workspace = html_init();
-    char* result = select_and_get_text(workspace, html, selector, delimiter);
-    if(result != NULL) {
-      ETERM* result_bin = erl_mk_binary(result, strlen(result));
-      response = erl_format("{get_text, ~w}", result_bin);
-      html_free(result);
-    }
-    else {
-      response = erl_format("{error, ~w}", erl_mk_atom("Failed to get text"));
-    }
+    eterm_array_t* term_array = eterm_array_init();
+    select_and_get_text(workspace, html, selector, delimiter, term_array);
+    ETERM* term_list = eterm_array_to_list(term_array);
+    response = erl_format("{get_text, ~w}", term_list);
 
     // free allocated resources
+    eterm_array_destroy(term_array);
+    erl_free_term(term_list);
     html_destroy(workspace);
     erl_free_term(html_term);
     erl_free_term(selector_term);
@@ -90,17 +93,14 @@ ETERM* handle_text(ErlMessage* emsg)
     char* delimiter = (char*)ERL_BIN_PTR(delimiter_term);
 
     html_workspace_t* workspace = html_init();
-    char* result = get_text(workspace, html, delimiter);
-    if(result != NULL) {
-      ETERM* result_bin = erl_mk_binary(result, strlen(result));
-      response = erl_format("{get_text, ~w}", result_bin);
-      html_free(result);
-    }
-    else {
-      response = erl_format("{error, ~w}", erl_mk_atom("Failed to get text"));
-    }
+    eterm_array_t* term_array = eterm_array_init();
+    get_text(workspace, html, delimiter, term_array);
+    ETERM* term_list = eterm_array_to_list(term_array);
+    response = erl_format("{get_text, ~w}", term_list);
 
     // free allocated resources
+    eterm_array_destroy(term_array);
+    erl_free_term(term_list);
     html_destroy(workspace);
     erl_free_term(html_term);
     erl_free_term(delimiter_term);
@@ -116,17 +116,14 @@ ETERM* handle_text(ErlMessage* emsg)
     char* scope = (char*)ERL_BIN_PTR(scope_term);
 
     html_workspace_t* workspace = html_init();
-    char* result = select_and_set_text(workspace, html, selector, text, scope);
-    if(result != NULL) {
-      ETERM* result_bin = erl_mk_binary(result, strlen(result));
-      response = erl_format("{set_text, ~w}", result_bin);
-      html_free(result);
-    }
-    else {
-      response = erl_format("{error, ~w}", erl_mk_atom("Failed to set text"));
-    }
+    eterm_array_t* term_array = eterm_array_init();
+    select_and_set_text(workspace, html, selector, text, scope, term_array);
+    ETERM* term_list = eterm_array_to_list(term_array);
+    response = erl_format("{set_text, ~w}", term_list);
 
     // free allocated resources
+    eterm_array_destroy(term_array);
+    erl_free_term(term_list);
     html_destroy(workspace);
     erl_free_term(html_term);
     erl_free_term(selector_term);
