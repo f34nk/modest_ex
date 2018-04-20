@@ -21,12 +21,11 @@ void select_and_append(html_workspace_t* w, const char* html, const char* select
 
   int buffer_index = html_serialize_tree(w, collection_index, scope_name);
   html_vec_str_t* buffer = html_get_buffer(w, buffer_index);
-  
-  char* string = html_vec_join(buffer, "");
+  char* result = html_vec_join(buffer, "");
   if(term_array != NULL) {
-    eterm_array_push(term_array, erl_mk_binary(string, strlen(string)));
+    eterm_array_push(term_array, erl_mk_binary(result, strlen(result)));
   }
-  html_free(string);
+  html_free(result);
 }
 
 ETERM* handle_append(ErlMessage* emsg)
@@ -46,10 +45,8 @@ ETERM* handle_append(ErlMessage* emsg)
     char* scope = (char*)ERL_BIN_PTR(scope_term);
 
     html_workspace_t* workspace = html_init();
-
     eterm_array_t* term_array = eterm_array_init();
     select_and_append(workspace, html, selector, new_html, scope, term_array);
-
     ETERM* term_list = eterm_array_to_list(term_array);
     response = erl_format("{append, ~w}", term_list);
 

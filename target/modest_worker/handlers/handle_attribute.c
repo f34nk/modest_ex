@@ -1,9 +1,10 @@
 #include "erl_interface.h"
 #include "ei.h"
+#include "eterm_array.h"
 
 #include "modest_html.h"
 
-char* select_and_get_attribute(html_workspace_t* w, const char* html, const char* selector, const char* key, const char* delimiter)
+void select_and_get_attribute(html_workspace_t* w, const char* html, const char* selector, const char* key, const char* delimiter, eterm_array_t* term_array)
 {
   int tree_index = html_parse_tree(w, html, strlen(html));
   int selector_index = html_prepare_selector(w, selector, strlen(selector));
@@ -14,11 +15,13 @@ char* select_and_get_attribute(html_workspace_t* w, const char* html, const char
 
   html_vec_str_t* attributes = html_get_buffer(w, attributes_index);
   char* result = html_vec_join(attributes, delimiter);
-
-  return result;
+  if(term_array != NULL) {
+    eterm_array_push(term_array, erl_mk_binary(result, strlen(result)));
+  }
+  html_free(result);
 }
 
-char* get_attribute(html_workspace_t* w, const char* html, const char* key, const char* delimiter)
+void get_attribute(html_workspace_t* w, const char* html, const char* key, const char* delimiter, eterm_array_t* term_array)
 {
   int tree_index = html_parse_tree(w, html, strlen(html));
   const char* selector = "*";
@@ -30,11 +33,13 @@ char* get_attribute(html_workspace_t* w, const char* html, const char* key, cons
 
   html_vec_str_t* attributes = html_get_buffer(w, attributes_index);
   char* result = html_vec_join(attributes, delimiter);
-
-  return result;
+  if(term_array != NULL) {
+    eterm_array_push(term_array, erl_mk_binary(result, strlen(result)));
+  }
+  html_free(result);
 }
 
-char* select_and_set_attribute(html_workspace_t* w, const char* html, const char* selector, const char* key, const char* value, const char* scope_name)
+void select_and_set_attribute(html_workspace_t* w, const char* html, const char* selector, const char* key, const char* value, const char* scope_name, eterm_array_t* term_array)
 {
   int tree_index = html_parse_tree(w, html, strlen(html));
   int selector_index = html_prepare_selector(w, selector, strlen(selector));
@@ -45,8 +50,10 @@ char* select_and_set_attribute(html_workspace_t* w, const char* html, const char
   int buffer_index = html_serialize_tree(w, tree_index, scope_name);
   html_vec_str_t* buffer = html_get_buffer(w, buffer_index);
   char* result = html_vec_join(buffer, "");
-
-  return result;
+  if(term_array != NULL) {
+    eterm_array_push(term_array, erl_mk_binary(result, strlen(result)));
+  }
+  html_free(result);
 }
 
 ETERM* handle_attribute(ErlMessage* emsg)
@@ -68,17 +75,14 @@ ETERM* handle_attribute(ErlMessage* emsg)
     char* delimiter = (char*)ERL_BIN_PTR(delimiter_term);
 
     html_workspace_t* workspace = html_init();
-    char* result = select_and_get_attribute(workspace, html, selector, key, delimiter);
-    if(result != NULL) {
-      ETERM* result_bin = erl_mk_binary(result, strlen(result));
-      response = erl_format("{get_attribute, ~w}", result_bin);
-      html_free(result);
-    }
-    else {
-      response = erl_format("{error, ~w}", erl_mk_atom("Failed to get attribute"));
-    }
+    eterm_array_t* term_array = eterm_array_init();
+    select_and_get_attribute(workspace, html, selector, key, delimiter, term_array);
+    ETERM* term_list = eterm_array_to_list(term_array);
+    response = erl_format("{get_attribute, ~w}", term_list);
 
     // free allocated resources
+    eterm_array_destroy(term_array);
+    erl_free_term(term_list);
     html_destroy(workspace);
     erl_free_term(html_term);
     erl_free_term(selector_term);
@@ -94,17 +98,14 @@ ETERM* handle_attribute(ErlMessage* emsg)
     char* delimiter = (char*)ERL_BIN_PTR(delimiter_term);
 
     html_workspace_t* workspace = html_init();
-    char* result = get_attribute(workspace, html, key, delimiter);
-    if(result != NULL) {
-      ETERM* result_bin = erl_mk_binary(result, strlen(result));
-      response = erl_format("{get_attribute, ~w}", result_bin);
-      html_free(result);
-    }
-    else {
-      response = erl_format("{error, ~w}", erl_mk_atom("Failed to get attribute"));
-    }
+    eterm_array_t* term_array = eterm_array_init();
+    get_attribute(workspace, html, key, delimiter, term_array);
+    ETERM* term_list = eterm_array_to_list(term_array);
+    response = erl_format("{get_attribute, ~w}", term_list);
 
     // free allocated resources
+    eterm_array_destroy(term_array);
+    erl_free_term(term_list);
     html_destroy(workspace);
     erl_free_term(html_term);
     erl_free_term(key_term);
@@ -123,17 +124,14 @@ ETERM* handle_attribute(ErlMessage* emsg)
     char* scope = (char*)ERL_BIN_PTR(scope_term);
 
     html_workspace_t* workspace = html_init();
-    char* result = select_and_set_attribute(workspace, html, selector, key, value, scope);
-    if(result != NULL) {
-      ETERM* result_bin = erl_mk_binary(result, strlen(result));
-      response = erl_format("{set_attribute, ~w}", result_bin);
-      html_free(result);
-    }
-    else {
-      response = erl_format("{error, ~w}", erl_mk_atom("Failed to set attribute"));
-    }
+    eterm_array_t* term_array = eterm_array_init();
+    select_and_set_attribute(workspace, html, selector, key, value, scope, term_array);
+    ETERM* term_list = eterm_array_to_list(term_array);
+    response = erl_format("{set_attribute, ~w}", term_list);
 
     // free allocated resources
+    eterm_array_destroy(term_array);
+    erl_free_term(term_list);
     html_destroy(workspace);
     erl_free_term(html_term);
     erl_free_term(selector_term);
