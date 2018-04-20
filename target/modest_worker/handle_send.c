@@ -14,10 +14,9 @@ ETERM* handle_slice(ErlMessage* emsg);
 ETERM* handle_position(ErlMessage* emsg);
 ETERM* handle_wrap(ErlMessage* emsg);
 ETERM* handle_pretty_print(ErlMessage* emsg);
-ETERM* handle_compare(ErlMessage* emsg);
 
-#define MAX_HANDLERS 15
-ETERM* (*HANDLERS[MAX_HANDLERS])() = {handle_text, handle_serialize, handle_remove, handle_find, handle_attribute, handle_append, handle_prepend, handle_insert_before, handle_insert_after, handle_replace, handle_slice, handle_position, handle_wrap, handle_pretty_print, handle_compare};
+#define MAX_HANDLERS 14
+ETERM* (*HANDLERS[MAX_HANDLERS])() = {handle_text, handle_serialize, handle_remove, handle_find, handle_attribute, handle_append, handle_prepend, handle_insert_before, handle_insert_after, handle_replace, handle_slice, handle_position, handle_wrap, handle_pretty_print};
 
 ETERM*
 err_term(const char* error_atom)
