@@ -14,6 +14,7 @@ int main(int argc, const char * argv[])
   const char *delimiter = "|";
   eterm_array_t* term_array = eterm_array_init();
   slice_selected(w, html, selector, start, end, delimiter, term_array);
+  return 1;
   char* result = eterm_array_join(term_array, "|");
   printf("-> %s\n", result);
   if(strcmp(result, "<h1>Lorem ipsum</h1>|<p>dolor sit amet</p>|<ul><li>Coffee</li><li>Tea</li><li>Milk</li></ul>|<p>Sed ut perspiciatis</p>|<p>unde omnis iste natus</p>") != 0){

@@ -3,7 +3,7 @@ defmodule ModestEx.Safe.PrettyPrint do
   
   def pretty_print(bin) do
     case Nodex.Cnode.call(ModestEx.Safe.Cnode, {:pretty_print, bin <> "\0"}) do
-      {:ok, {:pretty_print, result}} -> result
+      {:ok, {:pretty_print, result}} -> ModestEx.resolve(result)
       _ -> {:error, bin}
     end
   end

@@ -18,11 +18,23 @@ void slice_selected(html_workspace_t* w, const char* html, const char* selector,
   // int buffer_index = html_serialize_tree(w, tree_index, scope_name);
   int buffer_index = html_serialize_collection(w, collection_index);
   html_vec_str_t* buffer = html_get_buffer(w, buffer_index);
-  char* result = html_vec_join(buffer, delimiter);
-  if(term_array != NULL) {
-    eterm_array_push(term_array, erl_mk_binary(result, strlen(result)));
+  int i; char* val;
+  html_vec_foreach(buffer, val, i) {
+    if(term_array != NULL && val != NULL && strlen(val) > 0) {
+#if 0
+      char* copy;
+      html_string_copy(val, copy);
+      printf("%d (%d): %s\n", i, buffer->length, copy);
+      eterm_array_push(term_array, erl_mk_binary(copy, strlen(copy)));
+#endif
+#if 1
+      printf("%d (%d): '%s'\n", i, buffer->length, val);
+      eterm_array_push(term_array, erl_mk_binary(val, strlen(val)));
+      printf("ok\n");
+#endif
+    }  
   }
-  html_free(result);
+  printf("return\n");
 }
 
 ETERM* handle_slice(ErlMessage* emsg)

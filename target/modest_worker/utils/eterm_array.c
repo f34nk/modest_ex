@@ -23,6 +23,10 @@ bool eterm_array_push(eterm_array_t* array, ETERM* eterm)
   ETERM** data = array->data;
   int prev = array->size;
 
+  printf("eterm_array_push()\n");
+  printf("\tsize = %d\n", prev);
+  printf("\tsizeof(ETERM*) = %d\n", (int)sizeof(ETERM*));
+
   // realloc data
   ETERM** new_data = (ETERM**)realloc(data, prev + 1 * sizeof(ETERM*));
   if(new_data == NULL) {
@@ -30,6 +34,9 @@ bool eterm_array_push(eterm_array_t* array, ETERM* eterm)
     fprintf(stderr, "eterm_array_push() - Failed to realloc data\n");
     return false;
   }
+  printf("\trealloced...\n");
+
+  // assign new data
   data = new_data;
 
   // allocate new string memory
@@ -39,6 +46,7 @@ bool eterm_array_push(eterm_array_t* array, ETERM* eterm)
     fprintf(stderr, "eterm_array_push() - Failed to malloc string memory\n");
     return false;
   }
+  printf("\tmalloced...\n");
 
   // assign term
   data[prev] = eterm;

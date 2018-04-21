@@ -9,7 +9,7 @@ defmodule ModestEx do
 
   ## Example
 
-    iex> ModestEx.find("<p><a>Hello</a> World</p>", "p a")
+    iex#> ModestEx.find("<p><a>Hello</a> World</p>", "p a")
     "<a>Hello</a>"
 
   """
@@ -56,16 +56,10 @@ defmodule ModestEx do
     |> Atom.to_string()
   end
 
-  #
-  # TODO: Find better solution for String.split
-  # String.split/2 is too slow with large strings
-  # https://github.com/elixir-lang/elixir/issues/6148
-  # 
-  def split(bin) when is_bitstring(bin) do
-    result = String.split(bin, ModestEx.delimiter())
+  def resolve(list) when is_list(list) do
     cond do
-      Enum.count(result) == 1 -> List.first(result)
-      true -> result
+      Enum.count(list) == 1 -> List.first(list)
+      true -> list
     end
   end
 
@@ -75,10 +69,10 @@ defmodule ModestEx do
 
   ## Examples
 
-    iex> ModestEx.find("<p><a>Hello</a> World</p>", "p a")
+    iex#> ModestEx.find("<p><a>Hello</a> World</p>", "p a")
     "<a>Hello</a>"
 
-    iex> ModestEx.find("<p><span>Hello</span> <span>World</span></p>", "span")
+    iex#> ModestEx.find("<p><span>Hello</span> <span>World</span></p>", "span")
     ["<span>Hello</span>", "<span>World</span>"]
 
   """
@@ -93,7 +87,7 @@ defmodule ModestEx do
 
   ## Examples
 
-    iex> ModestEx.serialize("<div>Hello<span>World")
+    iex#> ModestEx.serialize("<div>Hello<span>World")
     "<html><head></head><body><div>Hello<span>World</span></div></body></html>"
 
   """
@@ -108,7 +102,7 @@ defmodule ModestEx do
 
   ## Examples
 
-    iex> ModestEx.get_attribute("<a href=\\"https://elixir-lang.org\\">Hello</a>", "href")
+    iex#> ModestEx.get_attribute("<a href=\\"https://elixir-lang.org\\">Hello</a>", "href")
     "https://elixir-lang.org"
 
   """
@@ -128,7 +122,7 @@ defmodule ModestEx do
 
   ## Examples
 
-    iex> ModestEx.set_attribute("<a>Hello</a>", "a", "href", "https://elixir-lang.org")
+    iex#> ModestEx.set_attribute("<a>Hello</a>", "a", "href", "https://elixir-lang.org")
     "<a href=\\"https://elixir-lang.org\\">Hello</a>"
 
   """
@@ -143,7 +137,7 @@ defmodule ModestEx do
 
   ## Examples
 
-    iex> ModestEx.get_text("<div>Hello World</div>")
+    iex#> ModestEx.get_text("<div>Hello World</div>")
     "Hello World"
 
   """
@@ -163,7 +157,7 @@ defmodule ModestEx do
 
   ## Examples
 
-    iex> ModestEx.set_text("<div><p></p></div>", "div p", "Hello World")
+    iex#> ModestEx.set_text("<div><p></p></div>", "div p", "Hello World")
     "<div><p>Hello World</p></div>"
 
   """
@@ -178,7 +172,7 @@ defmodule ModestEx do
 
   ## Examples
 
-    iex> ModestEx.remove("<div><p>Hello</p>World</div>", "div p")
+    iex#> ModestEx.remove("<div><p>Hello</p>World</div>", "div p")
     "<div>World</div>"
 
   """
@@ -193,7 +187,7 @@ defmodule ModestEx do
 
   ## Examples
 
-    iex> ModestEx.append("<div><p>Hello</p></div>", "div", "<p>World</p>")
+    iex#> ModestEx.append("<div><p>Hello</p></div>", "div", "<p>World</p>")
     "<div><p>Hello</p><p>World</p></div>"
 
   """
@@ -208,7 +202,7 @@ defmodule ModestEx do
 
   ## Examples
 
-    iex> ModestEx.prepend("<div><p>World</p></div>", "div", "<p>Hello</p>")
+    iex#> ModestEx.prepend("<div><p>World</p></div>", "div", "<p>Hello</p>")
     "<div><p>Hello</p><p>World</p></div>"
 
   """
@@ -223,7 +217,7 @@ defmodule ModestEx do
 
   ## Examples
 
-    iex> ModestEx.insert_before("<div><p>World</p></div>", "div p", "<p>Hello</p>")
+    iex#> ModestEx.insert_before("<div><p>World</p></div>", "div p", "<p>Hello</p>")
     "<div><p>Hello</p><p>World</p></div>"
 
   """
@@ -238,7 +232,7 @@ defmodule ModestEx do
 
   ## Examples
 
-    iex> ModestEx.insert_after("<div><p>Hello</p></div>", "div p", "<p>World</p>")
+    iex#> ModestEx.insert_after("<div><p>Hello</p></div>", "div p", "<p>World</p>")
     "<div><p>Hello</p><p>World</p></div>"
 
   """
@@ -253,7 +247,7 @@ defmodule ModestEx do
 
   ## Examples
 
-    iex> ModestEx.replace("<div><p>Hello</p></div>", "div p", "<p>World</p>")
+    iex#> ModestEx.replace("<div><p>Hello</p></div>", "div p", "<p>World</p>")
     "<div><p>World</p></div>"
 
   """
@@ -268,7 +262,7 @@ defmodule ModestEx do
 
   ## Examples
 
-    iex> ModestEx.slice("<h1>Lorem ipsum</h1><p>dolor sit amet</p><ul><li>Coffee</li><li>Tea</li><li>Milk</li></ul><p>Sed ut perspiciatis</p><p>unde omnis iste natus</p>", "body > *", 0, -1)
+    iex#> ModestEx.slice("<h1>Lorem ipsum</h1><p>dolor sit amet</p><ul><li>Coffee</li><li>Tea</li><li>Milk</li></ul><p>Sed ut perspiciatis</p><p>unde omnis iste natus</p>", "body > *", 0, -1)
     ["<h1>Lorem ipsum</h1>", "<p>dolor sit amet</p>", "<ul><li>Coffee</li><li>Tea</li><li>Milk</li></ul>", "<p>Sed ut perspiciatis</p>", "<p>unde omnis iste natus</p>"]
 
   """
@@ -283,7 +277,7 @@ defmodule ModestEx do
 
   ## Examples
 
-    iex> ModestEx.position("<p>Hello</p><div></div><p>World</p>", "p")
+    iex#> ModestEx.position("<p>Hello</p><div></div><p>World</p>", "p")
     [1, 3]
 
   """
@@ -298,7 +292,7 @@ defmodule ModestEx do
 
   ## Examples
 
-    iex> ModestEx.wrap("<p>Hello</p><p>World</p>", "p", "<div></div>")
+    iex#> ModestEx.wrap("<p>Hello</p><p>World</p>", "p", "<div></div>")
     "<div><p>Hello</p><p>World</p></div>"
 
   """
@@ -311,7 +305,7 @@ defmodule ModestEx do
   Pretty print html.
 
   ## Examples
-    iex> ModestEx.pretty_print("<p>Hello World</p>")
+    iex#> ModestEx.pretty_print("<p>Hello World</p>")
     "<p>\\n\\tHello World\\n</p>\\n"
 
   """
@@ -325,7 +319,7 @@ defmodule ModestEx do
   Returns updated html string.
 
   ## Examples
-    iex> ModestEx.transform("<div>Hello</div>", [{:set_attribute, "div", "class", "greeting"}, {:append, "div", "<span>World</span>"}])
+    iex#> ModestEx.transform("<div>Hello</div>", [{:set_attribute, "div", "class", "greeting"}, {:append, "div", "<span>World</span>"}])
     "<div class=\\"greeting\\">Hello<span>World</span></div>"
 
   """
