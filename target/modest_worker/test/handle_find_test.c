@@ -12,18 +12,19 @@ int main(int argc, const char* argv[])
   const char* selector = "div > :nth-child(2n+1):not(:has(a))";
   const char* delimiter = "|";
   const char* scope_name = "html";
-  eterm_array_t* term_array = eterm_array_init();
-  find(w, html, selector, delimiter, scope_name, term_array);
-  char* result = eterm_array_join(term_array, "|");
+  vec_eterm_t term_array; 
+  eterm_vec_init(&term_array);
+  find(w, html, selector, delimiter, scope_name, &term_array);
+  char* result = eterm_vec_join(&term_array, "|");
   printf("-> %s\n", result);
   if(strcmp(result, "<p id=\"p1\"></p>|<p id=\"p5\"></p>") != 0) {
-    eterm_array_destroy(term_array);
+    eterm_vec_destroy(&term_array);
     free(result);
     html_destroy(w);
     TEST_ERROR
     return 1;
   }
-  eterm_array_destroy(term_array);
+  eterm_vec_destroy(&term_array);
   free(result);
 
   // html = "<div><div><a>Hello</a></div><div><a>World</a></div></div>";
@@ -46,83 +47,83 @@ int main(int argc, const char* argv[])
 
   html = "<h1><a>some link</a></h1>";
   selector = "h1 a";
-  term_array = eterm_array_init();
-  find(w, html, selector, delimiter, scope_name, term_array);
-  result = eterm_array_join(term_array, "|");
+  eterm_vec_init(&term_array);
+  find(w, html, selector, delimiter, scope_name, &term_array);
+  result = eterm_vec_join(&term_array, "|");
   printf("-> %s\n", result);
   if(strcmp(result, "<a>some link</a>") != 0) {
-    eterm_array_destroy(term_array);
+    eterm_vec_destroy(&term_array);
     free(result);
     html_destroy(w);
     TEST_ERROR
     return 1;
   }
-  eterm_array_destroy(term_array);
+  eterm_vec_destroy(&term_array);
   free(result);
 
   html = "<p>Hello</p><p>World</p>";
   selector = "p";
-  term_array = eterm_array_init();
-  find(w, html, selector, delimiter, scope_name, term_array);
-  result = eterm_array_join(term_array, "|");
+  eterm_vec_init(&term_array);
+  find(w, html, selector, delimiter, scope_name, &term_array);
+  result = eterm_vec_join(&term_array, "|");
   printf("-> %s\n", result);
   if(strcmp(result, "<p>Hello</p>|<p>World</p>") != 0) {
-    eterm_array_destroy(term_array);
+    eterm_vec_destroy(&term_array);
     free(result);
     html_destroy(w);
     TEST_ERROR
     return 1;
   }
-  eterm_array_destroy(term_array);
+  eterm_vec_destroy(&term_array);
   free(result);
 
   html = "<div><input type=\"radio\"></div>";
   selector = "div input";
-  term_array = eterm_array_init();
-  find(w, html, selector, delimiter, scope_name, term_array);
-  result = eterm_array_join(term_array, "|");
+  eterm_vec_init(&term_array);
+  find(w, html, selector, delimiter, scope_name, &term_array);
+  result = eterm_vec_join(&term_array, "|");
   printf("-> %s\n", result);
   if(strcmp(result, "<input type=\"radio\"></input>") != 0) {
-    eterm_array_destroy(term_array);
+    eterm_vec_destroy(&term_array);
     free(result);
     html_destroy(w);
     TEST_ERROR
     return 1;
   }
-  eterm_array_destroy(term_array);
+  eterm_vec_destroy(&term_array);
   free(result);
 
   html = "<html><head></head><body><h1>Hello</h1><p>World</p></body></html>";
   selector = "*";
-  term_array = eterm_array_init();
-  find(w, html, selector, delimiter, scope_name, term_array);
-  result = eterm_array_join(term_array, "|");
+  eterm_vec_init(&term_array);
+  find(w, html, selector, delimiter, scope_name, &term_array);
+  result = eterm_vec_join(&term_array, "|");
   printf("-> %s\n", result);
   if(strcmp(result, "<html><head></head><body><h1>Hello</h1><p>World</p></body></html>|<head></head>|<body><h1>Hello</h1><p>World</p></body>|<h1>Hello</h1>|<p>World</p>") != 0) {
-    eterm_array_destroy(term_array);
+    eterm_vec_destroy(&term_array);
     free(result);
     html_destroy(w);
     TEST_ERROR
     return 1;
   }
-  eterm_array_destroy(term_array);
+  eterm_vec_destroy(&term_array);
   free(result);
 
 
   html = "<p>Hello</p><p>World</p>";
   selector = ":contains(Hello)";
-  term_array = eterm_array_init();
-  find(w, html, selector, delimiter, scope_name, term_array);
-  result = eterm_array_join(term_array, "|");
+  eterm_vec_init(&term_array);
+  find(w, html, selector, delimiter, scope_name, &term_array);
+  result = eterm_vec_join(&term_array, "|");
   printf("-> %s\n", result);
   if(strcmp(result, "<p>Hello</p>") != 0) {
-    eterm_array_destroy(term_array);
+    eterm_vec_destroy(&term_array);
     free(result);
     html_destroy(w);
     TEST_ERROR
     return 1;
   }
-  eterm_array_destroy(term_array);
+  eterm_vec_destroy(&term_array);
   free(result);
 
   // NOT SUPPORTED RIGHT NOW
