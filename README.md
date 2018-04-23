@@ -100,10 +100,6 @@ Cleanup
 ```
 mix clean
 ```
-Benchmark
-```
-mix bench
-```
 ## Roadmap
 
 See [CHANGELOG](https://github.com/f34nk/modest_ex/blob/master/CHANGELOG.md).
