@@ -6,8 +6,8 @@ defmodule ModestEx.MixProject do
       app: :modest_ex,
       version: "0.0.13-dev",
       elixir: "~> 1.5",
-      compilers: [:modest_ex_compile] ++ Mix.compilers,
-      build_embedded: Mix.env == :prod,
+      compilers: [:modest_ex_compile] ++ Mix.compilers(),
+      build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
       name: "ModestEx",
       description: """
@@ -80,15 +80,22 @@ end
 
 defmodule Shell do
   def exec(exe, args, opts \\ [:stream]) when is_list(args) do
-    port = Port.open({:spawn_executable, exe}, opts ++ [{:args, args}, :binary, :exit_status, :hide, :use_stdio, :stderr_to_stdout])
+    port =
+      Port.open(
+        {:spawn_executable, exe},
+        opts ++ [{:args, args}, :binary, :exit_status, :hide, :use_stdio, :stderr_to_stdout]
+      )
+
     handle_output(port)
   end
 
   def handle_output(port) do
     receive do
       {^port, {:data, data}} ->
-        IO.binwrite(data) # Replace this with the appropriate broadcast
+        # Replace this with the appropriate broadcast
+        IO.binwrite(data)
         handle_output(port)
+
       {^port, {:exit_status, status}} ->
         status
     end
@@ -97,12 +104,13 @@ end
 
 defmodule Mix.Tasks.Compile.ModestExCompile do
   def run(_) do
-    if match? {:win32, _}, :os.type do
-      IO.warn "Windows is not supported yet."
+    if match?({:win32, _}, :os.type()) do
+      IO.warn("Windows is not supported yet.")
       exit(1)
     else
       Shell.exec("priv/compile.sh", [])
     end
+
     :ok
   end
 
@@ -114,12 +122,13 @@ end
 
 defmodule Mix.Tasks.Test.Target do
   def run(_) do
-    if match? {:win32, _}, :os.type do
-      IO.warn "Windows is not supported yet."
+    if match?({:win32, _}, :os.type()) do
+      IO.warn("Windows is not supported yet.")
       exit(1)
     else
       Shell.exec("priv/test.sh", [])
     end
+
     :ok
   end
 end

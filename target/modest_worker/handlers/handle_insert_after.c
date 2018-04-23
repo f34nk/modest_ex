@@ -48,7 +48,7 @@ ETERM* handle_insert_after(ErlMessage* emsg)
     vec_eterm_t term_array;
     eterm_vec_init(&term_array);
     select_and_insert_after(workspace, html, selector, new_html, scope, &term_array);
-    ETERM* term_list = eterm_vec_to_list(&term_array);
+    ETERM* term_list = eterm_vec_to_list(term_array);
     response = erl_format("{insert_after, ~w}", term_list);
 
     // free allocated resources

@@ -13,12 +13,11 @@ void select_and_get_text(html_workspace_t* w, const char* html, const char* sele
 
   int text_index = html_get_text(w, collection_index);
 
-  html_vec_str_t* text = html_get_buffer(w, text_index);
-  char* result = html_vec_join(text, delimiter);
-  if(term_array != NULL) {
-    eterm_vec_push(term_array, erl_mk_binary(result, strlen(result)));
+  html_vec_str_t* buffer = html_get_buffer(w, text_index);
+  int i; char* val;
+  html_vec_foreach(buffer, val, i) {
+    eterm_vec_push(term_array, erl_mk_binary(val, strlen(val)));
   }
-  html_free(result);
 }
 
 void get_text(html_workspace_t* w, const char* html, const char* delimiter, vec_eterm_t* term_array)
@@ -31,12 +30,11 @@ void get_text(html_workspace_t* w, const char* html, const char* delimiter, vec_
 
   int text_index = html_get_text(w, collection_index);
 
-  html_vec_str_t* text = html_get_buffer(w, text_index);
-  char* result = html_vec_join(text, delimiter);
-  if(term_array != NULL) {
-    eterm_vec_push(term_array, erl_mk_binary(result, strlen(result)));
+  html_vec_str_t* buffer = html_get_buffer(w, text_index);
+  int i; char* val;
+  html_vec_foreach(buffer, val, i) {
+    eterm_vec_push(term_array, erl_mk_binary(val, strlen(val)));
   }
-  html_free(result);
 }
 
 void select_and_set_text(html_workspace_t* w, const char* html, const char* selector, const char* text, const char* scope_name, vec_eterm_t* term_array)
@@ -50,7 +48,7 @@ void select_and_set_text(html_workspace_t* w, const char* html, const char* sele
   int buffer_index = html_serialize_tree(w, tree_index, scope_name);
   html_vec_str_t* buffer = html_get_buffer(w, buffer_index);
   char* result = html_vec_join(buffer, "");
-  if(term_array != NULL) {
+  if(term_array != NULL && result != NULL && strlen(result) > 0) {
     eterm_vec_push(term_array, erl_mk_binary(result, strlen(result)));
   }
   html_free(result);
@@ -76,7 +74,7 @@ ETERM* handle_text(ErlMessage* emsg)
     vec_eterm_t term_array;
     eterm_vec_init(&term_array);
     select_and_get_text(workspace, html, selector, delimiter, &term_array);
-    ETERM* term_list = eterm_vec_to_list(&term_array);
+    ETERM* term_list = eterm_vec_to_list(term_array);
     response = erl_format("{get_text, ~w}", term_list);
 
     // free allocated resources
@@ -97,7 +95,7 @@ ETERM* handle_text(ErlMessage* emsg)
     vec_eterm_t term_array;
     eterm_vec_init(&term_array);
     get_text(workspace, html, delimiter, &term_array);
-    ETERM* term_list = eterm_vec_to_list(&term_array);
+    ETERM* term_list = eterm_vec_to_list(term_array);
     response = erl_format("{get_text, ~w}", term_list);
 
     // free allocated resources
@@ -121,12 +119,12 @@ ETERM* handle_text(ErlMessage* emsg)
     vec_eterm_t term_array;
     eterm_vec_init(&term_array);
     select_and_set_text(workspace, html, selector, text, scope, &term_array);
-    ETERM* term_list = eterm_vec_to_list(&term_array);
+    ETERM* term_list = eterm_vec_to_list(term_array);
     response = erl_format("{set_text, ~w}", term_list);
 
     // free allocated resources
     eterm_vec_destroy(&term_array);
-    erl_free_term(&term_array);
+    erl_free_term(term_list);
     html_destroy(workspace);
     erl_free_term(html_term);
     erl_free_term(selector_term);
@@ -136,7 +134,6 @@ ETERM* handle_text(ErlMessage* emsg)
 
   erl_free_term(get_text_pattern);
   erl_free_term(get_selected_text_pattern);
-  // erl_free_term(set_text_pattern);
   erl_free_term(set_selected_text_pattern);
   return response;
 }

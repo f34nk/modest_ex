@@ -8,7 +8,9 @@ defmodule ModestExPrependTest do
   end
 
   test "prepend new html to empty dom" do
-    result = ModestEx.prepend("<html><head></head><body></body></html>", "body", "<p>Hello World</p>")
+    result =
+      ModestEx.prepend("<html><head></head><body></body></html>", "body", "<p>Hello World</p>")
+
     assert result == "<p>Hello World</p>"
   end
 
@@ -16,5 +18,4 @@ defmodule ModestExPrependTest do
     result = ModestEx.prepend("", "*", "<p>Hello World</p>")
     assert result == "<p>Hello World</p>"
   end
-
 end

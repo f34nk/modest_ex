@@ -38,8 +38,24 @@ int main(int argc, const char * argv[])
   eterm_vec_destroy(&term_array);
   free(result);
 
-  html = "<div><p></p></div>";
+  html = "<div><p>Hello</p></div>";
   const char *scope = "body_children";
+  eterm_vec_init(&term_array);
+  select_and_set_text(w, html, "div p", "World", scope, &term_array);
+  result = eterm_vec_join(&term_array, "|");
+  printf("-> %s\n", result);
+  if(strcmp(result, "<div><p>World</p></div>") != 0){
+    eterm_vec_destroy(&term_array);
+    free(result);
+    html_destroy(w);
+    TEST_ERROR
+    return 1;
+  }
+  eterm_vec_destroy(&term_array);
+  free(result);
+
+  html = "<div><p></p></div>";
+  scope = "body_children";
   eterm_vec_init(&term_array);
   select_and_set_text(w, html, "div p", "Hello World", scope, &term_array);
   result = eterm_vec_join(&term_array, "|");

@@ -38,17 +38,36 @@ void eterm_vec_dump(vec_eterm_t* v, FILE* stream)
   int i;
   ETERM* term;
   eterm_vec_foreach(v, term, i) {
-    erl_print_term(stdout, term);
+    erl_print_term(stream, term);
   }
   if(v->length > 0) {
     fprintf(stream, "\n");
   }
 }
 
+void eterm_dump(ETERM* term, FILE* stream)
+{
+  erl_print_term(stream, term);
+  fprintf(stream, "\n");
+}
+
+char* eterm_to_string(ETERM* term)
+{
+  size_t len;
+  char* buf = NULL;
+  FILE* stream;
+  stream = open_memstream(&buf, &len);
+
+  erl_print_term(stream, term);
+
+  fclose(stream);
+  return buf;
+}
+
 void eterm_vec_destroy(vec_eterm_t* vec)
 {
   if(vec == NULL) {
-    return NULL;
+    return;
   }
 
   while(vec->length > 0) {

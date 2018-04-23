@@ -88,7 +88,7 @@ ETERM* handle_attribute(ErlMessage* emsg)
     vec_eterm_t term_array;
     eterm_vec_init(&term_array);
     select_and_get_attribute(workspace, html, selector, key, delimiter, &term_array);
-    ETERM* term_list = eterm_vec_to_list(&term_array);
+    ETERM* term_list = eterm_vec_to_list(term_array);
     response = erl_format("{get_attribute, ~w}", term_list);
 
     // free allocated resources
@@ -112,7 +112,7 @@ ETERM* handle_attribute(ErlMessage* emsg)
     vec_eterm_t term_array;
     eterm_vec_init(&term_array);
     get_attribute(workspace, html, key, delimiter, &term_array);
-    ETERM* term_list = eterm_vec_to_list(&term_array);
+    ETERM* term_list = eterm_vec_to_list(term_array);
     response = erl_format("{get_attribute, ~w}", term_list);
 
     // free allocated resources
@@ -139,7 +139,7 @@ ETERM* handle_attribute(ErlMessage* emsg)
     vec_eterm_t term_array;
     eterm_vec_init(&term_array);
     select_and_set_attribute(workspace, html, selector, key, value, scope, &term_array);
-    ETERM* term_list = eterm_vec_to_list(&term_array);
+    ETERM* term_list = eterm_vec_to_list(term_array);
     response = erl_format("{set_attribute, ~w}", term_list);
 
     // free allocated resources

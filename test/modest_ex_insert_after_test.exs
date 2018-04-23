@@ -6,5 +6,4 @@ defmodule ModestExInsertAfterTest do
     result = ModestEx.insert_after("<div><p>Hello</p></div>", "div p", "<p>World</p>")
     assert result == "<div><p>Hello</p><p>World</p></div>"
   end
-
 end

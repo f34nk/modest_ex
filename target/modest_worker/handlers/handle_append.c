@@ -52,7 +52,7 @@ ETERM* handle_append(ErlMessage* emsg)
     vec_eterm_t term_array;
     eterm_vec_init(&term_array);
     select_and_append(workspace, html, selector, new_html, scope, &term_array);
-    ETERM* term_list = eterm_vec_to_list(&term_array);
+    ETERM* term_list = eterm_vec_to_list(term_array);
     response = erl_format("{append, ~w}", term_list);
 
     // free allocated resources

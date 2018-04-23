@@ -44,4 +44,7 @@ char* eterm_vec_join(vec_eterm_t* vec, const char* delimiter);
 void eterm_vec_dump(vec_eterm_t* v, FILE* stream);
 void eterm_vec_destroy(vec_eterm_t* vec);
 
+void eterm_dump(ETERM* term, FILE* stream);
+char* eterm_to_string(ETERM* term);
+
 #endif

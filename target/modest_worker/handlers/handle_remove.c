@@ -42,7 +42,7 @@ ETERM* handle_remove(ErlMessage* emsg)
     vec_eterm_t term_array;
     eterm_vec_init(&term_array);
     select_and_remove(workspace, html, selector, scope, &term_array);
-    ETERM* term_list = eterm_vec_to_list(&term_array);
+    ETERM* term_list = eterm_vec_to_list(term_array);
     response = erl_format("{remove, ~w}", term_list);
 
     // free allocated resources

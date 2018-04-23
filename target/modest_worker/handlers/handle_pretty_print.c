@@ -36,7 +36,7 @@ ETERM* handle_pretty_print(ErlMessage* emsg)
     vec_eterm_t term_array;
     eterm_vec_init(&term_array);
     pretty_print(workspace, html, &term_array);
-    ETERM* term_list = eterm_vec_to_list(&term_array);
+    ETERM* term_list = eterm_vec_to_list(term_array);
     response = erl_format("{pretty_print, ~w}", term_list);
 
     // free allocated resources

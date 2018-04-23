@@ -3,14 +3,7 @@
 
 Erlang binding to Modest library.
 
-## Modest
-Modest is a fast HTML renderer implemented as a pure C99 library with no outside dependencies.
-https://lexborisov.github.io/Modest/
+# modest_html
 
-## vec
-A type-safe dynamic array implementation for C 
-https://github.com/rxi/vec
-
-## cJSON
-Ultralightweight JSON parser in ANSI C
-https://github.com/DaveGamble/cJSON
+Wrapping library for Modest.
+https://github.com/f34nk/modest_html

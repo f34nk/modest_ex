@@ -37,7 +37,7 @@ ETERM* handle_serialize(ErlMessage* emsg)
     vec_eterm_t term_array;
     eterm_vec_init(&term_array);
     serialize(workspace, html, scope, &term_array);
-    ETERM* term_list = eterm_vec_to_list(&term_array);
+    ETERM* term_list = eterm_vec_to_list(term_array);
     response = erl_format("{serialize, ~w}", term_list);
 
     // free allocated resources
