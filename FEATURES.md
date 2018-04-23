@@ -148,11 +148,3 @@ Use `IO.puts` to pretty print html tree to `stdout`.
 iex> ModestEx.pretty_print("<p>Hello World</p>")
 "\e[31m<\e[0m\e[31mp\e[0m\e[31m>\e[0m\e[0mHello World\e[0m\e[31m</\e[0m\e[31mp\e[0m\e[31m>\e[0m\n"
 ```
-
-## transform
-Transform a html string by a list of transformation instructions. See `compare`. 
-
-```elixir
-iex> ModestEx.transform("<div>Hello</div>", [{:set_attribute, "div", "class", "greeting"}, {:append, "div", "<span>World</span>"}])
-"<div class=\"greeting\">Hello<span>World</span></div>"
-```

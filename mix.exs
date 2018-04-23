@@ -34,9 +34,9 @@ defmodule ModestEx.MixProject do
       links: %{
         "Github" => "https://github.com/f34nk/modest_ex",
         "Issues" => "https://github.com/f34nk/modest_ex/issues",
-        "Modest" => "https://github.com/lexborisov/Modest",
         "cnodex" => "https://github.com/Overbryd/nodex",
-        "jason" => "https://github.com/michalmuskala/jason"
+        "modest_html" => "https://github.com/f34nk/modest_html",
+        "Modest" => "https://github.com/lexborisov/Modest"
       },
       files: [
         "lib",
@@ -71,9 +71,7 @@ defmodule ModestEx.MixProject do
       # benchmarking helpers
       {:benchfella, "~> 0.3.0", only: :dev},
       # cnode helpers
-      {:nodex, "~> 0.1.1"},
-      # json parser
-      {:jason, "~> 1.0"}
+      {:nodex, "~> 0.1.1"}
     ]
   end
 end

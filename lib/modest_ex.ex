@@ -313,18 +313,4 @@ defmodule ModestEx do
   def pretty_print(bin) do
     ModestEx.PrettyPrint.pretty_print(bin)
   end
-
-  @doc """
-  Transform a html string by a list of transformation instructions.
-  Returns updated html string.
-
-  ## Examples
-    iex> ModestEx.transform("<div>Hello</div>", [{:set_attribute, "div", "class", "greeting"}, {:append, "div", "<span>World</span>"}])
-    "<div class=\\"greeting\\">Hello<span>World</span></div>"
-
-  """
-  @spec transform(String.t(), List.t()) :: success() | error()
-  def transform(bin, instructions) do
-    ModestEx.Transform.transform(bin, instructions)
-  end
 end

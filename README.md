@@ -15,6 +15,7 @@ Elixir/Erlang bindings for lexborisovs **Modest**
 - [Modest](https://github.com/lexborisov/Modest)
   - HTML5 parsing library in pure C99
   - fully conformant with the HTML5 spec
+  - [modest_html](https://github.com/f34nk/modest_html) (Wrapper library)
 
 The binding is implemented as a **C-Node** following the excellent example in Overbryd package **nodex**. If you want to learn how to set up bindings to C/C++, you should definitely check it out.
 
@@ -26,7 +27,7 @@ The binding is implemented as a **C-Node** following the excellent example in Ov
 
 ## Example
 
-Total **17** features implemented. See [**complete feature list**](https://github.com/f34nk/modest_ex/blob/master/FEATURES.md).
+Total **16** features implemented. See [**complete feature list**](https://github.com/f34nk/modest_ex/blob/master/FEATURES.md).
 
 Build transformation pipelines...
 
@@ -64,7 +65,7 @@ Available on [hex](https://hex.pm/packages/modest_ex).
 ```elixir
 def deps do
   [
-    {:modest_ex, "~> 0.0.13-dev"}
+    {:modest_ex, "~> 1.0.0"}
   ]
 end
 ```
@@ -134,7 +135,7 @@ See [CHANGELOG](https://github.com/f34nk/modest_ex/blob/master/CHANGELOG.md).
   - [x] Wrap node with another node
   - [x] Pretty print html
   - [ ] Compare two html strings (see [here](https://github.com/f34nk/modest_html/blob/master/CHANGELOG.md#200))
-  - [x] Transform html string by list of actions
+  - [ ] Transform html string by list of actions
 - [x] Custom CSS selector for pseudo class ":contains(text)" implemented in [Modest](https://github.com/lexborisov/Modest/pull/42)
 - [x] Scope flag to control serialization
 - [x] List of supported CSS Selectors
