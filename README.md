@@ -8,7 +8,7 @@
 
 A library to do pipeable transformations on html strings with CSS selectors, e.g. find(), prepend(), append(), replace() etc.
 
-Elixir/Erlang bindings for lexborisovs **Modest**
+Elixir/Erlang bindings for lexborisov's **Modest**
 
 >Modest is a fast HTML renderer implemented as a pure C99 library with no outside dependencies.
 
@@ -17,7 +17,7 @@ Elixir/Erlang bindings for lexborisovs **Modest**
   - fully conformant with the HTML5 spec
   - [modest_html](https://github.com/f34nk/modest_html) (Wrapper library)
 
-The binding is implemented as a **C-Node** following the excellent example in Overbryd package **nodex**. If you want to learn how to set up bindings to C/C++, you should definitely check it out.
+The binding is implemented as a **C-Node** following the excellent example in Overbryd's package **nodex**. If you want to learn how to set up bindings to C/C++, you should definitely check it out.
 
 - [nodex](https://github.com/Overbryd/nodex)
   - distributed Elixir
