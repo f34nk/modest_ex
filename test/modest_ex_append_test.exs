@@ -8,7 +8,9 @@ defmodule ModestExAppendTest do
   end
 
   test "append new html to empty dom" do
-    result = ModestEx.append("<html><head></head><body></body></html>", "body", "<p>Hello World</p>")
+    result =
+      ModestEx.append("<html><head></head><body></body></html>", "body", "<p>Hello World</p>")
+
     assert result == "<p>Hello World</p>"
   end
 
@@ -16,5 +18,4 @@ defmodule ModestExAppendTest do
     result = ModestEx.append("", "*", "<p>Hello World</p>")
     assert result == "<p>Hello World</p>"
   end
-
 end

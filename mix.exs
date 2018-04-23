@@ -4,10 +4,10 @@ defmodule ModestEx.MixProject do
   def project do
     [
       app: :modest_ex,
-      version: "0.0.13-dev",
+      version: "1.0.0",
       elixir: "~> 1.5",
-      compilers: [:modest_ex_compile] ++ Mix.compilers,
-      build_embedded: Mix.env == :prod,
+      compilers: [:modest_ex_compile] ++ Mix.compilers(),
+      build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
       name: "ModestEx",
       description: """
@@ -34,9 +34,9 @@ defmodule ModestEx.MixProject do
       links: %{
         "Github" => "https://github.com/f34nk/modest_ex",
         "Issues" => "https://github.com/f34nk/modest_ex/issues",
-        "Modest" => "https://github.com/lexborisov/Modest",
         "cnodex" => "https://github.com/Overbryd/nodex",
-        "jason" => "https://github.com/michalmuskala/jason"
+        "modest_html" => "https://github.com/f34nk/modest_html",
+        "Modest" => "https://github.com/lexborisov/Modest"
       },
       files: [
         "lib",
@@ -71,24 +71,29 @@ defmodule ModestEx.MixProject do
       # benchmarking helpers
       {:benchfella, "~> 0.3.0", only: :dev},
       # cnode helpers
-      {:nodex, "~> 0.1.1"},
-      # json parser
-      {:jason, "~> 1.0"}
+      {:nodex, "~> 0.1.1"}
     ]
   end
 end
 
 defmodule Shell do
   def exec(exe, args, opts \\ [:stream]) when is_list(args) do
-    port = Port.open({:spawn_executable, exe}, opts ++ [{:args, args}, :binary, :exit_status, :hide, :use_stdio, :stderr_to_stdout])
+    port =
+      Port.open(
+        {:spawn_executable, exe},
+        opts ++ [{:args, args}, :binary, :exit_status, :hide, :use_stdio, :stderr_to_stdout]
+      )
+
     handle_output(port)
   end
 
   def handle_output(port) do
     receive do
       {^port, {:data, data}} ->
-        IO.binwrite(data) # Replace this with the appropriate broadcast
+        # Replace this with the appropriate broadcast
+        IO.binwrite(data)
         handle_output(port)
+
       {^port, {:exit_status, status}} ->
         status
     end
@@ -97,12 +102,13 @@ end
 
 defmodule Mix.Tasks.Compile.ModestExCompile do
   def run(_) do
-    if match? {:win32, _}, :os.type do
-      IO.warn "Windows is not supported yet."
+    if match?({:win32, _}, :os.type()) do
+      IO.warn("Windows is not supported yet.")
       exit(1)
     else
       Shell.exec("priv/compile.sh", [])
     end
+
     :ok
   end
 
@@ -114,12 +120,13 @@ end
 
 defmodule Mix.Tasks.Test.Target do
   def run(_) do
-    if match? {:win32, _}, :os.type do
-      IO.warn "Windows is not supported yet."
+    if match?({:win32, _}, :os.type()) do
+      IO.warn("Windows is not supported yet.")
       exit(1)
     else
       Shell.exec("priv/test.sh", [])
     end
+
     :ok
   end
 end

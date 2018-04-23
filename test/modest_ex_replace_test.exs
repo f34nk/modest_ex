@@ -6,5 +6,4 @@ defmodule ModestExReplaceTest do
     result = ModestEx.replace("<div><p>Hello</p></div>", "div p", "<p>World</p>")
     assert result == "<div><p>World</p></div>"
   end
-
 end

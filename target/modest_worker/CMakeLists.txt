@@ -17,13 +17,17 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -I${ERLANG_PATH}/include")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -I${ERL_INTERFACE}/include")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -L${ERL_INTERFACE}/lib")
 
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -I${CMAKE_CURRENT_SOURCE_DIR}/../Modest/include")
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -L${CMAKE_CURRENT_SOURCE_DIR}/../Modest/lib")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -I${CMAKE_CURRENT_SOURCE_DIR}/../modest_html/src")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -I${CMAKE_CURRENT_SOURCE_DIR}/../modest_html/libs/Modest/include")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -I${CMAKE_CURRENT_SOURCE_DIR}/../modest_html/libs/vec/src")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -I${CMAKE_CURRENT_SOURCE_DIR}/../modest_html/libs/map/src")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -I${CMAKE_CURRENT_SOURCE_DIR}/../modest_html/libs/dmt/src")
+
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -L${CMAKE_CURRENT_SOURCE_DIR}/../modest_html/libs/Modest/lib")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -L${CMAKE_CURRENT_SOURCE_DIR}/../modest_html/build")
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -I${CMAKE_CURRENT_SOURCE_DIR}/handlers")
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -I${CMAKE_CURRENT_SOURCE_DIR}/features")
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -I${CMAKE_CURRENT_SOURCE_DIR}/vec/src")
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -I${CMAKE_CURRENT_SOURCE_DIR}/cJSON")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -I${CMAKE_CURRENT_SOURCE_DIR}/utils")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -I${CMAKE_CURRENT_SOURCE_DIR}")
 
 message("CMAKE_CURRENT_SOURCE_DIR = ${CMAKE_CURRENT_SOURCE_DIR}")
@@ -31,26 +35,25 @@ message("CMAKE_CURRENT_SOURCE_DIR = ${CMAKE_CURRENT_SOURCE_DIR}")
 # make sure that erlang and pthread gets linked as last
 # https://cmake.org/pipermail/cmake/2009-February/026779.html
 set(CMAKE_C_LINK_EXECUTABLE "${CMAKE_C_LINK_EXECUTABLE} -lerl_interface -lei -lpthread")
+set(CMAKE_C_LINK_EXECUTABLE "${CMAKE_C_LINK_EXECUTABLE} -lmodest_html -lmodest_static")
+
 
 file(GLOB_RECURSE HANDLERS "handlers/*.c")
-file(GLOB_RECURSE FEATURES "features/*.c")
+file(GLOB_RECURSE UTILS "utils/*.c")
 
 add_executable(
   ${PROJECT_NAME}
+  ${UTILS}
   ${HANDLERS}
-  ${FEATURES}
-  vec/src/vec.c
-  cJSON/cJSON.c
-  cJSON/cJSON_Utils.c
   modest_worker.c
   handle_send.c
-  utils.c
 )
 
-target_link_libraries(
-  ${PROJECT_NAME}
-  modest_static.a
-)
+# target_link_libraries(
+#   ${PROJECT_NAME}
+#   libmodest_static.a
+#   libmodest_html.a
+# )
 
 # add target tests
 

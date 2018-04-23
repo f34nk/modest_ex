@@ -6,5 +6,4 @@ defmodule ModestExInsertBeforeTest do
     result = ModestEx.insert_before("<div><p>World</p></div>", "div p", "<p>Hello</p>")
     assert result == "<div><p>Hello</p><p>World</p></div>"
   end
-
 end

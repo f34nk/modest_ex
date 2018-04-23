@@ -4,7 +4,7 @@ defmodule ModestEx do
 
   ## Credits:
 
-  The package implements bindings to [Alexander Borisov's Modest](https://github.com/lexborisov/Modest). 
+  The package implements bindings to [Alexander Borisov's Modest](https://github.com/lexborisov/Modest).
   The binding is implemented as a C-Node based on the excellent example of [Lukas Rieder's cnodex](https://github.com/Overbryd/nodex) and [myhtmlex](https://github.com/Overbryd/myhtmlex).
 
   ## Example
@@ -14,9 +14,9 @@ defmodule ModestEx do
 
   """
 
-  @type success() :: String.t | [String.t]
-  @type error() :: {:error, String.t}
-  @type input() :: String.t | [String.t]
+  @type success() :: String.t() | [String.t()]
+  @type error() :: {:error, String.t()}
+  @type input() :: String.t() | [String.t()]
 
   def delimiter() do
     Application.get_env(:modest_ex, :delimiter, "|")
@@ -24,22 +24,22 @@ defmodule ModestEx do
 
   @moduledoc """
   Serialization scope.
-  Possible values are: 
-  :html 
-    html will be serialized to complete document 
+  Possible values are:
+  :html
+    html will be serialized to complete document
     <html><head></head><body>...</body></html>
-    
+
   :head
-    html will be reduced only to the head fragment 
+    html will be reduced only to the head fragment
     <head>...</head>
-    
+
   :body
-    html will be reduced only to the body fragment 
+    html will be reduced only to the body fragment
     <body>...</body>
-    
+
   :body_children
     html will be reduced to the children of the body
-    
+
   """
   def scope() do
     Application.get_env(:modest_ex, :scope, :body_children) |> to_scope()
@@ -56,16 +56,10 @@ defmodule ModestEx do
     |> Atom.to_string()
   end
 
-  #
-  # TODO: Find better solution for String.split
-  # String.split/2 is too slow with large strings
-  # https://github.com/elixir-lang/elixir/issues/6148
-  # 
-  def split(bin) when is_bitstring(bin) do
-    result = String.split(bin, ModestEx.delimiter())
+  def resolve(list) when is_list(list) do
     cond do
-      Enum.count(result) == 1 -> List.first(result)
-      true -> result
+      Enum.count(list) == 1 -> List.first(list)
+      true -> list
     end
   end
 
@@ -82,7 +76,7 @@ defmodule ModestEx do
     ["<span>Hello</span>", "<span>World</span>"]
 
   """
-  @spec find(input(), String.t) :: success() | error()
+  @spec find(input(), String.t()) :: success() | error()
   def find(bin, selector) do
     ModestEx.Find.find(bin, selector)
   end
@@ -97,7 +91,7 @@ defmodule ModestEx do
     "<html><head></head><body><div>Hello<span>World</span></div></body></html>"
 
   """
-  @spec serialize(input(), Atom.t) :: success() | error()
+  @spec serialize(input(), Atom.t()) :: success() | error()
   def serialize(bin, scope \\ :html) do
     ModestEx.Serialize.serialize(bin, scope)
   end
@@ -112,12 +106,12 @@ defmodule ModestEx do
     "https://elixir-lang.org"
 
   """
-  @spec get_attribute(input(), String.t) :: success() | error()
+  @spec get_attribute(input(), String.t()) :: success() | error()
   def get_attribute(bin, key) do
     ModestEx.GetAttribute.get_attribute(bin, key)
   end
 
-  @spec get_attribute(input(), String.t, String.t) :: success() | error()
+  @spec get_attribute(input(), String.t(), String.t()) :: success() | error()
   def get_attribute(bin, selector, key) do
     ModestEx.GetAttribute.get_attribute(bin, selector, key)
   end
@@ -132,7 +126,7 @@ defmodule ModestEx do
     "<a href=\\"https://elixir-lang.org\\">Hello</a>"
 
   """
-  @spec set_attribute(input(), String.t, String.t, input()) :: success() | error()
+  @spec set_attribute(input(), String.t(), String.t(), input()) :: success() | error()
   def set_attribute(bin, selector, key, value) do
     ModestEx.SetAttribute.set_attribute(bin, selector, key, value)
   end
@@ -152,7 +146,7 @@ defmodule ModestEx do
     ModestEx.GetText.get_text(bin)
   end
 
-  @spec get_text(input(), String.t) :: success() | error()
+  @spec get_text(input(), String.t()) :: success() | error()
   def get_text(bin, selector) do
     ModestEx.GetText.get_text(bin, selector)
   end
@@ -163,11 +157,11 @@ defmodule ModestEx do
 
   ## Examples
 
-    iex> ModestEx.set_text("<div><p></p></div>", "div p", "Hello World")
-    "<div><p>Hello World</p></div>"
+    iex> ModestEx.set_text("<div><p>Hello</p></div>", "div p", "World")
+    "<div><p>World</p></div>"
 
   """
-  @spec set_text(input(), String.t, input()) :: success() | error()
+  @spec set_text(input(), String.t(), input()) :: success() | error()
   def set_text(bin, selector, text) do
     ModestEx.SetText.set_text(bin, selector, text)
   end
@@ -182,7 +176,7 @@ defmodule ModestEx do
     "<div>World</div>"
 
   """
-  @spec remove(input(), String.t) :: success() | error()
+  @spec remove(input(), String.t()) :: success() | error()
   def remove(bin, selector) do
     ModestEx.Remove.remove(bin, selector)
   end
@@ -197,7 +191,7 @@ defmodule ModestEx do
     "<div><p>Hello</p><p>World</p></div>"
 
   """
-  @spec append(input(), String.t, String.t) :: success() | error()
+  @spec append(input(), String.t(), String.t()) :: success() | error()
   def append(bin, selector, new_bin) do
     ModestEx.Append.append(bin, selector, new_bin)
   end
@@ -212,7 +206,7 @@ defmodule ModestEx do
     "<div><p>Hello</p><p>World</p></div>"
 
   """
-  @spec prepend(input(), String.t, String.t) :: success() | error()
+  @spec prepend(input(), String.t(), String.t()) :: success() | error()
   def prepend(bin, selector, new_bin) do
     ModestEx.Prepend.prepend(bin, selector, new_bin)
   end
@@ -227,7 +221,7 @@ defmodule ModestEx do
     "<div><p>Hello</p><p>World</p></div>"
 
   """
-  @spec insert_before(input(), String.t, String.t) :: success() | error()
+  @spec insert_before(input(), String.t(), String.t()) :: success() | error()
   def insert_before(bin, selector, new_bin) do
     ModestEx.InsertBefore.insert_before(bin, selector, new_bin)
   end
@@ -242,7 +236,7 @@ defmodule ModestEx do
     "<div><p>Hello</p><p>World</p></div>"
 
   """
-  @spec insert_after(input(), String.t, String.t) :: success() | error()
+  @spec insert_after(input(), String.t(), String.t()) :: success() | error()
   def insert_after(bin, selector, new_bin) do
     ModestEx.InsertAfter.insert_after(bin, selector, new_bin)
   end
@@ -257,22 +251,22 @@ defmodule ModestEx do
     "<div><p>World</p></div>"
 
   """
-  @spec replace(input(), String.t, String.t) :: success() | error()
+  @spec replace(input(), String.t(), String.t()) :: success() | error()
   def replace(bin, selector, new_bin) do
     ModestEx.Replace.replace(bin, selector, new_bin)
   end
 
   @doc """
   Slice selected set into subset.
-  Returns single html string or returns list of strings. 
+  Returns single html string or returns list of strings.
 
   ## Examples
 
-    iex> ModestEx.slice("<h1>Lorem ipsum</h1><p>dolor sit amet</p><ul><li>Coffee</li><li>Tea</li><li>Milk</li></ul><p>Sed ut perspiciatis</p><p>unde omnis iste natus</p>", "> *", 0, -1)
+    iex> ModestEx.slice("<h1>Lorem ipsum</h1><p>dolor sit amet</p><ul><li>Coffee</li><li>Tea</li><li>Milk</li></ul><p>Sed ut perspiciatis</p><p>unde omnis iste natus</p>", "body > *", 0, -1)
     ["<h1>Lorem ipsum</h1>", "<p>dolor sit amet</p>", "<ul><li>Coffee</li><li>Tea</li><li>Milk</li></ul>", "<p>Sed ut perspiciatis</p>", "<p>unde omnis iste natus</p>"]
 
   """
-  @spec slice(input(), String.t, Integer.t, Integer.t) :: success() | error()
+  @spec slice(input(), String.t(), Integer.t(), Integer.t()) :: success() | error()
   def slice(bin, selector, start_index, end_index) do
     ModestEx.Slice.slice(bin, selector, start_index, end_index)
   end
@@ -287,7 +281,7 @@ defmodule ModestEx do
     [1, 3]
 
   """
-  @spec position(input(), String.t) :: success() | error()
+  @spec position(input(), String.t()) :: success() | error()
   def position(bin, selector) do
     ModestEx.Position.position(bin, selector)
   end
@@ -299,10 +293,10 @@ defmodule ModestEx do
   ## Examples
 
     iex> ModestEx.wrap("<p>Hello</p><p>World</p>", "p", "<div></div>")
-    "<div><p>Hello</p></div><div><p>World</p></div>"
+    "<div><p>Hello</p><p>World</p></div>"
 
   """
-  @spec wrap(input(), String.t, String.t) :: success() | error()
+  @spec wrap(input(), String.t(), String.t()) :: success() | error()
   def wrap(bin, selector, new_bin) do
     ModestEx.Wrap.wrap(bin, selector, new_bin)
   end
@@ -312,39 +306,11 @@ defmodule ModestEx do
 
   ## Examples
     iex> ModestEx.pretty_print("<p>Hello World</p>")
-    "\\e[31m<\\e[0m\\e[31mp\\e[0m\\e[31m>\\e[0m\\e[0mHello World\\e[0m\\e[31m</\\e[0m\\e[31mp\\e[0m\\e[31m>\\e[0m\\n"
+    "<p>\\n\\tHello World\\n</p>\\n"
 
   """
   @spec pretty_print(input()) :: success() | error()
   def pretty_print(bin) do
     ModestEx.PrettyPrint.pretty_print(bin)
   end
-
-  @doc """
-  Compare two html strings. Returns a list of tuples. Each tuple represents a transformation instruction.
-
-  ## Examples
-    iex> ModestEx.compare("<div>Hello</div>", "<div>Hello<span>World</span></div>")
-    [{:append, "div", "<span>World</span>"}]
-
-  """
-  @spec compare(String.t, String.t) :: success() | error()
-  def compare(bin1, bin2) do
-    ModestEx.Compare.compare(bin1, bin2)
-  end
-
-  @doc """
-  Transform a html string by a list of transformation instructions.
-  Returns updated html string.
-
-  ## Examples
-    iex> ModestEx.transform("<div>Hello</div>", [{:set_attribute, "div", "class", "greeting"}, {:append, "div", "<span>World</span>"}])
-    "<div class=\\"greeting\\">Hello<span>World</span></div>"
-
-  """
-  @spec transform(String.t, List.t) :: success() | error()
-  def transform(bin, instructions) do
-    ModestEx.Transform.transform(bin, instructions)
-  end
-
 end

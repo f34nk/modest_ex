@@ -1,9 +1,3 @@
-[submodule "target/Modest"]
-	path = target/Modest
-	url = https://github.com/lexborisov/Modest.git
-[submodule "target/modest_worker/vec"]
-	path = target/modest_worker/vec
-	url = https://github.com/rxi/vec.git
-[submodule "target/modest_worker/cJSON"]
-	path = target/modest_worker/cJSON
-	url = https://github.com/DaveGamble/cJSON.git
+[submodule "target/modest_html"]
+	path = target/modest_html
+	url = https://github.com/f34nk/modest_html.git

@@ -49,4 +49,3 @@
 #   #   assert {:stop, :cnode_unexpected_exit} = Cnode.init(%{exec_path: "priv/just_exit"})
 #   # end
 # end
-

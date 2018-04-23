@@ -3,39 +3,62 @@
 
 #include "erl_interface.h"
 #include "ei.h"
+#include "eterm_vec.h"
 
-#include "modest_slice.h"
+#include "modest_html.h"
 
-ETERM *handle_slice(ErlMessage* emsg){
-  ETERM *response = NULL;
-  ETERM *pattern = erl_format("{slice, Html, Selector, StartIndex, EndIndex, Delimiter, Scope}");
-  
-  if (erl_match(pattern, emsg->msg))
-  {
-    ETERM *html = erl_var_content(pattern, "Html");
-    ETERM *selector = erl_var_content(pattern, "Selector");
-    ETERM *start = erl_var_content(pattern, "StartIndex");
-    ETERM *end = erl_var_content(pattern, "EndIndex");
-    ETERM *delimiter = erl_var_content(pattern, "Delimiter");
-    ETERM *scope = erl_var_content(pattern, "Scope");
-    char* html_string = (char*)ERL_BIN_PTR(html);
-    char* selector_string = (char*)ERL_BIN_PTR(selector);
-    char* start_string = (char*)ERL_BIN_PTR(start);
-    char* end_string = (char*)ERL_BIN_PTR(end);
-    char* delimiter_string = (char*)ERL_BIN_PTR(delimiter);
-    char* scope_string = (char*)ERL_BIN_PTR(scope);
+void slice_selected(html_workspace_t* w, const char* html, const char* selector, int start, int end, const char* delimiter, vec_eterm_t* term_array)
+{
+  int tree_index = html_parse_tree(w, html, strlen(html));
+  int selector_index = html_prepare_selector(w, selector, strlen(selector));
+  int collection_index  = html_select(w, tree_index, "html", selector_index);
 
-    const char* result_string = modest_slice_selected(html_string, selector_string, atoi(start_string), atoi(end_string), delimiter_string, scope_string);
-    ETERM* result_bin = erl_mk_binary(result_string, strlen(result_string));
-    response = erl_format("{slice, ~w}", result_bin);
+  collection_index = html_slice(w, collection_index, start, end);
+
+  // int buffer_index = html_serialize_tree(w, tree_index, scope_name);
+  int buffer_index = html_serialize_collection(w, collection_index);
+  html_vec_str_t* buffer = html_get_buffer(w, buffer_index);
+
+  int i; char* val;
+  html_vec_foreach(buffer, val, i) {
+    eterm_vec_push(term_array, erl_mk_binary(val, strlen(val)));
+  }
+}
+
+ETERM* handle_slice(ErlMessage* emsg)
+{
+  ETERM* response = NULL;
+  ETERM* pattern = erl_format("{slice, Html, Selector, StartIndex, EndIndex, Delimiter}");
+
+  if (erl_match(pattern, emsg->msg)) {
+    ETERM* html_term = erl_var_content(pattern, "Html");
+    ETERM* selector_term = erl_var_content(pattern, "Selector");
+    ETERM* start_term = erl_var_content(pattern, "StartIndex");
+    ETERM* end_term = erl_var_content(pattern, "EndIndex");
+    ETERM* delimiter_term = erl_var_content(pattern, "Delimiter");
+    
+    char* html = (char*)ERL_BIN_PTR(html_term);
+    char* selector = (char*)ERL_BIN_PTR(selector_term);
+    char* start = (char*)ERL_BIN_PTR(start_term);
+    char* end = (char*)ERL_BIN_PTR(end_term);
+    char* delimiter = (char*)ERL_BIN_PTR(delimiter_term);
+
+    html_workspace_t* workspace = html_init();
+    vec_eterm_t term_array;
+    eterm_vec_init(&term_array);
+    slice_selected(workspace, html, selector, atoi(start), atoi(end), delimiter, &term_array);
+    ETERM* term_list = eterm_vec_to_list(term_array);
+    response = erl_format("{slice, ~w}", term_list);
 
     // free allocated resources
-    erl_free_term(html);
-    erl_free_term(selector);
-    erl_free_term(start);
-    erl_free_term(end);
-    erl_free_term(delimiter);
-    erl_free_term(scope);
+    eterm_vec_destroy(&term_array);
+    erl_free_term(term_list);
+    html_destroy(workspace);
+    erl_free_term(html_term);
+    erl_free_term(selector_term);
+    erl_free_term(start_term);
+    erl_free_term(end_term);
+    erl_free_term(delimiter_term);
   }
 
   erl_free_term(pattern);
