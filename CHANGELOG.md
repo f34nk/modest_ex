@@ -9,7 +9,7 @@ April 23, 2018
 - Added submodule `modest_html`
 - Implemented all `Modest` related code with `modest_html` library
 - Implemented new target tests for handler functions
-- Removed feature 'compare' and 'transform'.
+- Removed feature `ModestEx.compare` and `ModestEx.transform`.
 
 ## 0.0.13-dev
 
