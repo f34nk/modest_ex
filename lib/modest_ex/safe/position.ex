@@ -14,10 +14,7 @@ defmodule ModestEx.Safe.Position do
   end
 
   def position(bin, selector) do
-    case Nodex.Cnode.call(
-           ModestEx.Safe.Cnode,
-           {:position, bin <> "\0", selector <> "\0", ModestEx.delimiter() <> "\0"}
-         ) do
+    case Nodex.Cnode.call(ModestEx.Safe.Cnode, {:position, bin <> "\0", selector <> "\0"}) do
       {:ok, {:position, result}} -> to_integer(result)
       _ -> {:error, bin}
     end

@@ -10,7 +10,7 @@ int main(int argc, const char* argv[])
   const char* html = "<a href=\"https://elixir-lang.org\">Hello</a><a href=\"https://google.de\">World</a>";
   vec_eterm_t term_array; 
   eterm_vec_init(&term_array);
-  get_attribute(w, html, "href", "|", &term_array);
+  get_attribute(w, html, "href", &term_array);
   char* result = eterm_vec_join(&term_array, "|");
   printf("-> %s\n", result);
   if(strcmp(result, "https://elixir-lang.org|https://google.de") != 0) {
@@ -25,7 +25,7 @@ int main(int argc, const char* argv[])
 
   html = "<p><a href=\"https://elixir-lang.org\">Hello</a><a href=\"https://google.de\">World</a></p>";
   eterm_vec_init(&term_array);
-  select_and_get_attribute(w, html, "p a", "href", "|", &term_array);
+  select_and_get_attribute(w, html, "p a", "href", &term_array);
   result = eterm_vec_join(&term_array, "|");
   printf("-> %s\n", result);
   if(strcmp(result, "https://elixir-lang.org|https://google.de") != 0) {

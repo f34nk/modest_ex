@@ -4,7 +4,7 @@ defmodule ModestEx.Safe.Attribute do
   def get_attribute(bin, key) do
     case Nodex.Cnode.call(
            ModestEx.Safe.Cnode,
-           {:get_attribute, bin <> "\0", key <> "\0", ModestEx.delimiter() <> "\0"}
+           {:get_attribute, bin <> "\0", key <> "\0"}
          ) do
       {:ok, {:get_attribute, result}} -> ModestEx.resolve(result)
       _ -> {:error, bin}
@@ -14,8 +14,7 @@ defmodule ModestEx.Safe.Attribute do
   def get_attribute(bin, selector, key) do
     case Nodex.Cnode.call(
            ModestEx.Safe.Cnode,
-           {:get_attribute, bin <> "\0", selector <> "\0", key <> "\0",
-            ModestEx.delimiter() <> "\0"}
+           {:get_attribute, bin <> "\0", selector <> "\0", key <> "\0"}
          ) do
       {:ok, {:get_attribute, result}} -> ModestEx.resolve(result)
       _ -> {:error, bin}

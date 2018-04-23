@@ -13,7 +13,7 @@ void select_and_prepend(html_workspace_t* w, const char* html, const char* selec
   if(collection_index == -1 && strcmp(scope_name, "body_children") == 0) {
     collection_index  = html_select(w, tree_index, "body", selector_index);
   }
-  
+
   int new_tree_index = html_parse_tree(w, new_html, strlen(new_html));
   const char* new_scope_name = "body_children";
   int new_collection_index  = html_select_scope(w, new_tree_index, new_scope_name);
@@ -22,11 +22,7 @@ void select_and_prepend(html_workspace_t* w, const char* html, const char* selec
 
   int buffer_index = html_serialize_tree(w, collection_index, scope_name);
   html_vec_str_t* buffer = html_get_buffer(w, buffer_index);
-  // char* result = html_vec_join(buffer, "");
-  // if(term_array != NULL) {
-  //   eterm_array_push(term_array, erl_mk_binary(result, strlen(result)));
-  // }
-  // html_free(result);
+
   int i; char* val;
   html_vec_foreach(buffer, val, i) {
     eterm_vec_push(term_array, erl_mk_binary(val, strlen(val)));

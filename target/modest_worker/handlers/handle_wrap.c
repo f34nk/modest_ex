@@ -18,11 +18,7 @@ void select_and_wrap(html_workspace_t* w, const char* html, const char* selector
 
   int buffer_index = html_serialize_tree(w, collection_index, scope_name);
   html_vec_str_t* buffer = html_get_buffer(w, buffer_index);
-  // char* result = html_vec_join(buffer, "");
-  // if(term_array != NULL) {
-  //   eterm_array_push(term_array, erl_mk_binary(result, strlen(result)));
-  // }
-  // html_free(result);
+
   int i; char* val;
   html_vec_foreach(buffer, val, i) {
     eterm_vec_push(term_array, erl_mk_binary(val, strlen(val)));

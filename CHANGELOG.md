@@ -6,10 +6,11 @@ April 23, 2018
 
 - Removed submodules `Modest`, `cJSON`, `vec`
 - Removed dependency to `jason`
+- Removed `ModestEx.delimiter` and implemented all return types as erlang lists
 - Added submodule `modest_html`
 - Implemented all `Modest` related code with `modest_html` library
 - Implemented new target tests for handler functions
-- Removed feature `ModestEx.compare` and `ModestEx.transform`.
+- Removed feature `ModestEx.compare` and `ModestEx.transform`
 
 ## 0.0.13-dev
 

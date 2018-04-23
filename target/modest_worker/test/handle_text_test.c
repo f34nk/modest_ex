@@ -10,7 +10,7 @@ int main(int argc, const char * argv[])
   const char *html = "<div>Hello <p>World</p></div>";
   vec_eterm_t term_array; 
   eterm_vec_init(&term_array);
-  get_text(w, html, "|", &term_array);
+  get_text(w, html, &term_array);
   char* result = eterm_vec_join(&term_array, "|");
   printf("-> %s\n", result);
   if(strcmp(result, "Hello |World") != 0){
@@ -25,7 +25,7 @@ int main(int argc, const char * argv[])
 
   html = "<div><p>Hello World</p></div>";
   eterm_vec_init(&term_array);
-  select_and_get_text(w, html, "div p", "|", &term_array);
+  select_and_get_text(w, html, "div p", &term_array);
   result = eterm_vec_join(&term_array, "|");
   printf("-> %s\n", result);
   if(strcmp(result, "Hello World") != 0){

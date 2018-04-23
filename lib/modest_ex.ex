@@ -18,10 +18,6 @@ defmodule ModestEx do
   @type error() :: {:error, String.t()}
   @type input() :: String.t() | [String.t()]
 
-  def delimiter() do
-    Application.get_env(:modest_ex, :delimiter, "|")
-  end
-
   @moduledoc """
   Serialization scope.
   Possible values are:

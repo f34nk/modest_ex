@@ -7,10 +7,6 @@
 void pretty_print(html_workspace_t* w, const char* html, vec_eterm_t* term_array)
 {
   int tree_index = html_parse_tree(w, html, strlen(html));
-  
-  // int selector_index = html_prepare_selector(w, selector, strlen(selector));
-  // const char* scope_name = "body_children";
-  // int collection_index  = html_select(w, tree_index, scope_name, selector_index);
 
   const char* scope_name = "body_children";
   int collection_index  = html_select_scope(w, tree_index, scope_name);
