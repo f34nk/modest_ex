@@ -1,5 +1,11 @@
 # ModestEx Changelog
 
+## 1.0.1
+
+April 23, 2018
+
+- Updated submodule `modest_html` related to a bug fix with large html strings
+
 ## 1.0.0
 
 April 23, 2018
