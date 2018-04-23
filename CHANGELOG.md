@@ -2,7 +2,7 @@
 
 ## 1.0.0
 
-April ?, 2018
+April 23, 2018
 
 - Removed submodules `Modest`, `cJSON`, `vec`
 - Removed dependency to `jason`
