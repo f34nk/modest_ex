@@ -9,9 +9,17 @@ if [ ! -z "$check" ]
 then
 	echo "Clean modest_html..."
 	cd target/modest_html/build
-	rm libmodest_html.a
 	make clean
-	rm -rf *
+	cd $current
+	echo "done"
+fi
+
+check=`find target \( -name libmodest_static.a \)`
+if [ ! -z "$check" ]
+then
+	echo "Clean Modest..."
+	cd target/modest_html/libs/Modest
+	make clean
 	cd $current
 	echo "done"
 fi
@@ -22,7 +30,6 @@ then
 	echo "Clean modest_worker..."
 	cd target/modest_worker/build
 	make clean
-	rm -rf *
 	cd $current
 	echo "remove modest_worker..."
 	cd priv
