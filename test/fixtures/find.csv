@@ -71,6 +71,7 @@ Enabled;Selector;Input;Output
 1;:contains(Hello);<div><span>Hello</span><span>World</span></div>;<span>Hello</span>
 1;:contains(Hello);<div><span>Hello</span><span>Hello World</span></div>;<span>Hello</span>|<span>Hello World</span>
 1;:contains(Hello,World);<div><span>Hello</span><span>World</span></div>;<span>Hello</span>|<span>World</span>
+1;:contains(Hello World);<div><span>Hello World</span><span>World</span></div>;<span>Hello World</span>
 0;:contains('Hello');<div><span>Hello</span><span>World</span></div>;<span>Hello</span>
 0;:contains("Hello");<div><span>Hello</span><span>World</span></div>;<span>Hello</span>
 
