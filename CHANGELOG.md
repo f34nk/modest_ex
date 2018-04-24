@@ -1,5 +1,11 @@
 # ModestEx Changelog
 
+## 1.0.3
+
+April 24, 2018
+
+- Fixed clean script
+
 ## 1.0.2
 
 April 24, 2018
