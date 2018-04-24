@@ -11,6 +11,7 @@ then
 	cd target/modest_html/build
 	make clean
 	cd $current
+	rm -rf target/modest_html/build
 	echo "done"
 fi
 
@@ -31,6 +32,7 @@ then
 	cd target/modest_worker/build
 	make clean
 	cd $current
+	rm -rf target/modest_worker/build
 	echo "remove modest_worker..."
 	cd priv
 	rm modest_worker
