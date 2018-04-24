@@ -4,7 +4,7 @@ defmodule ModestEx.MixProject do
   def project do
     [
       app: :modest_ex,
-      version: "1.0.1",
+      version: "1.0.2",
       elixir: "~> 1.5",
       compilers: [:modest_ex_compile] ++ Mix.compilers(),
       build_embedded: Mix.env() == :prod,

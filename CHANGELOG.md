@@ -1,5 +1,11 @@
 # ModestEx Changelog
 
+## 1.0.2
+
+April 24, 2018
+
+- Updated submodule `modest_html` for better performance.
+
 ## 1.0.1
 
 April 23, 2018
