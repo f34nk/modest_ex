@@ -15,7 +15,8 @@ Elixir/Erlang bindings for lexborisov's **Modest**
 - [Modest](https://github.com/lexborisov/Modest)
   - HTML5 parsing library in pure C99
   - fully conformant with the HTML5 spec
-  - [modest_html](https://github.com/f34nk/modest_html) (Wrapper library)
+
+All Modest related features are implemeted in `C` using my wrapper library [modest_html](https://github.com/f34nk/modest_html).
 
 The binding is implemented as a **C-Node** following the excellent example in Overbryd's package **nodex**. If you want to learn how to set up bindings to C/C++, you should definitely check it out.
 
@@ -24,6 +25,8 @@ The binding is implemented as a **C-Node** following the excellent example in Ov
   - save binding with C-Nodes
 
 >C-Nodes are external os-processes that communicate with the Erlang VM through erlang messaging. That way you can implement native code and call into it from Elixir in a safe predictable way. The Erlang VM stays unaffected by crashes of the external process.
+
+For news and updates please check out the [forum discussion](https://elixirforum.com/t/modestex-pipeable-transformations-on-html-strings-with-css-selectors/12793).
 
 ## Example
 
