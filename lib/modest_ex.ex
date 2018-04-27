@@ -4,13 +4,12 @@ defmodule ModestEx do
 
   ## Credits:
 
-  The package implements bindings to [Alexander Borisov's Modest](https://github.com/lexborisov/Modest).
-  The binding is implemented as a C-Node based on the excellent example of [Lukas Rieder's cnodex](https://github.com/Overbryd/nodex) and [myhtmlex](https://github.com/Overbryd/myhtmlex).
+  The package implements bindings to [Alexander Borisov's Modest](https://github.com/lexborisov/Modest). All Modest related features are implemeted in `C` using my wrapper library [modest_html](https://github.com/f34nk/modest_html). The `Elixir` binding is implemented as a C-Node based on the excellent example of [Lukas Rieder's nodex](https://github.com/Overbryd/nodex).
 
   ## Example
 
-    iex> ModestEx.find("<p><a>Hello</a> World</p>", "p a")
-    "<a>Hello</a>"
+      iex> ModestEx.find("<p><a>Hello</a> World</p>", "p a")
+      "<a>Hello</a>"
 
   """
 
@@ -18,29 +17,33 @@ defmodule ModestEx do
   @type error() :: {:error, String.t()}
   @type input() :: String.t() | [String.t()]
 
-  @moduledoc """
-  Serialization scope.
-  Possible values are:
-  :html
-    html will be serialized to complete document
-    <html><head></head><body>...</body></html>
+  @doc """
+  Serialization scope. Default `:body_children`.
+  
+  ## Examples
+      :html
+        html will be serialized to complete document
+        "<html><head></head><body>...</body></html>"
+      :head
+        html will be reduced only to the head fragment
+        "<head>...</head>"
+      :body
+        html will be reduced only to the body fragment
+        "<body>...</body>"
+      :body_children
+        html will be reduced to the children of the body
 
-  :head
-    html will be reduced only to the head fragment
-    <head>...</head>
+  Set this in the application config.
 
-  :body
-    html will be reduced only to the body fragment
-    <body>...</body>
-
-  :body_children
-    html will be reduced to the children of the body
-
+      config :modest_ex, scope: :html
   """
   def scope() do
     Application.get_env(:modest_ex, :scope, :body_children) |> to_scope()
   end
 
+  @doc """
+  Internal use
+  """
   def to_scope(flag) when is_atom(flag) do
     case flag do
       :html -> flag
@@ -52,6 +55,9 @@ defmodule ModestEx do
     |> Atom.to_string()
   end
 
+  @doc """
+  Internal use
+  """
   def resolve(list) when is_list(list) do
     cond do
       Enum.count(list) == 1 -> List.first(list)
@@ -65,11 +71,11 @@ defmodule ModestEx do
 
   ## Examples
 
-    iex> ModestEx.find("<p><a>Hello</a> World</p>", "p a")
-    "<a>Hello</a>"
+      iex> ModestEx.find("<p><a>Hello</a> World</p>", "p a")
+      "<a>Hello</a>"
 
-    iex> ModestEx.find("<p><span>Hello</span> <span>World</span></p>", "span")
-    ["<span>Hello</span>", "<span>World</span>"]
+      iex> ModestEx.find("<p><span>Hello</span> <span>World</span></p>", "span")
+      ["<span>Hello</span>", "<span>World</span>"]
 
   """
   @spec find(input(), String.t()) :: success() | error()
@@ -83,8 +89,8 @@ defmodule ModestEx do
 
   ## Examples
 
-    iex> ModestEx.serialize("<div>Hello<span>World")
-    "<html><head></head><body><div>Hello<span>World</span></div></body></html>"
+      iex> ModestEx.serialize("<div>Hello<span>World")
+      "<html><head></head><body><div>Hello<span>World</span></div></body></html>"
 
   """
   @spec serialize(input(), Atom.t()) :: success() | error()
@@ -94,12 +100,12 @@ defmodule ModestEx do
 
   @doc """
   Get all attributes with key.
-  Returns list of strings.
+  Returns single string or returns list of strings.
 
   ## Examples
 
-    iex> ModestEx.get_attribute("<a href=\\"https://elixir-lang.org\\">Hello</a>", "href")
-    "https://elixir-lang.org"
+      iex> ModestEx.get_attribute("<a href=\\"https://elixir-lang.org\\">Hello</a>", "href")
+      "https://elixir-lang.org"
 
   """
   @spec get_attribute(input(), String.t()) :: success() | error()
@@ -107,6 +113,16 @@ defmodule ModestEx do
     ModestEx.GetAttribute.get_attribute(bin, key)
   end
 
+  @doc """
+  Get all attributes with key of selected nodes.
+  Returns single string or returns list of strings.
+
+  ## Examples
+
+      iex> ModestEx.get_attribute("<a href=\\"https://elixir-lang.org\\">Hello</a>", "a", "href")
+      "https://elixir-lang.org"
+
+  """
   @spec get_attribute(input(), String.t(), String.t()) :: success() | error()
   def get_attribute(bin, selector, key) do
     ModestEx.GetAttribute.get_attribute(bin, selector, key)
@@ -114,12 +130,12 @@ defmodule ModestEx do
 
   @doc """
   Set value for all attributes with key.
-  Returns single html string or returns list of strings.
+  Returns single string or returns list of strings.
 
   ## Examples
 
-    iex> ModestEx.set_attribute("<a>Hello</a>", "a", "href", "https://elixir-lang.org")
-    "<a href=\\"https://elixir-lang.org\\">Hello</a>"
+      iex> ModestEx.set_attribute("<a>Hello</a>", "a", "href", "https://elixir-lang.org")
+      "<a href=\\"https://elixir-lang.org\\">Hello</a>"
 
   """
   @spec set_attribute(input(), String.t(), String.t(), input()) :: success() | error()
@@ -133,8 +149,8 @@ defmodule ModestEx do
 
   ## Examples
 
-    iex> ModestEx.get_text("<div>Hello World</div>")
-    "Hello World"
+      iex> ModestEx.get_text("<div>Hello World</div>")
+      "Hello World"
 
   """
   @spec get_text(input()) :: success() | error()
@@ -142,6 +158,16 @@ defmodule ModestEx do
     ModestEx.GetText.get_text(bin)
   end
 
+  @doc """
+  Get text of selected nodes.
+  Returns list of strings.
+
+  ## Examples
+
+      iex> ModestEx.get_text("<div>Hello World</div>", "div")
+      "Hello World"
+
+  """
   @spec get_text(input(), String.t()) :: success() | error()
   def get_text(bin, selector) do
     ModestEx.GetText.get_text(bin, selector)
@@ -149,12 +175,12 @@ defmodule ModestEx do
 
   @doc """
   Set text for all nodes.
-  Returns single html string or returns list of strings.
+  Returns single string or returns list of strings.
 
   ## Examples
 
-    iex> ModestEx.set_text("<div><p>Hello</p></div>", "div p", "World")
-    "<div><p>World</p></div>"
+      iex> ModestEx.set_text("<div><p>Hello</p></div>", "div p", "World")
+      "<div><p>World</p></div>"
 
   """
   @spec set_text(input(), String.t(), input()) :: success() | error()
@@ -168,8 +194,8 @@ defmodule ModestEx do
 
   ## Examples
 
-    iex> ModestEx.remove("<div><p>Hello</p>World</div>", "div p")
-    "<div>World</div>"
+      iex> ModestEx.remove("<div><p>Hello</p>World</div>", "div p")
+      "<div>World</div>"
 
   """
   @spec remove(input(), String.t()) :: success() | error()
@@ -183,8 +209,8 @@ defmodule ModestEx do
 
   ## Examples
 
-    iex> ModestEx.append("<div><p>Hello</p></div>", "div", "<p>World</p>")
-    "<div><p>Hello</p><p>World</p></div>"
+      iex> ModestEx.append("<div><p>Hello</p></div>", "div", "<p>World</p>")
+      "<div><p>Hello</p><p>World</p></div>"
 
   """
   @spec append(input(), String.t(), String.t()) :: success() | error()
@@ -198,8 +224,8 @@ defmodule ModestEx do
 
   ## Examples
 
-    iex> ModestEx.prepend("<div><p>World</p></div>", "div", "<p>Hello</p>")
-    "<div><p>Hello</p><p>World</p></div>"
+      iex> ModestEx.prepend("<div><p>World</p></div>", "div", "<p>Hello</p>")
+      "<div><p>Hello</p><p>World</p></div>"
 
   """
   @spec prepend(input(), String.t(), String.t()) :: success() | error()
@@ -213,8 +239,8 @@ defmodule ModestEx do
 
   ## Examples
 
-    iex> ModestEx.insert_before("<div><p>World</p></div>", "div p", "<p>Hello</p>")
-    "<div><p>Hello</p><p>World</p></div>"
+      iex> ModestEx.insert_before("<div><p>World</p></div>", "div p", "<p>Hello</p>")
+      "<div><p>Hello</p><p>World</p></div>"
 
   """
   @spec insert_before(input(), String.t(), String.t()) :: success() | error()
@@ -228,8 +254,8 @@ defmodule ModestEx do
 
   ## Examples
 
-    iex> ModestEx.insert_after("<div><p>Hello</p></div>", "div p", "<p>World</p>")
-    "<div><p>Hello</p><p>World</p></div>"
+      iex> ModestEx.insert_after("<div><p>Hello</p></div>", "div p", "<p>World</p>")
+      "<div><p>Hello</p><p>World</p></div>"
 
   """
   @spec insert_after(input(), String.t(), String.t()) :: success() | error()
@@ -243,8 +269,8 @@ defmodule ModestEx do
 
   ## Examples
 
-    iex> ModestEx.replace("<div><p>Hello</p></div>", "div p", "<p>World</p>")
-    "<div><p>World</p></div>"
+      iex> ModestEx.replace("<div><p>Hello</p></div>", "div p", "<p>World</p>")
+      "<div><p>World</p></div>"
 
   """
   @spec replace(input(), String.t(), String.t()) :: success() | error()
@@ -254,12 +280,12 @@ defmodule ModestEx do
 
   @doc """
   Slice selected set into subset.
-  Returns single html string or returns list of strings.
+  Returns single string or list of strings.
 
   ## Examples
 
-    iex> ModestEx.slice("<h1>Lorem ipsum</h1><p>dolor sit amet</p><ul><li>Coffee</li><li>Tea</li><li>Milk</li></ul><p>Sed ut perspiciatis</p><p>unde omnis iste natus</p>", "body > *", 0, -1)
-    ["<h1>Lorem ipsum</h1>", "<p>dolor sit amet</p>", "<ul><li>Coffee</li><li>Tea</li><li>Milk</li></ul>", "<p>Sed ut perspiciatis</p>", "<p>unde omnis iste natus</p>"]
+      iex> ModestEx.slice("<h1>Lorem ipsum</h1><p>dolor sit amet</p><ul><li>Coffee</li><li>Tea</li><li>Milk</li></ul><p>Sed ut perspiciatis</p><p>unde omnis iste natus</p>", "body > *", 0, -1)
+      ["<h1>Lorem ipsum</h1>", "<p>dolor sit amet</p>", "<ul><li>Coffee</li><li>Tea</li><li>Milk</li></ul>", "<p>Sed ut perspiciatis</p>", "<p>unde omnis iste natus</p>"]
 
   """
   @spec slice(input(), String.t(), Integer.t(), Integer.t()) :: success() | error()
@@ -273,8 +299,8 @@ defmodule ModestEx do
 
   ## Examples
 
-    iex> ModestEx.position("<p>Hello</p><div></div><p>World</p>", "p")
-    [1, 3]
+      iex> ModestEx.position("<p>Hello</p><div></div><p>World</p>", "p")
+      [1, 3]
 
   """
   @spec position(input(), String.t()) :: success() | error()
@@ -288,8 +314,8 @@ defmodule ModestEx do
 
   ## Examples
 
-    iex> ModestEx.wrap("<p>Hello</p><p>World</p>", "p", "<div></div>")
-    "<div><p>Hello</p><p>World</p></div>"
+      iex> ModestEx.wrap("<p>Hello</p><p>World</p>", "p", "<div></div>")
+      "<div><p>Hello</p><p>World</p></div>"
 
   """
   @spec wrap(input(), String.t(), String.t()) :: success() | error()
@@ -301,8 +327,8 @@ defmodule ModestEx do
   Pretty print html.
 
   ## Examples
-    iex> ModestEx.pretty_print("<p>Hello World</p>")
-    "<p>\\n\\tHello World\\n</p>\\n"
+      iex> ModestEx.pretty_print("<p>Hello World</p>")
+      "<p>\\n\\tHello World\\n</p>\\n"
 
   """
   @spec pretty_print(input()) :: success() | error()
