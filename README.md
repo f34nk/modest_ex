@@ -68,7 +68,7 @@ Available on [hex](https://hex.pm/packages/modest_ex).
 ```elixir
 def deps do
   [
-    {:modest_ex, "~> 1.0.3"}
+    {:modest_ex, "~> 1.0.4"}
   ]
 end
 ```
@@ -138,7 +138,7 @@ See [CHANGELOG](https://github.com/f34nk/modest_ex/blob/master/CHANGELOG.md).
 - [x] Custom CSS selector for pseudo class `:contains(text)` implemented in [Modest](https://github.com/lexborisov/Modest/pull/42)
 - [x] Scope flag to control serialization
 - [x] List of supported CSS Selectors
-- [ ] Documentation
+- [x] Documentation
 - [x] Publish as hex package
 
 ## License

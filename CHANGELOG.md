@@ -1,5 +1,11 @@
 # ModestEx Changelog
 
+## 1.0.4
+
+April 27, 2018
+
+- Fixed hexdoc formatting, issue [#16](https://github.com/f34nk/modest_ex/issues/16)
+
 ## 1.0.3
 
 April 24, 2018
