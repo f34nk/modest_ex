@@ -190,7 +190,7 @@ defmodule ModestEx do
 
   @doc """
   Remove nodes with a CSS selector.
-  Returns updated html string
+  Returns updated html string.
 
   ## Examples
 
@@ -205,7 +205,7 @@ defmodule ModestEx do
 
   @doc """
   Append new html as a child at the end of selected node.
-  Returns updated html string
+  Returns updated html string.
 
   ## Examples
 
@@ -220,7 +220,7 @@ defmodule ModestEx do
 
   @doc """
   Prepend new html as a child at the beginning of selected node.
-  Returns updated html string
+  Returns updated html string.
 
   ## Examples
 
@@ -235,7 +235,7 @@ defmodule ModestEx do
 
   @doc """
   Insert new html before selected node.
-  Returns updated html string
+  Returns updated html string.
 
   ## Examples
 
@@ -250,7 +250,7 @@ defmodule ModestEx do
 
   @doc """
   Insert new html after selected node.
-  Returns updated html string
+  Returns updated html string.
 
   ## Examples
 
@@ -265,7 +265,7 @@ defmodule ModestEx do
 
   @doc """
   Replace selected node with new html
-  Returns updated html string
+  Returns updated html string.
 
   ## Examples
 
