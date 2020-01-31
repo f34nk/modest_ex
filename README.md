@@ -16,7 +16,7 @@ Elixir/Erlang bindings for lexborisov's **Modest**
   - HTML5 parsing library in pure C99
   - fully conformant with the HTML5 spec
 
-All Modest related features are implemeted in `C` using my wrapper library [modest_html](https://github.com/f34nk/modest_html).
+All Modest-related features are implemented in `C` using my wrapper library [modest_html](https://github.com/f34nk/modest_html).
 
 The binding is implemented as a **C-Node** following the excellent example in Overbryd's package **nodex**. If you want to learn how to set up bindings to C/C++, you should definitely check it out.
 
