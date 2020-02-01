@@ -27,6 +27,7 @@
  * SUCH DAMAGE.
  */
 
+#ifdef __APPLE__
 #include <sys/cdefs.h>
 // __FBSDID("$FreeBSD$");
 
@@ -222,3 +223,4 @@ open_memstream(char **bufp, size_t *sizep)
 	fwide(fp, -1);
 	return (fp);
 }
+#endif
