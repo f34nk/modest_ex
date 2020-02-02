@@ -2,9 +2,9 @@
 #include "test_includes.h"
 #include "eterm_vec.h"
 /*
-To check for memory leaks execute test with term_arrayalgrind.
+To check for memory leaks execute test with valgrind.
 
-  term_arrayalgrind --leak-check=yes target/modest_worker/build/test/eterm_vec_test
+  valgrind --leak-check=yes target/modest_worker/build/test/eterm_vec_test
 
 */
 int main(int argc, const char* argterm_array[])
@@ -25,6 +25,11 @@ int main(int argc, const char* argterm_array[])
   eterm_vec_dump(&term_array, stdout);
 
   char* result = eterm_vec_join(&term_array, "|");
+  if(result == NULL) {
+    TEST_ERROR
+    return 1;
+  }
+
   printf("-> %s\n", result);
   if(strcmp(result, "Lorem|ipsum|dolor|sit|amet|consectetur") != 0) {
     eterm_vec_destroy(&term_array);
