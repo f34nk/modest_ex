@@ -1,4 +1,42 @@
 # language: elixir
+language: c
+
+os:
+  - linux
+  - osx
+
+addons:
+  apt:
+    packages:
+      - elixir
+      - cmake
+      - erlang-dev
+      - erlang-xmerl
+      - erlang-parsetools
+  homebrew:
+    packages:
+      - cmake
+      - elixir
+      - erlang
+
+
+# elixir:
+#   - 1.9
+# otp_release:
+#   - 22.0
+# matrix:
+#   include:
+#     # - elixir: 1.6
+#     #   otp_release: 19.3
+#     # - elixir: 1.7
+#     #   otp_release: 21.0
+#     - elixir: 1.8
+#       otp_release: 21.0
+#     - elixir: 1.9
+#       otp_release: 22.0
+sudo: false
+
+# language: elixir
 # os:
 #   - linux
 #   - osx
@@ -22,13 +60,13 @@
 # #       otp_release: 22.0
 # sudo: false
 
-- name: "travis-osx"
-    sudo: false
-    os: osx
-    osx_image: xcode10
-    addons:
-      homebrew:
-        packages:
-          - cmake
-          - elixir
-          - erlang
+# - name: "travis-osx"
+#     os: osx
+#     osx_image: xcode10
+#     addons:
+#       homebrew:
+#         packages:
+#           - cmake
+#           - elixir
+#     - erlang
+#   sudo: false
