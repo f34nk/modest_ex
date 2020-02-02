@@ -28,6 +28,7 @@
  */
 
 #ifdef __APPLE__
+#include "open_memstream.h"
 #include <sys/cdefs.h>
 // __FBSDID("$FreeBSD$");
 
@@ -176,25 +177,19 @@ memstream_close(void *cookie)
 FILE *
 open_memstream(char **bufp, size_t *sizep)
 {
-	printf("open_memstream\n");
 	struct memstream *ms;
 	int save_errno;
 	FILE *fp;
-
 	if (bufp == NULL || sizep == NULL) {
 		errno = EINVAL;
-		printf("EINVAL\n");
 		return (NULL);
 	}
 	*bufp = calloc(1, 1);
-	printf("calloc\n");
-	if (*bufp == NULL)
-		printf("calloc NULL\n");
+	if (*bufp == NULL) {
 		return (NULL);
+	}
 	ms = malloc(sizeof(*ms));
-	printf("malloc\n");
 	if (ms == NULL) {
-		printf("malloc NULL\n");
 		save_errno = errno;
 		free(*bufp);
 		*bufp = NULL;
@@ -206,12 +201,9 @@ open_memstream(char **bufp, size_t *sizep)
 	ms->len = 0;
 	ms->offset = 0;
 	memstream_update(ms);
-	printf("memstream_update\n");
 	fp = funopen(ms, NULL, memstream_write, memstream_seek,
 	    memstream_close);
-	printf("funopen\n");
 	if (fp == NULL) {
-		printf("funopen NULL\n");
 		save_errno = errno;
 		free(ms);
 		free(*bufp);
@@ -219,7 +211,6 @@ open_memstream(char **bufp, size_t *sizep)
 		errno = save_errno;
 		return (NULL);
 	}
-	printf("return fp\n");
 	fwide(fp, -1);
 	return (fp);
 }
