@@ -1,5 +1,9 @@
 #include "eterm_vec.h"
 
+#ifdef __APPLE__
+#include "open_memstream.h"
+#endif
+
 char* eterm_vec_join(vec_eterm_t* vec, const char* delimiter)
 {
   if(vec == NULL) {
@@ -72,7 +76,7 @@ void eterm_vec_destroy(vec_eterm_t* vec)
 
   while(vec->length > 0) {
     ETERM* term = eterm_vec_pop(vec);
-    erl_free_term(term); 
+    erl_free_term(term);
   }
 
   eterm_vec_deinit(vec);
