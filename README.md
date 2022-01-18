@@ -1,3 +1,6 @@
+# This project is not maintained anymore.
+
+
 [![Build status](https://travis-ci.org/f34nk/modest_ex.svg?branch=master)](https://travis-ci.org/f34nk/modest_ex)
 [![ModestEx version](https://img.shields.io/hexpm/v/modest_ex.svg)](https://hex.pm/packages/modest_ex)
 [![Hex.pm](https://img.shields.io/hexpm/dt/modest_ex.svg)](https://hex.pm/packages/modest_ex)
