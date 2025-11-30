@@ -3,6 +3,5 @@ Enabled;Mode;Input;Selector;Text;Output
 1;get;<div>Hello World</div>;;;Hello World
 1;get;<div><p>Hello World</p></div>;div p;;Hello World
 
-# DISABLED: set_text/3 not yet implemented
-#1;set;<div></div>;div;Hello World;<div>Hello World</div>
-#1;set;<div><p></p></div>;div p;Hello World;<div><p>Hello World</p></div>
+1;set;<div></div>;div;Hello World;<div>Hello World</div>
+1;set;<div><p></p></div>;div p;Hello World;<div><p>Hello World</p></div>
