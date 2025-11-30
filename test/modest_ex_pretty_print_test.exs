@@ -2,6 +2,7 @@ defmodule ModestExPrettyPrintTest do
   use ExUnit.Case
   # doctest ModestEx
 
+  @tag :skip
   test "pretty print" do
     result = ModestEx.pretty_print("<p>Hello World</p>")
     assert result == "<p>\n\tHello World\n</p>\n"

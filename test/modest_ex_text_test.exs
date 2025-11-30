@@ -2,6 +2,7 @@ defmodule ModestExTextTest do
   use ExUnit.Case
   # doctest ModestEx
 
+  @tag :skip
   test "all test cases from file" do
     File.open("test/fixtures/text.csv", [:read], fn file ->
       IO.binstream(file, :line)

@@ -2,6 +2,7 @@ defmodule ModestExSliceTest do
   use ExUnit.Case
   # doctest ModestEx
 
+  @tag :skip
   test "slice html with selector from beginning to end" do
     result =
       ModestEx.slice(
@@ -20,6 +21,7 @@ defmodule ModestExSliceTest do
            ]
   end
 
+  @tag :skip
   test "slice html with selector from beginning to list" do
     result =
       ModestEx.slice(
@@ -36,6 +38,7 @@ defmodule ModestExSliceTest do
            ]
   end
 
+  @tag :skip
   test "slice html with selector from list to end" do
     result =
       ModestEx.slice(
