@@ -18,11 +18,6 @@ defmodule ModestEx.Slice do
       when is_bitstring(selector)
       when is_integer(start_index)
       when is_integer(end_index) do
-    ModestEx.Safe.Slice.slice(
-      bin,
-      selector,
-      Integer.to_string(start_index),
-      Integer.to_string(end_index)
-    )
+    ModestEx.LexborHelper.not_implemented("slice/4")
   end
 end

@@ -8,6 +8,6 @@ defmodule ModestEx.Position do
   def position([], _), do: []
 
   def position(bin, selector) when is_bitstring(bin) when is_bitstring(selector) do
-    ModestEx.Safe.Position.position(bin, selector)
+    ModestEx.LexborHelper.not_implemented("position/2")
   end
 end
