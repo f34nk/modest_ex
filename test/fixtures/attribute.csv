@@ -8,9 +8,8 @@ Enabled;Mode;Input;Selector;Key;Value;Output
 1;get;<p><a href="https://elixir-lang.org">Hello</a></p>;p a;href;;https://elixir-lang.org
 1;get;<p><a href="https://elixir-lang.org">Hello</a><a href="https://google.de">World</a></p>;p a;href;;https://elixir-lang.org|https://google.de
 
-# DISABLED: set_attribute/4 not yet implemented
-#1;set;<a href="">Hello</a>;a;href;https://elixir-lang.org;<a href="https://elixir-lang.org">Hello</a>
-#1;set;<p><a href="">Hello</a></p>;p a;href;https://elixir-lang.org;<p><a href="https://elixir-lang.org">Hello</a></p>
-#1;set;<a>Hello</a>;a;href;https://elixir-lang.org;<a href="https://elixir-lang.org">Hello</a>
-#1;set;<p><a>Hello</a></p>;p a;href;https://elixir-lang.org;<p><a href="https://elixir-lang.org">Hello</a></p>
-#1;set;<p><a>Hello</a></p>;p span;href;https://elixir-lang.org;<p><a>Hello</a></p>
+1;set;<a href="">Hello</a>;a;href;https://elixir-lang.org;<a href="https://elixir-lang.org">Hello</a>
+1;set;<p><a href="">Hello</a></p>;p a;href;https://elixir-lang.org;<p><a href="https://elixir-lang.org">Hello</a></p>
+1;set;<a>Hello</a>;a;href;https://elixir-lang.org;<a href="https://elixir-lang.org">Hello</a>
+1;set;<p><a>Hello</a></p>;p a;href;https://elixir-lang.org;<p><a href="https://elixir-lang.org">Hello</a></p>
+1;set;<p><a>Hello</a></p>;p span;href;https://elixir-lang.org;<p><a>Hello</a></p>
