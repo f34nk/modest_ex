@@ -41,7 +41,9 @@ defmodule ModestExAttributeTest do
 
                 case test do
                   {:error, error} ->
-                    IO.puts("Line #{line_num}: #{function_name} - ERROR: #{inspect(error)}")
+                    IO.puts(
+                      "#{function_name} #{selector} (#{line_num}) - ERROR: #{inspect(error)}"
+                    )
 
                     raise RuntimeError,
                           "\n\tLine: #{line_num}\n\tinput: " <>
@@ -50,10 +52,10 @@ defmodule ModestExAttributeTest do
                   reply ->
                     try do
                       assert reply == output
-                      IO.puts("Line #{line_num}: #{function_name} #{selector} - SUCCESS")
+                      IO.puts("#{function_name} #{selector} (#{line_num}) - ok")
                     rescue
                       error in [ExUnit.AssertionError] ->
-                        IO.puts("Line #{line_num}: #{function_name} #{selector} - FAILURE")
+                        IO.puts("#{function_name} #{selector} (#{line_num}) - FAILURE")
 
                         raise ExUnit.AssertionError,
                               error.message <>
@@ -69,7 +71,7 @@ defmodule ModestExAttributeTest do
                 case test do
                   {:error, error} ->
                     IO.puts(
-                      "Line #{line_num}: #{function_name} #{selector} - ERROR: #{inspect(error)}"
+                      "#{function_name} #{selector} (#{line_num}) - ERROR: #{inspect(error)}"
                     )
 
                     raise RuntimeError,
@@ -79,10 +81,10 @@ defmodule ModestExAttributeTest do
                   reply ->
                     try do
                       assert reply == output
-                      IO.puts("Line #{line_num}: #{function_name} #{selector} - SUCCESS")
+                      IO.puts("#{function_name} #{selector} (#{line_num}) - ok")
                     rescue
                       error in [ExUnit.AssertionError] ->
-                        IO.puts("Line #{line_num}: #{function_name} #{selector} - FAILURE")
+                        IO.puts("#{function_name} #{selector} (#{line_num}) - FAILURE")
 
                         raise ExUnit.AssertionError,
                               error.message <> "\n\t Line: #{line_num}\n\t test:  " <> line

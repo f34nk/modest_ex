@@ -35,9 +35,7 @@ defmodule ModestExFindTest do
 
             case ModestEx.find(input, selector) do
               {:error, reason} ->
-                IO.puts(
-                  "Line #{line_num}: #{function_name} #{selector} - ERROR: #{inspect(reason)}"
-                )
+                IO.puts("#{function_name} #{selector} (#{line_num}) - ERROR: #{inspect(reason)}")
 
                 raise RuntimeError,
                       "\n\tLine: #{line_num}\n\tpattern: " <>
@@ -46,10 +44,10 @@ defmodule ModestExFindTest do
               reply ->
                 try do
                   assert reply == output
-                  IO.puts("Line #{line_num}: #{function_name} #{selector} - SUCCESS")
+                  IO.puts("#{function_name} #{selector} (#{line_num}) - ok")
                 rescue
                   error in [ExUnit.AssertionError] ->
-                    IO.puts("Line #{line_num}: #{function_name} #{selector} - FAILURE")
+                    IO.puts("#{function_name} #{selector} (#{line_num}) - FAILURE")
 
                     reply =
                       cond do
