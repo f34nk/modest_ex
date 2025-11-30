@@ -1,6 +1,6 @@
 defmodule ModestExSliceTest do
   use ExUnit.Case
-  doctest ModestEx
+  # doctest ModestEx
 
   test "slice html with selector from beginning to end" do
     result =

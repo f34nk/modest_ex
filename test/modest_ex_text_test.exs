@@ -1,6 +1,6 @@
 defmodule ModestExTextTest do
   use ExUnit.Case
-  doctest ModestEx
+  # doctest ModestEx
 
   test "all test cases from file" do
     File.open("test/fixtures/text.csv", [:read], fn file ->

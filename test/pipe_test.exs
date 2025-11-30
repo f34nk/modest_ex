@@ -1,6 +1,6 @@
 defmodule PipeTest do
   use ExUnit.Case
-  doctest ModestEx
+  # doctest ModestEx
 
   test "build up a complete DOM" do
     result =

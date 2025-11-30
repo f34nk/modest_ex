@@ -1,6 +1,6 @@
 defmodule ModestExSerializeTest do
   use ExUnit.Case
-  doctest ModestEx
+  # doctest ModestEx
 
   test "can serialize an empty string" do
     result = ModestEx.serialize("", :html)

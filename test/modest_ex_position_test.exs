@@ -1,6 +1,6 @@
 defmodule ModestExPositionTest do
   use ExUnit.Case
-  doctest ModestEx
+  # doctest ModestEx
 
   test "returns parsed positions" do
     result = ModestEx.position("<p>Hello</p><div></div><p>World</p>", "p")

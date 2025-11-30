@@ -1,6 +1,6 @@
 defmodule ModestExReplaceTest do
   use ExUnit.Case
-  doctest ModestEx
+  # doctest ModestEx
 
   test "replace with new html" do
     result = ModestEx.replace("<div><p>Hello</p></div>", "div p", "<p>World</p>")

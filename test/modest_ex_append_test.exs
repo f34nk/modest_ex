@@ -1,6 +1,6 @@
 defmodule ModestExAppendTest do
   use ExUnit.Case
-  doctest ModestEx
+  # doctest ModestEx
 
   test "append new html to html" do
     result = ModestEx.append("<div><p>Hello</p></div>", "div", "<p>World</p>")

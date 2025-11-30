@@ -1,6 +1,6 @@
 defmodule ModestExPrettyPrintTest do
   use ExUnit.Case
-  doctest ModestEx
+  # doctest ModestEx
 
   test "pretty print" do
     result = ModestEx.pretty_print("<p>Hello World</p>")

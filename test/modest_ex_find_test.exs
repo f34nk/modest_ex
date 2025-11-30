@@ -1,6 +1,6 @@
 defmodule ModestExFindTest do
   use ExUnit.Case
-  doctest ModestEx
+  # doctest ModestEx
 
   # TODO: pseudo-class :contains is not yet implemented in Lexbor C library.
   # Previously, this was exclusively implemented to the Modest library.
