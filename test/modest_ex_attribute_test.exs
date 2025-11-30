@@ -4,8 +4,10 @@ defmodule ModestExAttributeTest do
 
   test "all test cases from file" do
     File.open("test/fixtures/attribute.csv", [:read], fn file ->
-      IO.binstream(file, :line)
-      |> Stream.map(fn line ->
+      file
+      |> IO.binstream(:line)
+      |> Stream.with_index(1)
+      |> Stream.map(fn {line, line_num} ->
         # Enabled;Type;Input;Selector;Key;Value;Output
         matched = Regex.run(~r/^(0|1);(.*);(.*);(.*);(.*);(.*);(.*)$/, line)
 
@@ -20,7 +22,11 @@ defmodule ModestExAttributeTest do
 
             case mode do
               "get" ->
-                # output = String.split(Enum.at(matched, 7), "|")
+                function_name =
+                  if selector == "",
+                    do: "get_attribute/2",
+                    else: "get_attribute/3"
+
                 output =
                   cond do
                     String.contains?(output, "|") -> String.split(output, "|")
@@ -35,35 +41,47 @@ defmodule ModestExAttributeTest do
 
                 case test do
                   {:error, error} ->
-                    raise RuntimeError, "\n\tinput: " <> input <> "\n\terror: " <> error
+                    IO.puts("Line #{line_num}: #{function_name} - ERROR: #{inspect(error)}")
 
-                  # "\n\texpected: " <> Enum.join(output, "|") <>
+                    raise RuntimeError,
+                          "\n\tLine: #{line_num}\n\tinput: " <>
+                            input <> "\n\terror: " <> inspect(error)
+
                   reply ->
                     try do
                       assert reply == output
+                      IO.puts("Line #{line_num}: #{function_name} #{selector} - SUCCESS")
                     rescue
                       error in [ExUnit.AssertionError] ->
-                        raise ExUnit.AssertionError, error.message <> "\n\t test:  " <> line
-                        # "\n\t reply: " <> Enum.join(reply, "|") <>
+                        IO.puts("Line #{line_num}: #{function_name} #{selector} - FAILURE")
+
+                        raise ExUnit.AssertionError,
+                              error.message <> "\n\t Line: #{line_num}\n\t test:  " <> line <> "\n\t selector: " <> selector
                     end
                 end
 
               "set" ->
-                # output = Enum.at(matched, 7)
+                function_name = "set_attribute/4"
                 test = ModestEx.set_attribute(input, selector, key, value)
 
                 case test do
                   {:error, error} ->
-                    raise RuntimeError, "\n\tinput: " <> input <> "\n\terror: " <> error
+                    IO.puts("Line #{line_num}: #{function_name} #{selector} - ERROR: #{inspect(error)}")
 
-                  # "\n\texpected: " <> output <>
+                    raise RuntimeError,
+                          "\n\tLine: #{line_num}\n\tinput: " <>
+                            input <> "\n\terror: " <> inspect(error)
+
                   reply ->
                     try do
                       assert reply == output
+                      IO.puts("Line #{line_num}: #{function_name} #{selector} - SUCCESS")
                     rescue
                       error in [ExUnit.AssertionError] ->
-                        raise ExUnit.AssertionError, error.message <> "\n\t test:  " <> line
-                        # "\n\t reply: " <> Enum.join(reply, "|") <>
+                        IO.puts("Line #{line_num}: #{function_name} #{selector} - FAILURE")
+
+                        raise ExUnit.AssertionError,
+                              error.message <> "\n\t Line: #{line_num}\n\t test:  " <> line
                     end
                 end
             end
