@@ -35,7 +35,9 @@ defmodule ModestExFindTest do
 
             case ModestEx.find(input, selector) do
               {:error, reason} ->
-                IO.puts("Line #{line_num}: #{function_name} #{selector} - ERROR: #{inspect(reason)}")
+                IO.puts(
+                  "Line #{line_num}: #{function_name} #{selector} - ERROR: #{inspect(reason)}"
+                )
 
                 raise RuntimeError,
                       "\n\tLine: #{line_num}\n\tpattern: " <>

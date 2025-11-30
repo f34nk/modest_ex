@@ -17,6 +17,7 @@ defmodule ModestEx.SetText do
       when is_bitstring(bin)
       when is_bitstring(selector)
       when is_bitstring(text) do
-    ModestEx.Safe.Text.set_text(bin, selector, text)
+    # ModestEx.Safe.Text.set_text(bin, selector, text)
+    ModestEx.LexborHelper.not_implemented("set_text/3")
   end
 end

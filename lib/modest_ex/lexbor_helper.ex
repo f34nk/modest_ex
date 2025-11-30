@@ -133,15 +133,8 @@ defmodule ModestEx.LexborHelper do
       not_implemented("position/2")
   """
   def not_implemented(feature_name) do
-    raise RuntimeError, """
+    IO.puts("""
     ModestEx.#{feature_name} is not yet implemented with lexbor_erl backend.
-
-    This feature is not currently supported because lexbor_erl does not provide
-    the necessary functionality. If you need this feature, please consider:
-
-    1. Using ModestEx 1.x (the previous version with Modest backend)
-    2. Contributing to lexbor_erl to add the missing functionality
-    3. Opening an issue at https://github.com/f34nk/modest_ex/issues
-    """
+    """)
   end
 end

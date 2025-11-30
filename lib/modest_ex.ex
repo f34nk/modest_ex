@@ -19,7 +19,7 @@ defmodule ModestEx do
 
   @doc """
   Serialization scope. Default `:body_children`.
-  
+
   ## Examples
       :html
         html will be serialized to complete document

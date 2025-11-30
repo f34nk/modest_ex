@@ -13,6 +13,7 @@ defmodule ModestEx.InsertBefore do
       when is_bitstring(bin)
       when is_bitstring(selector)
       when is_bitstring(new_bin) do
-    ModestEx.Safe.InsertBefore.insert_before(bin, selector, new_bin)
+    # ModestEx.Safe.InsertBefore.insert_before(bin, selector, new_bin)
+    ModestEx.LexborHelper.not_implemented("insert_before/3")
   end
 end

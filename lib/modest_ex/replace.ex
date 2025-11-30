@@ -13,6 +13,7 @@ defmodule ModestEx.Replace do
       when is_bitstring(bin)
       when is_bitstring(selector)
       when is_bitstring(new_bin) do
-    ModestEx.Safe.Replace.replace(bin, selector, new_bin)
+    # ModestEx.Safe.Replace.replace(bin, selector, new_bin)
+    ModestEx.LexborHelper.not_implemented("replace/3")
   end
 end

@@ -21,6 +21,7 @@ defmodule ModestEx.SetAttribute do
       when is_bitstring(selector)
       when is_bitstring(key)
       when is_bitstring(value) do
-    ModestEx.Safe.Attribute.set_attribute(bin, selector, key, value)
+    # ModestEx.Safe.Attribute.set_attribute(bin, selector, key, value)
+    ModestEx.LexborHelper.not_implemented("set_attribute/4")
   end
 end

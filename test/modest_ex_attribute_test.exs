@@ -56,7 +56,9 @@ defmodule ModestExAttributeTest do
                         IO.puts("Line #{line_num}: #{function_name} #{selector} - FAILURE")
 
                         raise ExUnit.AssertionError,
-                              error.message <> "\n\t Line: #{line_num}\n\t test:  " <> line <> "\n\t selector: " <> selector
+                              error.message <>
+                                "\n\t Line: #{line_num}\n\t test:  " <>
+                                line <> "\n\t selector: " <> selector
                     end
                 end
 
@@ -66,7 +68,9 @@ defmodule ModestExAttributeTest do
 
                 case test do
                   {:error, error} ->
-                    IO.puts("Line #{line_num}: #{function_name} #{selector} - ERROR: #{inspect(error)}")
+                    IO.puts(
+                      "Line #{line_num}: #{function_name} #{selector} - ERROR: #{inspect(error)}"
+                    )
 
                     raise RuntimeError,
                           "\n\tLine: #{line_num}\n\tinput: " <>

@@ -8,7 +8,8 @@ defmodule ModestEx.GetText do
   def get_text([]), do: []
 
   def get_text(bin) when is_bitstring(bin) do
-    ModestEx.Safe.Text.get_text(bin)
+    # ModestEx.Safe.Text.get_text(bin)
+    ModestEx.LexborHelper.not_implemented("get_text/1")
   end
 
   def get_text([bin | bins], selector) when is_bitstring(selector) do
@@ -18,6 +19,7 @@ defmodule ModestEx.GetText do
   def get_text([], _), do: []
 
   def get_text(bin, selector) when is_bitstring(bin) when is_bitstring(selector) do
-    ModestEx.Safe.Text.get_text(bin, selector)
+    # ModestEx.Safe.Text.get_text(bin, selector)
+    ModestEx.LexborHelper.not_implemented("get_text/2")
   end
 end
