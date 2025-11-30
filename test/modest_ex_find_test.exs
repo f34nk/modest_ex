@@ -14,8 +14,10 @@ defmodule ModestExFindTest do
 
   test "all selectors from file" do
     File.open("test/fixtures/find.csv", [:read], fn file ->
-      IO.binstream(file, :line)
-      |> Stream.map(fn line ->
+      file
+      |> IO.binstream(:line)
+      |> Stream.with_index(1)
+      |> Stream.map(fn {line, line_num} ->
         matched = Regex.run(~r/^(0|1);(.*);(.*);(.*)$/, line)
 
         cond do
@@ -23,6 +25,7 @@ defmodule ModestExFindTest do
             selector = Enum.at(matched, 2)
             input = Enum.at(matched, 3)
             output = Enum.at(matched, 4)
+            function_name = "find/2"
 
             output =
               cond do
@@ -31,15 +34,21 @@ defmodule ModestExFindTest do
               end
 
             case ModestEx.find(input, selector) do
-              {:error, _} ->
-                raise RuntimeError, "\n\tpattern: " <> selector <> "\n\tinput: " <> input
+              {:error, reason} ->
+                IO.puts("Line #{line_num}: #{function_name} #{selector} - ERROR: #{inspect(reason)}")
 
-              # "\n\texpected: " <> Enum.join(output, "|")
+                raise RuntimeError,
+                      "\n\tLine: #{line_num}\n\tpattern: " <>
+                        selector <> "\n\tinput: " <> input <> "\n\terror: " <> inspect(reason)
+
               reply ->
                 try do
                   assert reply == output
+                  IO.puts("Line #{line_num}: #{function_name} #{selector} - SUCCESS")
                 rescue
                   error in [ExUnit.AssertionError] ->
+                    IO.puts("Line #{line_num}: #{function_name} #{selector} - FAILURE")
+
                     reply =
                       cond do
                         is_list(reply) -> Enum.join(reply, "|")
@@ -47,7 +56,9 @@ defmodule ModestExFindTest do
                       end
 
                     raise ExUnit.AssertionError,
-                          error.message <> "\n\t reply: " <> reply <> "\n\t test:  " <> line
+                          error.message <>
+                            "\n\t Line: #{line_num}\n\t reply: " <>
+                            reply <> "\n\t test:  " <> line
                 end
             end
 
