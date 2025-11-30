@@ -1,4 +1,4 @@
-# This project is not maintained anymore.
+# Refactoring to use [lexbor_erl](https://github.com/f34nk/lexbor_erl/tree/master) in progress - please stay tuned!
 
 
 [![Build status](https://travis-ci.org/f34nk/modest_ex.svg?branch=master)](https://travis-ci.org/f34nk/modest_ex)
