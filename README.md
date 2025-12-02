@@ -11,25 +11,18 @@
 
 A library to do pipeable transformations on html strings with CSS selectors, e.g. find(), prepend(), append(), replace() etc.
 
-Elixir/Erlang bindings for lexborisov's **Modest**
+Elixir wrapper for lexborisov's ~~**Modest**~~ **Lexbor** C Library.
 
->Modest is a fast HTML renderer implemented as a pure C99 library with no outside dependencies.
+>Lexbor browser engine crafted entirely in C (there's no school like the old school)
 
-- [Modest](https://github.com/lexborisov/Modest)
+- [~~Modest~~](https://github.com/lexborisov/Modest)
+  [Lexbor](https://github.com/lexborisov/Lexbor)
   - HTML5 parsing library in pure C99
   - fully conformant with the HTML5 spec
 
-All Modest-related features are implemented in `C` using my wrapper library [modest_html](https://github.com/f34nk/modest_html).
+All Lexbor-related features are implemented as a port binding through the Erlang [lexbor_erl](https://github.com/f34nk/lexbor_erl) library.
 
-The binding is implemented as a **C-Node** following the excellent example in Overbryd's package **nodex**. If you want to learn how to set up bindings to C/C++, you should definitely check it out.
-
-- [nodex](https://github.com/Overbryd/nodex)
-  - distributed Elixir
-  - save binding with C-Nodes
-
->C-Nodes are external os-processes that communicate with the Erlang VM through erlang messaging. That way you can implement native code and call into it from Elixir in a safe predictable way. The Erlang VM stays unaffected by crashes of the external process.
-
-For news and updates please check out the [forum discussion](https://elixirforum.com/t/modestex-pipeable-transformations-on-html-strings-with-css-selectors/12793).
+For news and updates please check out the [forum discussion](https://elixirforum.com/t/modestex-pipeable-transformations-on-html-strings-with-css-selectors/12793/18).
 
 ## Example
 
@@ -71,75 +64,72 @@ Available on [hex](https://hex.pm/packages/modest_ex).
 ```elixir
 def deps do
   [
-    {:modest_ex, "~> 1.0.4"}
+    {:modest_ex, "~> TBD"}
   ]
 end
 ```
 
 ## Target dependencies
+
+- CMake 3.10+
+- [Lexbor](https://github.com/lexbor/lexbor) C library
+
+**macOS:**
+```bash
+brew install lexbor
 ```
-cmake 3.x
-erlang-dev
-erlang-xmerl
-erlang-parsetools
+
+**Ubuntu/Debian:**
+```bash
+sudo apt-get install liblexbor-dev
 ```
+
+**From source:**
+```bash
+git clone https://github.com/lexbor/lexbor.git
+cd lexbor && mkdir build && cd build
+cmake .. && make && sudo make install
+```
+
 ## Compile and test
 ```
 mix deps.get
 mix compile
 mix test
 ```
-## Cloning
-```
-git clone git@github.com:f34nk/modest_ex.git
-cd modest_ex
-```
-All binding targets are added as submodules in the `target/` folder.
-```
-git submodule update --init --recursive --remote
-mix deps.get
-mix compile
-mix test
-mix test.target
-```
-Cleanup
-```
-mix clean
-```
+
 ## Roadmap
 
 See [CHANGELOG](https://github.com/f34nk/modest_ex/blob/master/CHANGELOG.md).
 
-- [ ] Bindings
-  - [x] Call as C-Node
-  - [ ] Call as dirty-nif
-- [ ] Tests
-  - [x] Call as C-Node
-  - [ ] Call as dirty-nif
-  - [x] Target tests
+- [x] Bindings
+  - [x] ~~Call as C-Node~~ (removed in 2x)
+  - [x] Call via [lexbor_erl](https://github.com/f34nk/lexbor_erl) port
+- [x] Tests
   - [x] Feature tests
-  - [x] Package test
+  - [x] GitHub Actions CI (Ubuntu, macOS)
 - [ ] Features
   - [x] Find nodes using a CSS selector
-  - [x] Serialize any string with valid or broken html
+  - [ ] Serialize any string with valid or broken html
   - [x] Get attribute with optional CSS selector
   - [x] Set attribute with optional CSS selector
   - [x] Get text with optional CSS selector
   - [x] Set text with optional CSS selector
   - [x] Remove a node from html
-  - [x] Append node to another node
-  - [x] Prepend node to another node
-  - [x] Insert node before another node
-  - [x] Insert node after another node
-  - [x] Replace node with another node
-  - [x] Slice html to a subset of nodes
-  - [x] Get position of node in relation to its parent
-  - [x] Wrap node with another node
-  - [x] Pretty print html
-  - [ ] Compare two html strings (see [here](https://github.com/f34nk/modest_html/blob/master/CHANGELOG.md#200))
+  - [ ] Append node to another node
+  - [ ] Prepend node to another node
+  - [ ] Insert node before another node
+  - [ ] Insert node after another node
+  - [ ] Replace node with another node
+  - [ ] Slice html to a subset of nodes
+  - [ ] Get position of node in relation to its parent
+  - [ ] Wrap node with another node
+  - [ ] Streaming of large documents
+  - [ ] Pretty print html
+  - [ ] Compare two html strings
   - [ ] Transform html string by list of actions
-- [x] Custom CSS selector for pseudo class `:contains(text)` implemented in [Modest](https://github.com/lexborisov/Modest/pull/42)
-- [x] Scope flag to control serialization
+- [ ] ~~Custom CSS selector for pseudo class `:contains(text)`~~ (not supported by Lexbor)
+- [x] Scope flag to control serialization (supported to be backwards compatible with Modest)
 - [x] List of supported CSS Selectors
 - [x] Documentation
 - [x] Publish as hex package
