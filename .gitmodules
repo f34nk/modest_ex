@@ -1,3 +1,0 @@
-[submodule "target/modest_html"]
-	path = target/modest_html
-	url = https://github.com/f34nk/modest_html.git

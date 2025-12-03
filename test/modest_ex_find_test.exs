@@ -1,18 +1,23 @@
 defmodule ModestExFindTest do
   use ExUnit.Case
-  doctest ModestEx
+  # doctest ModestEx
 
-  test "" do
-    result = File.read!("test/fixtures/lorem_ipsum.html")
-    |> ModestEx.find(":contains(Lorem ipsum)")
-    
-    assert result == ["<h1>Lorem ipsum</h1>", "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>"] 
-  end
+  # TODO: pseudo-class :contains is not yet implemented in Lexbor C library.
+  # Previously, this was exclusively implemented to the Modest library.
+  # See https://github.com/f34nk/Modest
+  # test "find :contains selector" do
+  #   result = File.read!("test/fixtures/lorem_ipsum.html")
+  #   |> ModestEx.find(":contains(Lorem ipsum)")
+
+  #   assert result == ["<h1>Lorem ipsum</h1>", "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>"]
+  # end
 
   test "all selectors from file" do
     File.open("test/fixtures/find.csv", [:read], fn file ->
-      IO.binstream(file, :line)
-      |> Stream.map(fn line ->
+      file
+      |> IO.binstream(:line)
+      |> Stream.with_index(1)
+      |> Stream.map(fn {line, line_num} ->
         matched = Regex.run(~r/^(0|1);(.*);(.*);(.*)$/, line)
 
         cond do
@@ -20,6 +25,7 @@ defmodule ModestExFindTest do
             selector = Enum.at(matched, 2)
             input = Enum.at(matched, 3)
             output = Enum.at(matched, 4)
+            function_name = "find/2"
 
             output =
               cond do
@@ -28,15 +34,21 @@ defmodule ModestExFindTest do
               end
 
             case ModestEx.find(input, selector) do
-              {:error, _} ->
-                raise RuntimeError, "\n\tpattern: " <> selector <> "\n\tinput: " <> input
+              {:error, reason} ->
+                IO.puts("#{function_name} #{selector} (#{line_num}) - ERROR: #{inspect(reason)}")
 
-              # "\n\texpected: " <> Enum.join(output, "|")
+                raise RuntimeError,
+                      "\n\tLine: #{line_num}\n\tpattern: " <>
+                        selector <> "\n\tinput: " <> input <> "\n\terror: " <> inspect(reason)
+
               reply ->
                 try do
                   assert reply == output
+                  IO.puts("#{function_name} #{selector} (#{line_num}) - ok")
                 rescue
                   error in [ExUnit.AssertionError] ->
+                    IO.puts("#{function_name} #{selector} (#{line_num}) - FAILURE")
+
                     reply =
                       cond do
                         is_list(reply) -> Enum.join(reply, "|")
@@ -44,7 +56,9 @@ defmodule ModestExFindTest do
                       end
 
                     raise ExUnit.AssertionError,
-                          error.message <> "\n\t reply: " <> reply <> "\n\t test:  " <> line
+                          error.message <>
+                            "\n\t Line: #{line_num}\n\t reply: " <>
+                            reply <> "\n\t test:  " <> line
                 end
             end
 

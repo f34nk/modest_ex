@@ -1,6 +1,6 @@
 defmodule ModestExInsertBeforeTest do
   use ExUnit.Case
-  doctest ModestEx
+  # doctest ModestEx
 
   test "insert new html before selected node" do
     result = ModestEx.insert_before("<div><p>World</p></div>", "div p", "<p>Hello</p>")

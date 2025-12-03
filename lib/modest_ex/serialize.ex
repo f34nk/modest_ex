@@ -8,6 +8,7 @@ defmodule ModestEx.Serialize do
   def serialize([], _), do: []
 
   def serialize(bin, scope) when is_bitstring(bin) when is_atom(scope) do
-    ModestEx.Safe.Serialize.serialize(bin, scope)
+    # ModestEx.Safe.Serialize.serialize(bin, scope)
+    ModestEx.LexborHelper.not_implemented("serialize/2")
   end
 end

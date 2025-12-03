@@ -13,6 +13,6 @@ defmodule ModestEx.Wrap do
       when is_bitstring(bin)
       when is_bitstring(selector)
       when is_bitstring(new_bin) do
-    ModestEx.Safe.Wrap.wrap(bin, selector, new_bin)
+    ModestEx.LexborHelper.not_implemented("wrap/3")
   end
 end

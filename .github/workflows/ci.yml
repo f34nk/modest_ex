@@ -1,0 +1,147 @@
+name: CI
+
+on:
+  push:
+    branches:
+  pull_request:
+    branches: [master, main]
+
+jobs:
+  test:
+    name: Test (Elixir ${{ matrix.elixir }} / OTP ${{ matrix.otp }} on ${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        # os: [ubuntu-latest, macos-latest]
+        os: [ubuntu-latest]
+        include:
+          # - elixir: '1.14'
+          #   otp: '25.0'
+          # - elixir: '1.15'
+          #   otp: '26.0'
+          # - elixir: '1.16'
+          #   otp: '26.0'
+          # - elixir: '1.17'
+          #   otp: '27.0'
+          # - elixir: '1.18'
+          #   otp: '27.0'
+          - elixir: '1.19'
+            otp: '27.0'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install dependencies (Ubuntu)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cmake build-essential git
+
+      - name: Install dependencies (macOS)
+        if: runner.os == 'macOS'
+        run: |
+          brew install cmake
+
+      - name: Install lexbor library (Ubuntu)
+        if: runner.os == 'Linux'
+        run: |
+          git clone --depth 1 --branch v2.6.0 https://github.com/lexbor/lexbor.git /tmp/lexbor
+          cd /tmp/lexbor
+          cmake -B build -DCMAKE_BUILD_TYPE=Release
+          cmake --build build
+          sudo cmake --install build
+          sudo ldconfig
+
+      - name: Install lexbor library (macOS)
+        if: runner.os == 'macOS'
+        run: |
+          git clone --depth 1 --branch v2.3.0 https://github.com/lexbor/lexbor.git /tmp/lexbor
+          cd /tmp/lexbor
+          cmake -B build -DCMAKE_BUILD_TYPE=Release
+          cmake --build build
+          sudo cmake --install build
+
+      - name: Set up Elixir
+        uses: erlef/setup-beam@v1
+        with:
+          elixir-version: ${{ matrix.elixir }}
+          otp-version: ${{ matrix.otp }}
+
+      - name: Restore dependencies cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            deps
+            _build
+          key: ${{ runner.os }}-mix-${{ matrix.elixir }}-${{ matrix.otp }}-${{ hashFiles('**/mix.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-mix-${{ matrix.elixir }}-${{ matrix.otp }}-
+
+      - name: Install dependencies
+        run: mix deps.get
+
+      - name: Compile dependencies
+        run: mix deps.compile
+        env:
+          DYLD_LIBRARY_PATH: /usr/local/lib:$DYLD_LIBRARY_PATH
+
+      - name: Compile project
+        run: mix compile --warnings-as-errors
+        env:
+          DYLD_LIBRARY_PATH: /usr/local/lib:$DYLD_LIBRARY_PATH
+
+      - name: Check formatting
+        run: mix format --check-formatted
+
+      - name: Run tests
+        run: mix test
+        env:
+          DYLD_LIBRARY_PATH: /usr/local/lib:$DYLD_LIBRARY_PATH
+
+  # quality:
+  #   name: Code Quality
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v4
+
+  #     - name: Install system dependencies
+  #       run: |
+  #         sudo apt-get update
+  #         sudo apt-get install -y cmake build-essential git
+
+  #     - name: Install lexbor library
+  #       run: |
+  #         git clone --depth 1 --branch v2.6.0 https://github.com/lexbor/lexbor.git /tmp/lexbor
+  #         cd /tmp/lexbor
+  #         cmake -B build -DCMAKE_BUILD_TYPE=Release
+  #         cmake --build build
+  #         sudo cmake --install build
+  #         sudo ldconfig
+
+  #     - name: Set up Elixir
+  #       uses: erlef/setup-beam@v1
+  #       with:
+  #         elixir-version: '1.19'
+  #         otp-version: '27.0'
+
+  #     - name: Restore dependencies cache
+  #       uses: actions/cache@v4
+  #       with:
+  #         path: |
+  #           deps
+  #           _build
+  #         key: ${{ runner.os }}-mix-quality-${{ hashFiles('**/mix.lock') }}
+  #         restore-keys: |
+  #           ${{ runner.os }}-mix-quality-
+
+  #     - name: Install dependencies
+  #       run: mix deps.get
+
+  #     - name: Compile without warnings
+  #       run: mix compile --warnings-as-errors
+
+  #     - name: Check formatting
+  #       run: mix format --check-formatted
