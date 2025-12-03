@@ -60,7 +60,7 @@ defmodule ModestEx.MixProject do
       # documentation helpers
       {:ex_doc, ">= 0.0.0", only: :dev},
       # HTML parsing and manipulation
-      {:lexbor_erl, "~> 0.1.0"}
+      {:lexbor_erl, "~> 0.3.0"}
     ]
   end
 end
