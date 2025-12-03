@@ -4,7 +4,7 @@ defmodule ModestEx do
 
   ## Credits:
 
-  The package implements bindings to [Alexander Borisov's Modest](https://github.com/lexborisov/Modest). All Modest related features are implemeted in `C` using my wrapper library [modest_html](https://github.com/f34nk/modest_html). The `Elixir` binding is implemented as a C-Node based on the excellent example of [Lukas Rieder's nodex](https://github.com/Overbryd/nodex).
+  The package implements bindings to [Alexander Borisov's Lexbor](https://github.com/lexborisov/lexbor). All Lexbor related features are implemeted using the Erlang library [lexbor_erl](https://github.com/f34nk/lexbor_erl).
 
   ## Example
 
