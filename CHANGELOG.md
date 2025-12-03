@@ -1,6 +1,6 @@
 # ModestEx Changelog
 
-## Unreleased
+## Unreleased - Migration to lexbor_erl
 
 December, 2025
 

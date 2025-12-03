@@ -52,10 +52,16 @@ test "build up a complete DOM" do
 end
 ```
 
+## Breaking Changes 
+
+Please note, after migrating to [lexbor_erl](https://github.com/f34nk/lexbor_erl/tree/master) not all features are supported.
+See [CHANGELOG](https://github.com/f34nk/modest_ex/blob/master/CHANGELOG.md)
+
 ## Supported CSS Selectors
 
 All common CSS Selectors are supported. Total **38** selector patterns implemented.
 See [**complete list of supported CSS selectors**](https://github.com/f34nk/modest_ex/blob/master/SELECTORS.md).
+
 
 ## Installation
 

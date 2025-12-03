@@ -116,7 +116,7 @@ iex> ModestEx.replace("<div><p>Hello</p></div>", "div p", "<p>World</p>")
 "<div><p>World</p></div>"
 ```
 
-## slice
+## slice (not implemented yet)
 Reduce the set of matched elements to a subset specified by a range of indices.
 
 ```elixir
@@ -124,7 +124,7 @@ iex> ModestEx.slice("<h1>Lorem ipsum</h1><p>dolor sit amet</p><ul><li>Coffee</li
 ["<h1>Lorem ipsum</h1>", "<p>dolor sit amet</p>", "<ul><li>Coffee</li><li>Tea</li><li>Milk</li></ul>", "<p>Sed ut perspiciatis</p>", "<p>unde omnis iste natus</p>"]
 ```
 
-## position
+## position (not implemented yet)
 Return position of the selected node in relation to its parent.
 Can be used with `slice()`.
 
@@ -133,7 +133,7 @@ iex> ModestEx.position("<p>Hello</p><div></div><p>World</p>", "p")
 [1, 3]
 ```
 
-## wrap
+## wrap (not implemented yet)
 Wrap an HTML structure around each element in the set of matched elements.
 
 ```elixir
@@ -141,7 +141,7 @@ iex> ModestEx.wrap("<p>Hello</p><p>World</p>", "p", "<div class=\"wrapper\">")
 "<div class=\"wrapper\"><p>Hello</p></div><div class=\"wrapper\"><p>World</p></div>"
 ```
 
-## pretty_print
+## pretty_print (not implemented yet)
 Use `IO.puts` to pretty print html tree to `stdout`.
 
 ```elixir
