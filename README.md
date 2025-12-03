@@ -119,7 +119,7 @@ See [CHANGELOG](https://github.com/f34nk/modest_ex/blob/master/CHANGELOG.md).
   - [x] Append node to another node
   - [x] Prepend node to another node
   - [x] Insert node before another node
-  - [ ] Insert node after another node
+  - [x] Insert node after another node
   - [ ] Replace node with another node
   - [ ] Slice html to a subset of nodes
   - [ ] Get position of node in relation to its parent
