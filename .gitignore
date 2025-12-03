@@ -25,3 +25,5 @@ gumbo_query_ex-*.tar
 package_test/
 
 build
+
+modest_ex-*.tar

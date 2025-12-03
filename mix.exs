@@ -12,7 +12,6 @@ defmodule ModestEx.MixProject do
       name: "ModestEx",
       description: """
         ModestEx - A library to do pipeable transformations on html strings with CSS selectors, e.g. find(), prepend(), append(), replace() etc.
-        Elixir wrapper for lexbor_erl (binding to Alexander Borisov's Lexbor HTML5 C library), providing a high-level API for HTML parsing, CSS selectors and DOM manipulation.
       """,
       docs: docs(),
       deps: deps(),
@@ -58,7 +57,7 @@ defmodule ModestEx.MixProject do
   defp deps do
     [
       # documentation helpers
-      {:ex_doc, ">= 0.0.0", only: :dev},
+      {:ex_doc, "~> 0.31", only: :dev, runtime: false},
       # HTML parsing and manipulation
       {:lexbor_erl, "~> 0.3.0"}
     ]
