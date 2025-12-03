@@ -1,5 +1,4 @@
-# Refactoring to use [lexbor_erl](https://github.com/f34nk/lexbor_erl/tree/master) in progress - please stay tuned!
-
+# New Release! Now uses [lexbor_erl](https://github.com/f34nk/lexbor_erl/tree/master)
 
 [![CI](https://github.com/f34nk/modest_ex/actions/workflows/ci.yml/badge.svg)](https://github.com/f34nk/modest_ex/actions)
 [![ModestEx version](https://img.shields.io/hexpm/v/modest_ex.svg)](https://hex.pm/packages/modest_ex)
@@ -70,7 +69,7 @@ Available on [hex](https://hex.pm/packages/modest_ex).
 ```elixir
 def deps do
   [
-    {:modest_ex, "~> TBD"}
+    {:modest_ex, "~> 2.0.0"}
   ]
 end
 ```
