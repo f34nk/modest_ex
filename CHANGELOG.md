@@ -5,8 +5,7 @@
 December, 2025
 
 - **BREAKING:** Replaced C-Node binding with [lexbor_erl](https://github.com/f34nk/lexbor_erl/tree/master) backend
-- Migrated `find/2`, `get_attribute/2,3`, `set_attribute/4`, `get_text/1,2`, `set_text/3`, `remove/2`, `append/3`, `prepend/3`, `insert_before/3`, `insert_after/3`, `replace/3`
-- Not yet implemented: `serialize/2`
+- Migrated `find/2`, `get_attribute/2,3`, `set_attribute/4`, `get_text/1,2`, `set_text/3`, `remove/2`, `append/3`, `prepend/3`, `insert_before/3`, `insert_after/3`, `replace/3`, `serialize/2`
 - Not supported: `position/2`, `wrap/3`, `slice/4`, `pretty_print/1`
 - Replaced Travis CI with GitHub Actions
 - Added multi-OS testing (Ubuntu, macOS)

@@ -115,7 +115,7 @@ See [CHANGELOG](https://github.com/f34nk/modest_ex/blob/master/CHANGELOG.md).
   - [x] GitHub Actions CI (Ubuntu, macOS)
 - [ ] Features
   - [x] Find nodes using a CSS selector
-  - [ ] Serialize any string with valid or broken html
+  - [x] Serialize any string with valid or broken html
   - [x] Get attribute with optional CSS selector
   - [x] Set attribute with optional CSS selector
   - [x] Get text with optional CSS selector
