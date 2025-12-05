@@ -7,8 +7,15 @@ defmodule ModestEx.Serialize do
 
   def serialize([], _), do: []
 
-  def serialize(bin, scope) when is_bitstring(bin) when is_atom(scope) do
-    # ModestEx.Safe.Serialize.serialize(bin, scope)
-    ModestEx.LexborHelper.not_implemented("serialize/2")
+  def serialize(bin, scope) when is_bitstring(bin) and is_atom(scope) do
+    ModestEx.LexborHelper.ensure_started()
+
+    case :lexbor_erl.parse_serialize(bin) do
+      {:ok, full_html} ->
+        ModestEx.LexborHelper.apply_scope(full_html, scope)
+
+      {:error, _reason} = error ->
+        error
+    end
   end
 end
