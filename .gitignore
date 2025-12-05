@@ -27,3 +27,8 @@ package_test/
 build
 
 modest_ex-*.tar
+
+# Demo app build artifacts
+/demo/_build/
+/demo/deps/
+/demo/mix.lock

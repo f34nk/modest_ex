@@ -18,6 +18,21 @@ clean:
 	mix clean
 	rm -rf _build deps
 
+.PHONY: demo
+demo: demo/run demo/all
+
+.PHONY: demo/run
+demo/run:
+	cd demo && mix deps.get && mix run -e "Demo.run"
+
+.PHONY: demo/all
+demo/all:
+	cd demo && mix deps.get && mix run -e "Demo.run_all"
+
+.PHONY: demo/clean
+demo/clean:
+	rm -rf demo/_build demo/deps demo/mix.lock
+
 .PHONY: publish/build
 publish/build: clean install compile
 	#
