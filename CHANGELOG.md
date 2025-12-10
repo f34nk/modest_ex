@@ -1,5 +1,13 @@
 # ModestEx Changelog
 
+## 2.1.0
+
+December, 2025
+
+- Migrated `serialize/2`
+- Added standalone demo app to verify hex package installation
+- Added make targets for demo: `demo`, `demo/run`, `demo/all`, `demo/clean`
+
 ## 2.0.0 - Migration to lexbor_erl
 
 December, 2025
