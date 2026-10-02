@@ -6,6 +6,7 @@ October, 2026
 
 - Changed license from GNU LGPL to Apache License 2.0
 - Updated Hex package license metadata
+- Bumped `lexbor_erl` to `~> 0.3.1` (fixes macOS Homebrew include path detection)
 
 ## 2.1.0
 
