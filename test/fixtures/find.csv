@@ -15,7 +15,7 @@ Enabled;Selector;Input;Output
 #1;input[type="checkbox"];<div><span>Hello</span><input type="checkbox" value="World"></div>;<input type="checkbox" value="World"></input>
 1;input[type="checkbox"];<div><span>Hello</span><input type="checkbox" value="World"></div>;<input type="checkbox" value="World">
 #1;:checked;<div><span>Hello</span><input type="checkbox" value="World" checked></div>;<input type="checkbox" value="World" checked=""></input>
-1;:checked;<div><span>Hello</span><input type="checkbox" value="World" checked></div>;<input type="checkbox" value="World" checked>
+1;:checked;<div><span>Hello</span><input type="checkbox" value="World" checked></div>;<input type="checkbox" value="World" checked="">
 #1;input:not(:checked);<div><input type="checkbox" value="Hello"><input type="checkbox" value="World" checked></div>;<input type="checkbox" value="Hello"></input>
 1;input:not(:checked);<div><input type="checkbox" value="Hello"><input type="checkbox" value="World" checked></div>;<input type="checkbox" value="Hello">
 1;div > span;<div><span>Hello</span><span>World</span></div>;<span>Hello</span>|<span>World</span>
@@ -23,7 +23,7 @@ Enabled;Selector;Input;Output
 1;span a;<div><span>Hello<a>World</a></span></div>;<a>World</a>
 # FIXED: Removed invalid closing tag for void element and fixed boolean attribute syntax
 #1;:disabled;<div><span>Hello</span><input type="checkbox" value="World" disabled></div>;<input type="checkbox" value="World" disabled=""></input>
-1;:disabled;<div><span>Hello</span><input type="checkbox" value="World" disabled></div>;<input type="checkbox" value="World" disabled>
+1;:disabled;<div><span>Hello</span><input type="checkbox" value="World" disabled></div>;<input type="checkbox" value="World" disabled="">
 1;:empty;<div><span>Hello<a>World</a></span><span id="empty"></span></div>;<span id="empty"></span>
 1;:enabled;<div><span>Hello</span><span>World</span></div><input type="checkbox" value="World" disabled>;<div><span>Hello</span><span>World</span></div>|<span>Hello</span>|<span>World</span>
 0;:eq(n)
@@ -42,7 +42,7 @@ Enabled;Selector;Input;Output
 #0;:hidden;<div><span name="value">Hello</span><span name="some value" hidden>World</span></div>;<span name="some value" hidden="">World</span>
 0;:hidden;<div><span name="value">Hello</span><span name="some value" hidden>World</span></div>;<span name="some value" hidden>World</span>
 #1;[hidden];<div><span name="value">Hello</span><span name="some value" hidden>World</span></div>;<span name="some value" hidden="">World</span>
-1;[hidden];<div><span name="value">Hello</span><span name="some value" hidden>World</span></div>;<span name="some value" hidden>World</span>
+1;[hidden];<div><span name="value">Hello</span><span name="some value" hidden>World</span></div>;<span name="some value" hidden="">World</span>
 1;#value;<div><span id="value">Hello</span><span name="some value">World</span></div>;<span id="value">Hello</span>
 0;:image
 0;:input

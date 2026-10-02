@@ -1,9 +1,10 @@
 # ModestEx Changelog
 
-## 2.1.1
+## 3.0.0
 
 October, 2026
 
+- **BREAKING:** Boolean attributes are serialized as `attr=""` (e.g. `checked=""`) instead of bare `attr` (`checked`), matching Lexbor HTML serialization
 - Changed license from GNU LGPL to Apache License 2.0
 - Updated Hex package license metadata
 - Bumped `lexbor_erl` to `~> 0.3.1` (fixes macOS Homebrew include path detection)
