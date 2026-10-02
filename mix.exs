@@ -4,7 +4,7 @@ defmodule ModestEx.MixProject do
   def project do
     [
       app: :modest_ex,
-      version: "2.1.0",
+      version: "2.1.1",
       elixir: "~> 1.5",
       compilers: Mix.compilers(),
       build_embedded: Mix.env() == :prod,
@@ -28,7 +28,7 @@ defmodule ModestEx.MixProject do
   def package do
     [
       maintainers: ["Frank Eickhoff"],
-      licenses: ["GNU LGPL"],
+      licenses: ["Apache-2.0"],
       links: %{
         "Github" => "https://github.com/f34nk/modest_ex",
         "Issues" => "https://github.com/f34nk/modest_ex/issues",

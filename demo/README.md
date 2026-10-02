@@ -1,6 +1,6 @@
 # ModestEx Demo
 
-A standalone demo app to verify modest_ex 2.1.0 installation from hex.pm.
+A standalone demo app to verify modest_ex 2.1.1 installation from hex.pm.
 
 ## Prerequisites
 
@@ -24,6 +24,6 @@ mix run -e "Demo.run_all"
 
 ## What it does
 
-1. Installs modest_ex 2.1.0 from hex.pm
+1. Installs modest_ex 2.1.1 from hex.pm
 2. Runs the example code from the main README
 3. Verifies the output matches expected result

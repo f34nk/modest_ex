@@ -1,5 +1,12 @@
 # ModestEx Changelog
 
+## 2.1.1
+
+October, 2026
+
+- Changed license from GNU LGPL to Apache License 2.0
+- Updated Hex package license metadata
+
 ## 2.1.0
 
 December, 2025

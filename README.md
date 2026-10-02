@@ -69,7 +69,7 @@ Available on [hex](https://hex.pm/packages/modest_ex).
 ```elixir
 def deps do
   [
-    {:modest_ex, "~> 2.1.0"}
+    {:modest_ex, "~> 2.1.1"}
   ]
 end
 ```
@@ -141,7 +141,7 @@ See [CHANGELOG](https://github.com/f34nk/modest_ex/blob/master/CHANGELOG.md).
 
 ## License
 
-ModestEx is under LGPL license. Check the [LICENSE](https://github.com/f34nk/modest_ex/blob/master/LICENSE) file for more details.
+ModestEx is under the Apache License 2.0. Check the [LICENSE](https://github.com/f34nk/modest_ex/blob/main/LICENSE) file for more details.
 
 
 ## Icon Credit
