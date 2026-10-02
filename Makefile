@@ -56,13 +56,3 @@ publish/release: modest_ex-$(CURRENT_VERSION).tar
 	# publish package
 	#
 	mix hex.publish
-	
-
-# .PHONY: publish/bump-version
-# publish/bump-version:
-# 	#
-# 	# bump version $(CURRENT_VERSION) to $(NEW_VERSION)
-# 	#
-# 	sed -i '' 's/{vsn, "$(CURRENT_VERSION)"}/{vsn, "$(NEW_VERSION)"}/g' src/lexbor_erl.app.src
-# 	sed -i '' 's/{lexbor_erl, "$(CURRENT_VERSION)"}/{lexbor_erl, "$(NEW_VERSION)"}/g' README.md
-# 	sed -i '' 's/{lexbor_erl, "$(CURRENT_VERSION)"}/{lexbor_erl, "$(NEW_VERSION)"}/g' demo/rebar.config
