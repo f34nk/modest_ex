@@ -1,0 +1,80 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    name: Publish to Hex.pm
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify tag matches VERSION and mix.exs
+        run: |
+          TAG_VERSION="${GITHUB_REF_NAME#v}"
+          FILE_VERSION=$(tr -d '[:space:]' < VERSION)
+          echo "tag=${TAG_VERSION} VERSION=${FILE_VERSION}"
+          if [ "$TAG_VERSION" != "$FILE_VERSION" ]; then
+            echo "::error::Version mismatch: tag v${TAG_VERSION} must equal VERSION (${FILE_VERSION})"
+            exit 1
+          fi
+
+      - name: Verify tag commit is on main
+        run: |
+          git fetch origin main:refs/remotes/origin/main
+          if ! git merge-base --is-ancestor "$GITHUB_SHA" origin/main; then
+            echo "::error::Tag ${GITHUB_REF_NAME} (${GITHUB_SHA}) is not on origin/main ($(git rev-parse origin/main))"
+            exit 1
+          fi
+
+      - name: Set up Elixir
+        uses: erlef/setup-beam@v1
+        with:
+          elixir-version: '1.19'
+          otp-version: '27.0'
+
+      - name: Verify Mix project version
+        run: |
+          TAG_VERSION="${GITHUB_REF_NAME#v}"
+          MIX_VERSION=$(mix run -e 'IO.write(Mix.Project.config()[:version])')
+          echo "tag=${TAG_VERSION} mix=${MIX_VERSION}"
+          if [ "$TAG_VERSION" != "$MIX_VERSION" ]; then
+            echo "::error::Version mismatch: tag v${TAG_VERSION} must equal mix.exs version (${MIX_VERSION})"
+            exit 1
+          fi
+
+      - name: Restore dependencies cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            deps
+            _build
+          key: ${{ runner.os }}-mix-release-${{ hashFiles('**/mix.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-mix-release-
+
+      - name: Install dependencies
+        run: mix deps.get
+
+      - name: Compile
+        run: mix compile --warnings-as-errors
+
+      - name: Run tests
+        run: mix test
+
+      - name: Publish to Hex.pm
+        env:
+          HEX_API_KEY: ${{ secrets.HEX_API_KEY }}
+        run: |
+          if [ -z "$HEX_API_KEY" ]; then
+            echo "::error::HEX_API_KEY secret is not set"
+            exit 1
+          fi
+          mix hex.publish --yes

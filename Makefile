@@ -33,6 +33,9 @@ demo/all:
 demo/clean:
 	rm -rf demo/_build demo/deps demo/mix.lock
 
+NEW_VERSION:=$(shell tr -d '[:space:]' < VERSION)
+CURRENT_VERSION:=$(shell sed -n 's/.*{:modest_ex, "~> *\([^"]*\)"}.*/\1/p' demo/mix.exs | head -1)
+
 .PHONY: publish/build
 publish/build: clean install compile
 	#
@@ -44,10 +47,26 @@ publish/build: clean install compile
 	#
 	mix docs
 
-CURRENT_VERSION:=$(shell awk -F'"' '/version/ {print $$2}' mix.exs)
+.PHONY: publish/bump-version
+publish/bump-version:
+	#
+	# bump version $(CURRENT_VERSION) to $(NEW_VERSION)
+	#
+	@test -n "$(NEW_VERSION)" || (echo "VERSION is empty" && exit 1)
+	@test -n "$(CURRENT_VERSION)" || (echo "Could not detect current version from demo/mix.exs" && exit 1)
+	sed -i '' 's/{:modest_ex, "~> $(CURRENT_VERSION)"}/{:modest_ex, "~> $(NEW_VERSION)"}/g' README.md
+	sed -i '' 's/{:modest_ex, "~> $(CURRENT_VERSION)"}/{:modest_ex, "~> $(NEW_VERSION)"}/g' demo/mix.exs
+	@echo "mix.exs version is read from VERSION ($(NEW_VERSION))"
+
+.PHONY: publish/tag
+publish/tag:
+	VERSION=$$(tr -d '[:space:]' < VERSION) && \
+	test -n "$$VERSION" && \
+	git tag -a v$$VERSION -m v$$VERSION && \
+	git push origin v$$VERSION
 
 .PHONY: publish/release
-publish/release: modest_ex-$(CURRENT_VERSION).tar
+publish/release:
 	#
 	# authenticate with hex
 	#

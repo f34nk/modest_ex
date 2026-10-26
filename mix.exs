@@ -1,10 +1,12 @@
 defmodule ModestEx.MixProject do
   use Mix.Project
 
+  @version File.read!("VERSION") |> String.trim()
+
   def project do
     [
       app: :modest_ex,
-      version: "3.0.0",
+      version: @version,
       elixir: "~> 1.5",
       compilers: Mix.compilers(),
       build_embedded: Mix.env() == :prod,
@@ -39,6 +41,7 @@ defmodule ModestEx.MixProject do
         "lib",
         "test",
         "mix.exs",
+        "VERSION",
         "README.md",
         "LICENSE"
       ]
