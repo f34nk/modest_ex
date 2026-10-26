@@ -1,6 +1,6 @@
 # New Release! Now uses [lexbor_erl](https://github.com/f34nk/lexbor_erl/tree/master)
 
-[![CI](https://github.com/f34nk/modest_ex/actions/workflows/ci.yml/badge.svg)](https://github.com/f34nk/modest_ex/actions)
+[![CI](https://github.com/f34nk/modest_ex/actions/workflows/release.yml/badge.svg)](https://github.com/f34nk/modest_ex/actions)
 [![ModestEx version](https://img.shields.io/hexpm/v/modest_ex.svg)](https://hex.pm/packages/modest_ex)
 [![Hex.pm](https://img.shields.io/hexpm/dt/modest_ex.svg)](https://hex.pm/packages/modest_ex)
 
