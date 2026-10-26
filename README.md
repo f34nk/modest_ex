@@ -69,7 +69,7 @@ Available on [hex](https://hex.pm/packages/modest_ex).
 ```elixir
 def deps do
   [
-    {:modest_ex, "~> 3.0.3"}
+    {:modest_ex, "~> 3.0.4"}
   ]
 end
 ```
