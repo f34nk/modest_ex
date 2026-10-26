@@ -19,7 +19,7 @@ defmodule Demo.MixProject do
 
   defp deps do
     [
-      {:modest_ex, "~> 3.0.0"}
+      {:modest_ex, "~> 3.0.1"}
     ]
   end
 end
