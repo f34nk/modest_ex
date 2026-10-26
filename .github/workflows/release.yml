@@ -40,16 +40,6 @@ jobs:
           elixir-version: '1.19'
           otp-version: '27.0'
 
-      - name: Verify Mix project version
-        run: |
-          TAG_VERSION="${GITHUB_REF_NAME#v}"
-          MIX_VERSION=$(mix run -e 'IO.write(Mix.Project.config()[:version])')
-          echo "tag=${TAG_VERSION} mix=${MIX_VERSION}"
-          if [ "$TAG_VERSION" != "$MIX_VERSION" ]; then
-            echo "::error::Version mismatch: tag v${TAG_VERSION} must equal mix.exs version (${MIX_VERSION})"
-            exit 1
-          fi
-
       - name: Restore dependencies cache
         uses: actions/cache@v4
         with:
@@ -62,6 +52,16 @@ jobs:
 
       - name: Install dependencies
         run: mix deps.get
+
+      - name: Verify Mix project version
+        run: |
+          TAG_VERSION="${GITHUB_REF_NAME#v}"
+          MIX_VERSION=$(mix run --no-start -e 'IO.write(Mix.Project.config()[:version])')
+          echo "tag=${TAG_VERSION} mix=${MIX_VERSION}"
+          if [ "$TAG_VERSION" != "$MIX_VERSION" ]; then
+            echo "::error::Version mismatch: tag v${TAG_VERSION} must equal mix.exs version (${MIX_VERSION})"
+            exit 1
+          fi
 
       - name: Compile
         run: mix compile --warnings-as-errors
