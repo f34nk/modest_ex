@@ -1,5 +1,8 @@
 name: Release
 
+env:
+  LEXBOR_VERSION: v2.6.0
+
 on:
   push:
     tags:
@@ -16,7 +19,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Verify tag matches VERSION and mix.exs
+      - name: Verify tag matches VERSION
         run: |
           TAG_VERSION="${GITHUB_REF_NAME#v}"
           FILE_VERSION=$(tr -d '[:space:]' < VERSION)
@@ -33,6 +36,20 @@ jobs:
             echo "::error::Tag ${GITHUB_REF_NAME} (${GITHUB_SHA}) is not on origin/main ($(git rev-parse origin/main))"
             exit 1
           fi
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cmake build-essential git
+
+      - name: Install lexbor library
+        run: |
+          git clone --depth 1 --branch ${{ env.LEXBOR_VERSION }} https://github.com/lexbor/lexbor.git /tmp/lexbor
+          cd /tmp/lexbor
+          cmake -B build -DCMAKE_BUILD_TYPE=Release
+          cmake --build build
+          sudo cmake --install build
+          sudo ldconfig
 
       - name: Set up Elixir
         uses: erlef/setup-beam@v1
@@ -56,7 +73,7 @@ jobs:
       - name: Verify Mix project version
         run: |
           TAG_VERSION="${GITHUB_REF_NAME#v}"
-          MIX_VERSION=$(mix run --no-start -e 'IO.write(Mix.Project.config()[:version])')
+          MIX_VERSION=$(mix run --no-compile --no-start -e 'IO.write(Mix.Project.config()[:version])')
           echo "tag=${TAG_VERSION} mix=${MIX_VERSION}"
           if [ "$TAG_VERSION" != "$MIX_VERSION" ]; then
             echo "::error::Version mismatch: tag v${TAG_VERSION} must equal mix.exs version (${MIX_VERSION})"
